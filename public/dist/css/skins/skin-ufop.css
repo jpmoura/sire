@@ -1,0 +1,143 @@
+/*
+ * Skin: Red
+ * ---------
+ */
+.skin-ufop .main-header .navbar {
+  background-color: #962038;
+}
+
+.skin-ufop a {
+  color: #962038;
+}
+
+.skin-ufop .main-header .navbar .nav > li > a {
+  color: #ffffff;
+}
+.skin-ufop .main-header .navbar .nav > li > a:hover,
+.skin-ufop .main-header .navbar .nav > li > a:active,
+.skin-ufop .main-header .navbar .nav > li > a:focus,
+.skin-ufop .main-header .navbar .nav .open > a,
+.skin-ufop .main-header .navbar .nav .open > a:hover,
+.skin-ufop .main-header .navbar .nav .open > a:focus,
+.skin-ufop .main-header .navbar .nav > .active > a {
+  background: rgba(0, 0, 0, 0.1);
+  color: #f6f6f6;
+}
+.skin-ufop .main-header .navbar .sidebar-toggle {
+  color: #ffffff;
+}
+.skin-ufop .main-header .navbar .sidebar-toggle:hover {
+  color: #f6f6f6;
+  background: rgba(0, 0, 0, 0.1);
+}
+.skin-ufop .main-header .navbar .sidebar-toggle {
+  color: #fff;
+}
+.skin-ufop .main-header .navbar .sidebar-toggle:hover {
+  background-color: #962038;
+}
+@media (max-width: 767px) {
+  .skin-ufop .main-header .navbar .dropdown-menu li.divider {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .skin-ufop .main-header .navbar .dropdown-menu li a {
+    color: #fff;
+  }
+  .skin-ufop .main-header .navbar .dropdown-menu li a:hover {
+    background: #962038;
+  }
+}
+.skin-ufop .main-header .logo {
+  background-color: #962038;
+  color: #ffffff;
+  border-bottom: 0 solid transparent;
+}
+.skin-ufop .main-header .logo:hover {
+  background-color: #616568;
+}
+.skin-ufop .main-header li.user-header {
+  background-color: #962038;
+}
+.skin-ufop .content-header {
+  background: transparent;
+}
+.skin-ufop .wrapper,
+.skin-ufop .main-sidebar,
+.skin-ufop .left-side {
+  background-color: #222d32;
+}
+.skin-ufop .user-panel > .info,
+.skin-ufop .user-panel > .info > a {
+  color: #fff;
+}
+.skin-ufop .sidebar-menu > li.header {
+  color: #4b646f;
+  background: #1a2226;
+}
+.skin-ufop .sidebar-menu > li > a {
+  border-left: 3px solid transparent;
+}
+.skin-ufop .sidebar-menu > li:hover > a,
+.skin-ufop .sidebar-menu > li.active > a {
+  color: #ffffff;
+  background: #1e282c;
+  border-left-color: #962038;
+}
+.skin-ufop .sidebar-menu > li > .treeview-menu {
+  margin: 0 1px;
+  background: #2c3b41;
+}
+.skin-ufop .sidebar a {
+  color: #b8c7ce;
+}
+.skin-ufop .sidebar a:hover {
+  text-decoration: none;
+}
+.skin-ufop .treeview-menu > li > a {
+  color: #8aa4af;
+}
+.skin-ufop .treeview-menu > li.active > a,
+.skin-ufop .treeview-menu > li > a:hover {
+  color: #ffffff;
+}
+.skin-ufop .sidebar-form {
+  border-radius: 3px;
+  border: 1px solid #374850;
+  margin: 10px 10px;
+}
+.skin-ufop .sidebar-form input[type="text"],
+.skin-ufop .sidebar-form .btn {
+  box-shadow: none;
+  background-color: #374850;
+  border: 1px solid transparent;
+  height: 35px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.skin-ufop .sidebar-form input[type="text"] {
+  color: #666;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2px;
+}
+.skin-ufop .sidebar-form input[type="text"]:focus,
+.skin-ufop .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+  background-color: #fff;
+  color: #666;
+}
+.skin-ufop .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+  border-left-color: #fff;
+}
+.skin-ufop .sidebar-form .btn {
+  color: #999;
+  border-top-left-radius: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 0;
+}
+
+.skin-ufop .box.box-primary-ufop {
+    border-top-color: #962038;
+}

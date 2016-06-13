@@ -1,0 +1,18 @@
+@extends('admin.admin_base')
+
+@section('content')
+  <div class="row">
+    <div class="error-page">
+      <h2 class="headline text-yellow">404</h2>
+      <br />
+      <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i> Opa! Página não encontrada.</h3>
+
+        <p>
+          A página que você requisitou não existe.
+          Voltar pode voltar para a página <a href="{{url('/')}}">inicial</a> ou voltar para a página <a href="javascript:history.back()">anterior</a> em que você estava.
+        </p>
+    </div>
+  </div>
+
+@endsection
