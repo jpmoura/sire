@@ -1,27 +1,60 @@
-# Laravel PHP Framework
+# SiRe - Sistema de Reserva de Salas e Equipamentos
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public)
+é o sistema usado pelos corpos acadêmico e administrativo presentes no
+[Instituto de Ciências Exatas e Aplicadas (campus João Monlevade)](http://www.icea.ufop.br)
+da [Universidade Federal de Ouro Preto](http://ufop.br). Essa é a segunda versão
+do sistema, que foi ao ar no dia 09/06/2016. A primeira versão foi ao ar em
+meados de fevereiro de 2012.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Dentre as motivações para tal atualização, estão:
+* Atualização da lógica de processamento para a última versão do PHP (7.0);
+* Atualização da interface com usuário, usando os conceitos de responsividade,
+onde a mesma se adapta de acordo com o espaço de tela disponível;
+* Correção de bugs da versão anterior;
+* Uso da arquitetura MVC para desenvolvimento, com o objetivo de facilitar a manutenção e atualização;
+* Utilização do padrão mais recente do HTML (HTML5) de acordo com o W3C;
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+O sistema foi desenvolvido usando a versão 5.2 do *framework* [Laravel](https://laravel.com/)
+para aplicações web, um dos mais usados no mercado durante o período de
+desenvolvimento. Uma restrissão do desenvolvimento foi a necessidade de usar o
+banco de dados original da primeira versão, o que limitou alguns pontos no
+desenvolvimento da interface com o usuário.
 
-## Official Documentation
+## Funcionamento
+O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção,
+leitura, atualização e remoção de informações de usuários, salas/equipamentos e
+alocações feitas. Não foi usado modelos de dados tendo em vista as alterações
+que estão programadas, onde a tabela de usuários será refeita para a utilização
+da autenticação única via LDAP a partir do sistema [MinhaUFOP](http://www.minha.ufop.br/)
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Para autenticação, também não foi utilizado o *middleware* de autenticação nativo
+do Laravel também devido as mudanças que virão, sendo assim, toda autenticação
+foi feita "manualmente", através de consultas SQL e utilização de variáveis
+de sessão através provedor de serviço [Session](https://laravel.com/docs/5.2/session), nativo do [Laravel](https://laravel.com/).
 
-## Contributing
+Para o layout, foi usado como base o design [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
+desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
+alterando-se basicamente só a palheta de cores do tema.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Instalação
+Para instalação é necessário ter o gerenciado de dependências composer instalado,
+e a partir dele usar o comando de instalação:
 
-## Security Vulnerabilities
+```bash
+composer install
+composer update
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+A estrutura do banco de dados usada pelo sistema pode ser criada a partir do
+script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário configurar as variáveis
+de ambiente do Laravel a partir do arquivo na raiz do projeto sem nome mas de
+extensão ENV. Existe um arquivo de exemplo [aqui](./.env.example) que pode ser editado e depois
+renomeado apropriadamente apenas para .env onde nele deve-se encontrar o
+endereço, senha, usuário e nome da base do banco de dados.
 
-## License
+## TODO
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+* Otimizaão da estrutura do banco de dados;
+* Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
+* Validade de credenciais, para uso de profesores substitutos e visitantes;
