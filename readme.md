@@ -55,6 +55,6 @@ endereço, senha, usuário e nome da base do banco de dados.
 
 ## TODO
 
-* Otimizaão da estrutura do banco de dados;
+* Otimização da estrutura do banco de dados;
 * Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
-* Validade de credenciais, para uso de profesores substitutos e visitantes;
+* Validade de credenciais, para uso de professores substitutos e visitantes;
