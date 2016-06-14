@@ -1,8 +1,6 @@
 # SiRe - Sistema de Reserva de Salas e Equipamentos
 
-<p class="text-center">
-  ![Pré-visualização SiRe](./overview.gif "Pré-visualização SiRe")
-</p>
+![](https://github.com/jpmoura/sire-icea-ufop/blob/master/.overview.gif)
 
 O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public)
 é o sistema usado pelos corpos acadêmico e administrativo presentes no
