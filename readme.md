@@ -1,5 +1,9 @@
 # SiRe - Sistema de Reserva de Salas e Equipamentos
 
+<p class="text-center">
+  ![Pré-visualização SiRe](./overview.gif "Pré-visualização SiRe")
+</p>
+
 O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public)
 é o sistema usado pelos corpos acadêmico e administrativo presentes no
 [Instituto de Ciências Exatas e Aplicadas (campus João Monlevade)](http://www.icea.ufop.br)
@@ -12,7 +16,8 @@ Dentre as motivações para tal atualização, estão:
 * Atualização da interface com usuário, usando os conceitos de responsividade,
 onde a mesma se adapta de acordo com o espaço de tela disponível;
 * Correção de bugs da versão anterior;
-* Uso da arquitetura MVC para desenvolvimento, com o objetivo de facilitar a manutenção e atualização;
+* Uso da arquitetura MVC para desenvolvimento, com o objetivo de facilitar a
+manutenção e atualização;
 * Utilização do padrão mais recente do HTML (HTML5) de acordo com o W3C;
 
 O sistema foi desenvolvido usando a versão 5.2 do *framework* [Laravel](https://laravel.com/)
