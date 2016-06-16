@@ -32,9 +32,10 @@ que estão programadas, onde a tabela de usuários será refeita para a utiliza�
 da autenticação única via LDAP a partir do sistema [MinhaUFOP](http://www.minha.ufop.br/)
 
 Para autenticação, também não foi utilizado o *middleware* de autenticação nativo
-do Laravel também devido as mudanças que virão, sendo assim, toda autenticação
-foi feita "manualmente", através de consultas SQL e utilização de variáveis
-de sessão através provedor de serviço [Session](https://laravel.com/docs/5.2/session), nativo do [Laravel](https://laravel.com/).
+do [Laravel](https://laravel.com/) também devido as mudanças que virão,
+sendo assim, toda autenticação foi feita "manualmente", através de consultas SQL
+e utilização de variáveis de sessão através provedor de serviço
+[Session](https://laravel.com/docs/5.2/session), nativo do [Laravel](https://laravel.com/).
 
 Para o layout, foi usado como base o design [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
 desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
@@ -61,3 +62,4 @@ endereço, senha, usuário e nome da base do banco de dados.
 * Otimização da estrutura do banco de dados;
 * Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
 * Validade de credenciais, para uso de professores substitutos e visitantes;
+* Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS;
