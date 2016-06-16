@@ -64,7 +64,7 @@ endereço, senha, usuário e nome da base do banco de dados.
 não acontece de maneira correta;
 * Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar
 problemas no momento de alocação;
-* Erros de disponibiladade do banco de dados não estão devidamente tratados;
+* Erros de disponibilidade do banco de dados não estão devidamente tratados;
 
 ## TODO
 
