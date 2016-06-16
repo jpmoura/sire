@@ -57,6 +57,15 @@ extensão ENV. Existe um arquivo de exemplo [aqui](./.env.example) que pode ser 
 renomeado apropriadamente apenas para .env onde nele deve-se encontrar o
 endereço, senha, usuário e nome da base do banco de dados.
 
+## Erros conhecidos
+
+* Tabela de usuários não é mostrada apropriadamente em navegadores Safari;
+* Em Safari para plataforma Windows, o redimensionamento da imagem do usuário
+não acontece de maneira correta;
+* Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar
+problemas no momento de alocação;
+* Erros de disponibiladade do banco de dados não estão devidamente tratados;
+
 ## TODO
 
 * Otimização da estrutura do banco de dados;
