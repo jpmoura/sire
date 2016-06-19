@@ -1,17 +1,15 @@
-@if(false)
-  @extends('admin.admin_base')
-@endif
-
+@extends('admin.admin_base')
 
 @section('content')
   <div class='row'>
     <div class='col-md-8 col-md-offset-2 text-center'>
       <h2>Reservas para {{$recursoNome}}</h2>
-
+      <br />
       @for($i=0; $i < 3; ++$i)
         <div class="box box-primary-ufop collapsed-box">
           <div class="box-header with-border">
             <h3 class="text-center">
+              <a href="#" style="color: black;" data-widget="collapse">
               @if($i == 0)
                 <i class="fa fa-sun-o"></i> Turno Matutino
                 <?php $qtdAulas = $regras->manha; $turno = 'm';?>
@@ -22,6 +20,7 @@
                 <i class="fa fa-moon-o"></i> Turno Noturno
                 <?php $qtdAulas = $regras->noite; $turno = 'n';?>
               @endif
+              </a>
             </h3>
             <div class="box-tools pull-right">
               <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
@@ -34,7 +33,7 @@
                 <tr>
                   <th>Horário</th>
                   @for($d=0; $d < count($dias); $d++)
-                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{{ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp()))}} ({{$dias[$d] }})</th>
+                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{{ ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp())) }} ({{ $dias[$d] }})</th>
                   @endfor
                 </tr>
                 {{-- Para cada dia da semana --}}
