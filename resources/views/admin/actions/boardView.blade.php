@@ -3,7 +3,7 @@
 @section('content')
   <div class='row'>
     <div class='col-md-8 col-md-offset-2 text-center'>
-      <h2>Reservas para {{$recursoNome}}</h2>
+      <h2>Reservas para {{ $recursoNome }}</h2>
       <br />
       @for($i=0; $i < 3; ++$i)
         <div class="box box-primary-ufop collapsed-box">
@@ -33,7 +33,7 @@
                 <tr>
                   <th>Horário</th>
                   @for($d=0; $d < count($dias); $d++)
-                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{{ ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp())) }} ({{ $dias[$d] }})</th>
+                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{{utf8_encode(ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp()))) }} ({{ $dias[$d] }})</th>
                   @endfor
                 </tr>
                 {{-- Para cada dia da semana --}}
