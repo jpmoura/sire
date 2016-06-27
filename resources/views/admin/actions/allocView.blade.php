@@ -21,16 +21,18 @@
           <div class="box box-primary-ufop collapsed-box">
             <div class="box-header with-border">
               <h3 class="text-center">
-                @if($i == 0)
-                  <i class="fa fa-sun-o"></i> Turno Matutino
-                  <?php $qtdAulas = $regras->manha; $turno = 'm';?>
-                @elseif($i == 1)
-                  <i class="fa fa-cloud"></i> Turno Vespertino
-                  <?php $qtdAulas = $regras->tarde; $turno = 'v';?>
-                @else
-                  <i class="fa fa-moon-o"></i> Turno Noturno
-                  <?php $qtdAulas = $regras->noite; $turno = 'n';?>
-                @endif
+                <a href="#" style="color: black;" data-widget="collapse">
+                  @if($i == 0)
+                    <i class="fa fa-sun-o"></i> Turno Matutino
+                    <?php $qtdAulas = $regras->manha; $turno = 'm';?>
+                  @elseif($i == 1)
+                    <i class="fa fa-cloud"></i> Turno Vespertino
+                    <?php $qtdAulas = $regras->tarde; $turno = 'v';?>
+                  @else
+                    <i class="fa fa-moon-o"></i> Turno Noturno
+                    <?php $qtdAulas = $regras->noite; $turno = 'n';?>
+                  @endif
+                </a>
               </h3>
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
