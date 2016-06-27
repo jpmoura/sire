@@ -65,4 +65,9 @@
       @endfor
     </div><!-- /.col -->
   </div><!-- /.row -->
+  <div class="row">
+    <div class="text-center">
+      <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+    </div>
+  </div>
 @endsection
