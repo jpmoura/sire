@@ -50,6 +50,18 @@ composer install
 composer update
 ```
 
+Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
+gravação e execução da pasta em que se encontra o sistema para o grupo
+*www-data* que pode ser dado pelo seguinte comando usando a permissão de
+administrador:
+
+```bash
+chown -R www-data:USUARIO PASTA
+```
+
+Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
+justamente com este comando.
+
 A estrutura do banco de dados usada pelo sistema pode ser criada a partir do
 script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário configurar as variáveis
 de ambiente do Laravel a partir do arquivo na raiz do projeto sem nome mas de
@@ -58,7 +70,8 @@ renomeado apropriadamente apenas para .env onde nele deve-se encontrar o
 endereço, senha, usuário e nome da base do banco de dados.
 
 ## Changelog
-Na versão 2.0.1 foram adicionadas as seguintes funcionalidades:
+
+### Versão 2.0.1
 
 * Possibilidade de mundaça de senha do usuário;
 * Horários agora estão definidos e não são mais uma referência genérica de ordem;
