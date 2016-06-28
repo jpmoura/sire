@@ -57,6 +57,14 @@ extensão ENV. Existe um arquivo de exemplo [aqui](./.env.example) que pode ser 
 renomeado apropriadamente apenas para .env onde nele deve-se encontrar o
 endereço, senha, usuário e nome da base do banco de dados.
 
+## Changelog
+Na versão 2.0.1 foram adicionadas as seguintes funcionalidades:
+
+* Possibilidade de mundaça de senha do usuário;
+* Horários agora estão definidos e não são mais uma referência genérica de ordem;
+* Página de visualização do quadro de alocação agora possui um botão de voltar;
+* Os quadros de turnos agora podem ser expandidos e minizados clicando também sobre o nome do turno.
+
 ## Erros conhecidos
 
 * Tabela de usuários não é mostrada apropriadamente em navegadores Safari;
@@ -65,6 +73,7 @@ não acontece de maneira correta;
 * Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar
 problemas no momento de alocação;
 * Erros de disponibilidade do banco de dados não estão devidamente tratados;
+* Horários podem se sobrepor entre turnos.
 
 ## TODO
 
@@ -72,3 +81,4 @@ problemas no momento de alocação;
 * Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
 * Validade de credenciais, para uso de professores substitutos e visitantes;
 * Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS;
+*
