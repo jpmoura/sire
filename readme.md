@@ -93,5 +93,4 @@ problemas no momento de alocação;
 * Otimização da estrutura do banco de dados;
 * Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
 * Validade de credenciais, para uso de professores substitutos e visitantes;
-* Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS;
-*
+* Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS.
