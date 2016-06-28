@@ -92,7 +92,7 @@ class UserController extends Controller
 
     if($id != Session::get('id') && !$this->checkPermissions(1)) abort(401);
     else {
-      $usuario = DB::table('tb_usuario')->select('usuId as id', 'usuNome as nome', 'usuTelefone as telefone', 'usuCelular as celular', 'usuLogin as login', 'usuEmail as email', 'usuNivel as nivel')
+      $usuario = DB::table('tb_usuario')->select('usuId as id', 'usuNome as nome', 'usuTelefone as telefone', 'usuCelular as celular', 'usuLogin as login', 'usuEmail as email', 'usuNivel as nivel', 'usuSenha as senha')
                                         ->where('usuId', $id)->first();
 
       // erro de SQL
@@ -118,7 +118,7 @@ class UserController extends Controller
       if(count($checkLogin) < 2) {
         $updated = DB::table("tb_usuario")->where('usuId', $form['id'])
                                           ->update(['usuNome' => $form['nome'], 'usuLogin' => $form['login'], 'usuTelefone' => $form['telefone'], 'usuCelular' => $form['celular'],
-                                                    'usuEmail' => $form['email'], 'usuNivel' => $form['nivel']]);
+                                                    'usuEmail' => $form['email'], 'usuNivel' => $form['nivel'], 'usuSenha' => $form['senha']]);
 
         if($updated == 1) {
           $tipo = "Sucesso";

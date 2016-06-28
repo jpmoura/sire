@@ -34,7 +34,7 @@ class RulesController extends Controller
     if(!UserController::checkLogin()) return Redirect::route("getLogin");
 
     if(UserController::checkPermissions(1)) {
-      $regras = DB::table("tb_horario")->select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias", "horId as id")
+      $regras = DB::table("tb_horario")->select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias", "horId as id", "inicioManha", "inicioTarde", "inicioNoite")
                                        ->where("horId", "=", $id)
                                        ->first();
 
@@ -55,16 +55,21 @@ class RulesController extends Controller
     if(UserController::checkPermissions(1)) {
       $form = Input::all();
       $tipo = "Erro";
+      $mensagem = '';
+
+      if($form['manha'] > 6) $mensagem += "O número de horários precisa ser no máximo 6 para o turno da manha.\n";
+      if($form['tarde'] > 5) $mensagem += "O número de horários precisa ser no máximo 5 para o turno da tarde.\n";
+      if($form['noite'] > 4) $mensagem += "O número de horários precisa ser no máximo 4 para o turno da noite.\n";
 
       $updated = DB::table("tb_horario")->where('horId', $form['id'])
                                         ->update(['horNumAulaManha' => $form['manha'], 'horNumAulaTarde' => $form['tarde'], 'horNumAulaNoite' => $form['noite'],
-                                                  'horNumDias' => $form['dias']]);
+                                                  'horNumDias' => $form['dias'], 'inicioManha' => $form['inicioManha'], 'inicioTarde' => $form['inicioTarde'], 'inicioNoite' => $form['inicioNoite']]);
 
       if($updated == 1) {
         $tipo = "Sucesso";
         $mensagem = "Atualização feita com sucesso!";
       }
-      else $mensagem = "Erro no banco de dados. Regras não foram atualizadas.";
+      else $mensagem += "Erro no banco de dados ou nas regras. Atualização cancelada.";
 
       Session::flash("tipo", $tipo);
       Session::flash("mensagem", $mensagem);

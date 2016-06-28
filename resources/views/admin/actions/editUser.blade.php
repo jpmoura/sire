@@ -36,6 +36,11 @@
               </div>
 
               <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" class="form-control" placeholder="Senha" value="{{ $usuario->senha }}" name="senha" required maxlength="40" data-toggle="tooltip" data-placement="right" title="Senha. Máximo de 40 caracteres.">
+              </div>
+
+              <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                 <input type="email" class="form-control" value="{{$usuario->email}}" name="email" required maxlength="50" data-toggle="tooltip" data-placement="right" title="E-mail. Máximo de 50 caracteres.">
               </div>
@@ -65,7 +70,7 @@
               <br />
               <div class="text-center">
                 <button type="reset" class="btn btn-warning">Limpar <i class='fa fa-eraser'></i></button>
-                <button type="button" class="btn btn-danger" onClick="history.go(-1)">Cancelar <i class='fa fa-times'></i></button>
+                <button type="button" class="btn btn-danger" onClick="history.back()">Cancelar <i class='fa fa-times'></i></button>
                 <button type="submit" class="btn btn-success">Confirmar <i class='fa fa-check'></i></button>
               </div>
             </form>

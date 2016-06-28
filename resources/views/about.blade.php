@@ -18,6 +18,14 @@
         que davam suporte ao funcionamento do sistema. Um dos objetivos do sistema era atualizar as ferramentas sem comprometer a estrutura já existente do
         banco de dados, que contém todo o histórico de alocação
         <section id="modificacoes">
+          <h3 class="text-center">Mudanças na Versão 2.0.1</h3>
+          <ul>
+            <li>Possibilidade de mundaça de senha do usuário;</li>
+            <li>Horários agora estão definidos e não são mais uma referência genérica de ordem;</li>
+            <li>Página de visualização do quadro de alocação agora possui um botão de voltar;</li>
+            <li>Os quadros de turnos agora podem ser expandidos e minizados clicando também sobre o nome do turno.</li>
+          </ul>
+
           <h3 class="text-center">Principais mudanças na versão 2.0</h3>
           <ul>
             <li>Remodelamento da interface com o usuário, com o objetivo de facilitar o processo de alocação, tornando-o mais intuitivo;</li>
@@ -34,7 +42,9 @@
           <li>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/">Minha UFOP</a>;</li>
           <li>Criar a opção de tempo de validade do usuário, impedindo que usuários antigos tenham acesso ao sistema sem removê-los do banco de dados;</li>
           <li>Otimizar as tabelas do banco de dados;</li>
-          <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS.</li>
+          <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</li>
+          <li>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</li>
+          <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
         </ul>
       </p>
     </div>

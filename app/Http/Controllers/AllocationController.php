@@ -44,7 +44,7 @@ class AllocationController extends Controller
     $page_title = "<i class='fa fa-calendar'></i> Visualizar Quadro de Reservas";
     $page_description = "Quadro de reservas do recurso " . $recursoNome->nome . " para esta semana";
 
-    $regras = DB::table('tb_horario')->select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd')->first();
+    $regras = DB::table('tb_horario')->select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
 
     // pegar todos os dias da semana com data e nome
     $diasSemana = [];

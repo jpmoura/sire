@@ -30,7 +30,7 @@
 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                  <input type="text" class="form-control" placeholder="Senha" value="{{Input::old('senha')}}" name="senha" required maxlength="40" data-toggle="tooltip" data-placement="right" title="Máximo de 40 caracteres.">
+                  <input type="password" class="form-control" placeholder="Senha" value="{{Input::old('senha')}}" name="senha" required maxlength="40" data-toggle="tooltip" data-placement="right" title="Máximo de 40 caracteres.">
                 </div>
 
                 <div class="input-group">

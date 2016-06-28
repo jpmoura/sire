@@ -24,13 +24,13 @@
                 <a href="#" style="color: black;" data-widget="collapse">
                   @if($i == 0)
                     <i class="fa fa-sun-o"></i> Turno Matutino
-                    <?php $qtdAulas = $regras->manha; $turno = 'm';?>
+                    <?php $qtdAulas = $regras->manha; $turno = 'm'; $inicio = $regras->inicioManha; ?>
                   @elseif($i == 1)
                     <i class="fa fa-cloud"></i> Turno Vespertino
-                    <?php $qtdAulas = $regras->tarde; $turno = 'v';?>
+                    <?php $qtdAulas = $regras->tarde; $turno = 'v'; $inicio = $regras->inicioTarde; ?>
                   @else
                     <i class="fa fa-moon-o"></i> Turno Noturno
-                    <?php $qtdAulas = $regras->noite; $turno = 'n';?>
+                    <?php $qtdAulas = $regras->noite; $turno = 'n'; $inicio = $regras->inicioNoite;?>
                   @endif
                 </a>
               </h3>
@@ -49,9 +49,35 @@
                     @endfor
                   </tr>
                   {{-- Para cada dia da semana --}}
+
+                  {{-- Inicialização das variáveis para definição de horário --}}
+                  <?php
+                    $intervalo = 0;
+                    $addTime = 0;
+                    $initTime = strtotime($inicio);
+                  ?>
+
                   @for($j=1; $j <= $qtdAulas; ++$j)
                     <tr>
-                      <td>{{$j}}º Horário</td>
+                      <?php
+                        $endTime = strtotime("+50 minutes", $initTime); // Adicionar o addTime ao tempo de inicio
+                      ?>
+
+                      <td>{{date('H:i', $initTime)}} - {{date('H:i', $endTime)}}</td>
+
+                      <?php
+                        $initTime = $endTime;
+                        ++$intervalo;
+
+                        // Adicionar 20 minutos de intervalo a cada duas aulas
+                        // exceto para o horário entre o intervalo de 1h do turno vespertino e noturno
+                        if(($intervalo % 2) == 0) {
+                          $initTime = strtotime("+20 minutes", $initTime);
+                        }
+                        if($intervalo == 4 && $turno == 'v') {
+                          $initTime = strtotime("-15 minutes", $initTime);
+                        }
+                      ?>
                       @for($k=0; $k < $regras->diasQtd; ++$k)
                         <?php $status = false; ?>
                         {{-- Olhar se alguma alocacao pertence aquele horario daquele turno  --}}
