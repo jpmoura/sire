@@ -22,6 +22,9 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Exibir/Esconder Menu</span>
         </a>
+
+        <span class="marca-navbar">UNIVERSIDADE FEDERAL DE OURO PRETO</span>
+
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
