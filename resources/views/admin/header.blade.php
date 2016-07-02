@@ -23,7 +23,7 @@
             <span class="sr-only">Exibir/Esconder Menu</span>
         </a>
 
-        <span class="marca-navbar">UNIVERSIDADE FEDERAL DE OURO PRETO</span>
+        {{-- <span class="marca-navbar">UNIVERSIDADE FEDERAL DE OURO PRETO</span> --}}
 
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
