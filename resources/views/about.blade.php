@@ -26,6 +26,7 @@
             <li>Adicionado persistência local de dados do usuário após o primeiro login;</li>
             <li>Adicionado possiblidade de qualquer usuário reportar um bug no sistema;</li>
             <li>Correção de bugs;</li>
+            <li>Retirada de arquivos desnecessários para funcionamento do sistema;</li>
             <li>Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.</li>
           </ul>
 

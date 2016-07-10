@@ -36,7 +36,7 @@
                       @foreach($usuarios as $usuario)
                         <tr>
                           <td>{!!$usuario->nome !!}</td>
-                          <td><a href="mailto:{{$usuario->email}}">{{$usuario->email}}</a></td>
+                          <td><a target="_blank" href="mailto:{{$usuario->email}}?subject=[UFOP-ICEA] Contato via Sistema de Reserva">{{$usuario->email}}</a></td>
                           <td>
                             @if($usuario->nivel == 1)
                               Administrador

@@ -79,6 +79,7 @@ endereço, senha, usuário e nome da base do banco de dados.
 * Adicionado persistência local de dados do usuário após o primeiro *login*;
 * Correção de bugs;
 * Adicionada opção para reportar de bugs para usuários comuns e visualizar os reportes para administradores;
+* Retirada de arquivos desnecessários;
 * Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.
 
 ### Versão 2.0.1
