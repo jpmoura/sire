@@ -15,7 +15,7 @@
                 </select>
                 <br />
                 <div class="text-center">
-                  <button type="button" class="btn btn-warning" onClick="history.go(-1)"><i class='fa fa-arrow-left'></i> Voltar</button>
+                  <button type="button" class="btn btn-warning" onClick="history.back()"><i class='fa fa-arrow-left'></i> Voltar</button>
                   <button type="submit" class="btn btn-primary"><i class='fa fa-search'></i> Visualizar</button>
                 </div>
               </form>

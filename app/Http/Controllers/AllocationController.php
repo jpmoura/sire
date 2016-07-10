@@ -33,11 +33,14 @@ class AllocationController extends Controller
 
   public function viewBoard() {
     date_default_timezone_set('America/Sao_Paulo');
+
     if(Session::has("allocRedir")) $recursoID = Session::get('allocRedir');
     else $recursoID = Input::get("recurso");
 
-    // pegar de acordo com a regra a quantidade de dias e não somente sete
-
+    if(is_null($recursoID)) {
+      Log::warning("O Usuário " . Session::get('id') . " de nome " . Session::get('nome') ." tentou acessar o quadro de viualização provavelmente via POST sem o ID do recurso.");
+      return Redirect::route('getAlocarView');
+    }
 
     $recursoNome = DB::table('tb_equipamento')->select("equNome as nome")->where("equId", $recursoID)->first();
 
@@ -54,8 +57,8 @@ class AllocationController extends Controller
     $diaInicio = Carbon::now()->subDays(1);
     $diaFinal = Carbon::now()->addDays($diasPossiveis);
 
-    $alocacoes = DB::table('tb_alocacao')->join('tb_usuario', 'tb_usuario.usuId', '=', 'tb_alocacao.usuId')
-                                         ->select("aloId as reservaID", "tb_usuario.usuId as autorID", "tb_usuario.usuNome as autorNOME", "tb_usuario.usuEmail as autorEMAIL", "equId as recursoID", "aloData as data", "aloAula as aula")
+    $alocacoes = DB::table('tb_alocacao')->join('ldapusers', 'cpf', '=', 'tb_alocacao.usuId')
+                                         ->select("aloId as reservaID", "cpf as autorID", "nome as autorNOME", "email as autorEMAIL", "equId as recursoID", "aloData as data", "aloAula as aula")
                                          ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), ">=", $diaInicio)
                                          ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), "<=", $diaFinal)
                                          ->where("equId", $recursoID)

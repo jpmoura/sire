@@ -16,47 +16,37 @@
             <br />
           @endif
 
-          @if(isset($usuarios))
+          @if(isset($bugs))
             <div class="box box-primary-ufop">
               <div class="box-header">
-                <h3 class="box-title">Atualmente existem {{ count($usuarios) }} usuários cadastrados</h3>
+                <h3 class="box-title">Atualmente existem {{ count($bugs) }} bugs reportados</h3>
               </div>
               <div class="box-body">
                 <div class="table-responsive">
                   <table id="table" class="table table-hover table-striped table-bordered text-center">
                     <thead>
                       <tr>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Nível</th>
+                        <th>Título</th>
+                        <th>Autor</th>
                         <th>Ações</th>
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($usuarios as $usuario)
+                      @foreach($bugs as $bug)
                         <tr>
-                          <td>{!!$usuario->nome !!}</td>
-                          <td><a href="mailto:{{$usuario->email}}">{{$usuario->email}}</a></td>
+                          <td>{!! $bug->title !!}</td>
+                          <td>{{ $bug->nome }}</td>
                           <td>
-                            @if($usuario->nivel == 1)
-                              Administrador
-                            @elseif($usuario->nivel == 2)
-                              Professor / Administrativo
-                            @else
-                              Usuário Especial
-                            @endif
+                            <a class="btn btn-default btn-xs" href="{{ url('/bug/detalhe/' . $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
+                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{$bug->id}}" data-title="{{$bug->title}}" class="btn btn-default btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                           </td>
-                          @if(Session::get("nivel") == 1)
-                            <td><a class="btn btn-default btn-xs" href="{{url('usuarios/editar/' . $usuario->cpf)}}"><i class="fa fa-edit"></i> Editar</a> ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{{$usuario->cpf}}" data-nome="{!!$usuario->nome!!}"><i class="fa fa-trash"></i> Excluir</a></td>
-                          @endif
                         </tr>
                       @endforeach
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Nível</th>
+                        <th>Título</th>
+                        <th>Autor</th>
                         <th>Ações</th>
                       </tr>
                     </tfoot>
@@ -79,9 +69,9 @@
               <div class="modal-body">
                 <p id="mensagem" class="text-center"></p>
                 <br />
-                <form class="form text-center" action="{{(url('/usuarios/deletar'))}}" method="post">
+                <form class="form text-center" action="{{(url('/bug/deletar'))}}" method="post">
                   {{ csrf_field() }}
-                  <input type="hidden" id="formID" name="cpf" value="">
+                  <input type="hidden" id="formID" name="id" value="">
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
@@ -116,17 +106,17 @@
             });
 
           $('#deleteModal').on('show.bs.modal', function (event) {
-            var link = $(event.relatedTarget) // Button that triggered the modal
-            var cpf = link.data('cpf') // Extract info from data-* attributes
-            var nome = link.data('nome') // Extract info from data-* attributes
+            var link = $(event.relatedTarget); // Button that triggered the modal
+            var id = link.data('id'); // Extract info from data-* attributes
+            var title = link.data('title'); // Extract info from data-* attributes
 
-            document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o usuario ' + nome + '?'
-            document.getElementById("formID").setAttribute("value", cpf)
+            document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o bug de titulo ' + title + '?';
+            document.getElementById("formID").setAttribute("value", id);
           });
 
           $('#deleteModal').on('hide.bs.modal', function (event) {
-            document.getElementById("mensagem").innerHTML = ""
-            document.getElementById("formID").setAttribute("value", "")
+            document.getElementById("mensagem").innerHTML = "";
+            document.getElementById("formID").setAttribute("value", "");
           });
         </script>
     </div>

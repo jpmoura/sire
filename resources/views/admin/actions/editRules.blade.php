@@ -83,8 +83,8 @@
                 <br />
 
                 <div class="text-center">
+                  <button type="button" class="btn btn-danger" onClick="history.back()">Cancelar <i class='fa fa-times'></i></button>
                   <button type="reset" class="btn btn-warning">Limpar <i class='fa fa-eraser'></i></button>
-                  <button type="button" class="btn btn-danger" onClick="history.go(-1)">Cancelar <i class='fa fa-times'></i></button>
                   <button type="submit" class="btn btn-success">Confirmar <i class='fa fa-check'></i></button>
                 </div>
               </form>

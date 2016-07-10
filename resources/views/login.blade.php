@@ -29,22 +29,23 @@
 <body class="hold-transition login-page skin-ufop guest">
   <div class="login-box">
     <div class="login-logo">
-      <b>Si</b>stema de <b>Re</b>serva de <b>S</b>ala e <b>E</b>quipamentos
+      <b>Si</b>stema de <b>Re</b>serva de Salas e Equipamentos
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
       <p class="login-box-msg">Faça o login para gerenciar suas reservas</p>
+      <p class="login-box-msg">Use o <span class="text-bold">mesmo CPF</span> e a <span class="text-bold">mesma senha</span><br /> do <a href="http://www.minha.ufop.br/" target="_blank"><i class="fa fa-home"></i>Minha UFOP</a></p>
 
       <div class="form">
         <form class="form" action="{{url('/login')}}" method="post">
           {{ csrf_field() }}
           <div class="input-group @if(Session::get('erro') == 1) has-error @endif">
             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input type="text" name="login" class="form-control" placeholder="Usuário" required value="{{Input::old('login')}}" @if(Session::get('erro') != 2)  autofocus @endif>
+            <input type="text" name="login" class="form-control" placeholder="CPF do Minha UFOP (Sem números)" required value="{{Input::old('login')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
           </div>
           <div class="input-group @if(Session::get('erro') == 2) has-error @endif">
             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-            <input type="password" name="senha" class="form-control" placeholder="Senha" required @if(Session::get('erro') == 2) autofocus @endif>
+            <input type="password" name="senha" class="form-control" placeholder="Senha do Minha UFOP" required @if(Session::get('erro') == 2) autofocus @endif data-toggle="tooltip" data-placement="right" title="Senha do Minha UFOP">
           </div>
           @if(Session::has("mensagem"))
             <h5 class="text-center text-danger"><b>{{ Session::get("mensagem") }}</b></h5>

@@ -34,12 +34,12 @@ class HomeController extends Controller
 
         // usuários com mais reservas
 
-        $usuMesAtual = DB::table('tb_usuario')->join("tb_alocacao", "tb_usuario.usuId", "=", "tb_alocacao.usuId")
-                                                ->select(DB::raw('usuNome as nome, count(tb_usuario.usuID) as qtd'))
+        $usuMesAtual = DB::table('ldapusers')->join("tb_alocacao", "cpf", "=", "tb_alocacao.usuId")
+                                                ->select(DB::raw('nome, count(cpf) as qtd'))
                                                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                                                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                                                ->groupby("tb_usuario.usuId")
-                                                ->orderby(DB::raw("count(tb_usuario.usuID)"), "desc")
+                                                ->groupby("cpf")
+                                                ->orderby(DB::raw("count(cpf)"), "desc")
                                                 ->take(3)
                                                 ->get();
 
@@ -59,12 +59,12 @@ class HomeController extends Controller
           --$ano;
         }
 
-        $usuMesAnterior = DB::table('tb_usuario')->join("tb_alocacao", "tb_usuario.usuId", "=", "tb_alocacao.usuId")
-                                                ->select(DB::raw('usuNome as nome, count(tb_usuario.usuID) as qtd'))
+        $usuMesAnterior = DB::table('ldapusers')->join("tb_alocacao", "cpf", "=", "tb_alocacao.usuId")
+                                                ->select(DB::raw('nome, count(cpf) as qtd'))
                                                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                                                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                                                ->groupby("tb_usuario.usuId")
-                                                ->orderby(DB::raw("count(tb_usuario.usuID)"), "desc")
+                                                ->groupby("cpf")
+                                                ->orderby(DB::raw("count(cpf)"), "desc")
                                                 ->take(3)
                                                 ->get();
 

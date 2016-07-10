@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -21,10 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link href="{{ asset("dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("dist/css/custom.css")}}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
-          apply the skin class to the body tag so the changes take effect.
-    -->
+    <!-- AdminLTE Skins -->
     <link href="{{ asset("dist/css/skins/skin-ufop.css")}}" rel="stylesheet" type="text/css" />
 
     <link rel="shortcut icon" href="{{url('/favicon.ico')}}" type="image/x-icon">
@@ -61,7 +54,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 @endif
                   <small>{{ $page_description or "Erro" }}</small>
               </h1>
-              <!-- You can dynamically generate breadcrumbs here -->
+
               <ol class="breadcrumb">
                   <li><a href="{{url('/')}}"><i class="fa fa-home"></i> Início</a></li>
                   @if(isset($page_title))
@@ -76,7 +69,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <section class="content">
-            <!-- jQuery 2.1.3 -->
+            <!-- jQuery 2.2.4 -->
             <script src="{{ asset ('plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
             @yield('content')
         </section><!-- /.content -->

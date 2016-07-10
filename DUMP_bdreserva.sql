@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: bdreserva
+-- Host: 127.0.0.1    Database: sisreserva
 -- ------------------------------------------------------
--- Server version	5.5.49-0ubuntu0.14.04.1
+-- Server version	5.5.5-10.1.9-MariaDB-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,59 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bugs`
+--
+
+DROP TABLE IF EXISTS `bugs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bugs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(850) NOT NULL,
+  `user` char(11) NOT NULL,
+  `status` binary(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `USERREPORT` (`user`),
+  CONSTRAINT `fk_bug_user_cpf` FOREIGN KEY (`user`) REFERENCES `ldapusers` (`cpf`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ldap`
+--
+
+DROP TABLE IF EXISTS `ldap`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ldap` (
+  `id` int(11) NOT NULL,
+  `server` varchar(45) NOT NULL,
+  `user` varchar(45) NOT NULL,
+  `domain` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ldapusers`
+--
+
+DROP TABLE IF EXISTS `ldapusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ldapusers` (
+  `cpf` char(11) NOT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `nivel` int(11) NOT NULL,
+  PRIMARY KEY (`cpf`),
+  UNIQUE KEY `cpf_UNIQUE` (`cpf`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tb_alocacao`
 --
 
@@ -24,16 +77,15 @@ DROP TABLE IF EXISTS `tb_alocacao`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_alocacao` (
   `aloId` int(11) NOT NULL AUTO_INCREMENT,
-  `usuId` int(11) NOT NULL,
+  `usuId` char(11) NOT NULL,
   `equId` int(11) NOT NULL,
   `aloData` varchar(10) NOT NULL,
   `aloAula` varchar(10) NOT NULL,
   PRIMARY KEY (`aloId`),
   KEY `usuId` (`usuId`),
   KEY `equId` (`equId`),
-  CONSTRAINT `tb_alocacao_ibfk_3` FOREIGN KEY (`usuId`) REFERENCES `tb_usuario` (`usuId`),
   CONSTRAINT `tb_alocacao_ibfk_4` FOREIGN KEY (`equId`) REFERENCES `tb_equipamento` (`equId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13258 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13053 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,6 +120,9 @@ CREATE TABLE `tb_horario` (
   `horNumAulaTarde` int(11) NOT NULL,
   `horNumAulaNoite` int(11) NOT NULL,
   `horNumDias` int(11) NOT NULL,
+  `inicioManha` time DEFAULT NULL,
+  `inicioTarde` time DEFAULT NULL,
+  `inicioNoite` time DEFAULT NULL,
   PRIMARY KEY (`horId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -105,6 +160,14 @@ CREATE TABLE `tb_usuario` (
   PRIMARY KEY (`usuId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'sisreserva'
+--
+
+--
+-- Dumping routines for database 'sisreserva'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -115,4 +178,4 @@ CREATE TABLE `tb_usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-12 23:23:26
+-- Dump completed on 2016-07-10 16:33:48

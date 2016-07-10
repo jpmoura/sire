@@ -18,6 +18,17 @@
         que davam suporte ao funcionamento do sistema. Um dos objetivos do sistema era atualizar as ferramentas sem comprometer a estrutura já existente do
         banco de dados, que contém todo o histórico de alocação
         <section id="modificacoes">
+          <h3 class="text-center">Mudanças na Versão 2.1</h3>
+          <ul>
+            <li>Adicionado método de login usando dados do <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</li>
+            <li>Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);</li>
+            <li>Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;</li>
+            <li>Adicionado persistência local de dados do usuário após o primeiro login;</li>
+            <li>Adicionado possiblidade de qualquer usuário reportar um bug no sistema;</li>
+            <li>Correção de bugs;</li>
+            <li>Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.</li>
+          </ul>
+
           <h3 class="text-center">Mudanças na Versão 2.0.1</h3>
           <ul>
             <li>Possibilidade de mundaça de senha do usuário;</li>
@@ -26,7 +37,7 @@
             <li>Os quadros de turnos agora podem ser expandidos e minizados clicando também sobre o nome do turno.</li>
           </ul>
 
-          <h3 class="text-center">Principais mudanças na versão 2.0</h3>
+          <h3 class="text-center">Principais novidades na versão 2.0</h3>
           <ul>
             <li>Remodelamento da interface com o usuário, com o objetivo de facilitar o processo de alocação, tornando-o mais intuitivo;</li>
             <li>Uso do conceito de reponsividade na interface, sendo que a mesma se adapta os dispositivo do usuário sem comprometer sua usabilidade;</li>
@@ -39,11 +50,12 @@
 
         <h3 class="text-center">A Fazer</h3>
         <ul>
-          <li>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/">Minha UFOP</a>;</li>
-          <li>Criar a opção de tempo de validade do usuário, impedindo que usuários antigos tenham acesso ao sistema sem removê-los do banco de dados;</li>
+          <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
+          <li>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</li>
           <li>Otimizar as tabelas do banco de dados;</li>
           <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</li>
           <li>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</li>
+          <li>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</li>
           <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
         </ul>
       </p>

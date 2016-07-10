@@ -15,7 +15,7 @@
   Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getHome']);
 
   Route::get('/usuarios/consulta', ['as' => 'viewUsuarios', 'uses' => 'UserController@getUsers']);
-  Route::get('/usuarios/editar/{id?}', ['as' => 'editUsuarioView', 'uses' => 'UserController@getEditUser']);
+  Route::get('/usuarios/editar/{cpf}', ['as' => 'editUsuarioView', 'uses' => 'UserController@getEditUser']);
   Route::post('/usuarios/editar', ['as' => 'editUsuarioActon', 'uses' => 'UserController@editUser']);
   Route::get('/usuarios/cadastrar', ['as' => 'addUsuarioView', 'uses' => 'UserController@getNewUser']);
   Route::post('/usuarios/cadastrar', ['as' => 'addUsuarioAction', 'uses' => 'UserController@addNewUser']);
@@ -48,4 +48,17 @@
   Route::get('/desalocar/{id}', ['as' => 'getDesallocAction', 'uses' => 'AllocationController@freeResource']);
 
   Route::get('/sobre', ['as' => 'getSobreView', 'uses' => 'HomeController@getSobre']);
+
   Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+  Route::get('/ldap', ['as' => 'viewLDAP', 'uses' => 'LdapController@getLdapView']);
+  Route::get('/ldap/editar', ['as' => 'getEditLdap', 'uses' => 'LdapController@getEditLdap']);
+  Route::post('/ldap/editar', ['as' => 'postEditLdapAction', 'uses' => 'LdapController@editLdap']);
+
+  Route::get('/bug/adicionar', ['as' => 'addBugView', 'uses' => 'BugController@getBugForm']);
+  Route::post('/bug/adicionar', ['as' => 'postBugAction', 'uses' => 'BugController@addBug']);
+  Route::post('/bug/deletar', ['as' => 'deleteBug', 'uses' => 'BugController@deleteBug']);
+  Route::get('/bug/visualizar', ['as' => 'getBugView', 'uses' => 'BugController@getBugView']);
+  Route::get('/bug/detalhe/{id}', ['as' => 'getBugDetail', 'uses' => 'BugController@getBugDetail']);
+
+  Route::post('/searchperson', ['as' => 'doSearch', 'uses' => 'UserController@searchPerson']);

@@ -71,6 +71,16 @@ endereço, senha, usuário e nome da base do banco de dados.
 
 ## Changelog
 
+### Versão 2.1
+
+* Adicionado método de login usando dados do [Minha UFOP](http://www.minha.ufop.br/);
+* Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);
+* Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;
+* Adicionado persistência local de dados do usuário após o primeiro *login*;
+* Correção de bugs;
+* Adicionada opção para reportar de bugs para usuários comuns e visualizar os reportes para administradores;
+* Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.
+
 ### Versão 2.0.1
 
 * Possibilidade de mundaça de senha do usuário;
@@ -80,17 +90,20 @@ endereço, senha, usuário e nome da base do banco de dados.
 
 ## Erros conhecidos
 
+* ~~Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar problemas no momento de alocação;~~
 * Tabela de usuários não é mostrada apropriadamente em navegadores Safari;
 * Em Safari para plataforma Windows, o redimensionamento da imagem do usuário
 não acontece de maneira correta;
-* Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar
-problemas no momento de alocação;
 * Erros de disponibilidade do banco de dados não estão devidamente tratados;
 * Horários podem se sobrepor entre turnos.
 
 ## TODO
 
+* ~~Autenticação LDAP via [Minha UFOP](http://www.minha.ufop.br/);~~
+* ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;~~
+* Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para reforçar o padrão MVC;
 * Otimização da estrutura do banco de dados;
-* Autenticação LDAP via [MinhaUFOP](http://www.minha.ufop.br/);
-* Validade de credenciais, para uso de professores substitutos e visitantes;
+* Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;
+* Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno;
+* Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);
 * Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS.
