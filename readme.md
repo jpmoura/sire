@@ -73,7 +73,8 @@ endereço, senha, usuário e nome da base do banco de dados.
 
 ### Versão 2.1
 
-* Adicionado método de login usando dados do [Minha UFOP](http://www.minha.ufop.br/);
+* Adicionado método de *login* usando dados do [Minha UFOP](http://www.minha.ufop.br/);
+* Adicionado suporte para *login* via [Meu ICEA](http://200.239.152.5/meuicea/public) automaticamente, usando a mesma sessão; 
 * Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);
 * Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;
 * Adicionado persistência local de dados do usuário após o primeiro *login*;

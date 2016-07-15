@@ -62,3 +62,5 @@
   Route::get('/bug/detalhe/{id}', ['as' => 'getBugDetail', 'uses' => 'BugController@getBugDetail']);
 
   Route::post('/searchperson', ['as' => 'doSearch', 'uses' => 'UserController@searchPerson']);
+
+  Route::get('/middleware/{id}', ['as' => 'doLoginMeuIcea', 'uses' => 'UserController@middlewareLogin']);

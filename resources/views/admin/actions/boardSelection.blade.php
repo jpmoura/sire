@@ -4,6 +4,11 @@
     <div class='row'>
         <div class='col-md-4 col-md-offset-4 text-center'>
           <div class="box box-primary-ufop">
+            @if(!Session::has('id'))
+              <div class="box-header">
+                Visualizar um quadro de reservas
+              </div>
+            @endif
             <div class="box-body">
               <form class="form" action="{{url('/quadro/visualizar')}}" accept-charset="UTF-8" method="post">
                 {{csrf_field()}}

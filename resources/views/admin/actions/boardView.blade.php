@@ -33,7 +33,7 @@
                 <tr>
                   <th>Horário</th>
                   @for($d=0; $d < count($dias); $d++)
-                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{!! utf8_encode(ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp()))) !!} ({{ $dias[$d] }})</th>
+                    <th><?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese") ?>{!! ucfirst(strftime("%A", DateTime::createFromFormat('d/m/y', $dias[$d])->getTimestamp())) !!} ({{ $dias[$d] }})</th>
                   @endfor
                 </tr>
                 {{-- Para cada dia da semana --}}

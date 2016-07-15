@@ -29,6 +29,7 @@
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Nível</th>
+                        <th>Status</th>
                         <th>Ações</th>
                       </tr>
                     </thead>
@@ -46,6 +47,15 @@
                               Usuário Especial
                             @endif
                           </td>
+                          <td>
+                            <span class=
+                              @if($usuario->status == 1)
+                                "text-success text-bold">Ativo
+                              @else
+                                "text-warning text-bold">Inativo
+                              @endif
+                            </span>
+                          </td>
                           @if(Session::get("nivel") == 1)
                             <td><a class="btn btn-default btn-xs" href="{{url('usuarios/editar/' . $usuario->cpf)}}"><i class="fa fa-edit"></i> Editar</a> ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{{$usuario->cpf}}" data-nome="{!!$usuario->nome!!}"><i class="fa fa-trash"></i> Excluir</a></td>
                           @endif
@@ -57,6 +67,7 @@
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Nível</th>
+                        <th>Status</th>
                         <th>Ações</th>
                       </tr>
                     </tfoot>

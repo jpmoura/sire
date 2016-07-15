@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `bdreserva` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `bdreserva`;
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (i686)
 --
--- Host: 127.0.0.1    Database: sisreserva
+-- Host: 127.0.0.1    Database: bdreserva
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.9-MariaDB-log
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -60,9 +62,10 @@ DROP TABLE IF EXISTS `ldapusers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ldapusers` (
   `cpf` char(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+  `nome` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `nivel` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cpf`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -85,7 +88,7 @@ CREATE TABLE `tb_alocacao` (
   KEY `usuId` (`usuId`),
   KEY `equId` (`equId`),
   CONSTRAINT `tb_alocacao_ibfk_4` FOREIGN KEY (`equId`) REFERENCES `tb_equipamento` (`equId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13053 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13827 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,16 +161,8 @@ CREATE TABLE `tb_usuario` (
   `usuEmail` varchar(50) DEFAULT NULL,
   `usuNivel` tinyint(11) NOT NULL,
   PRIMARY KEY (`usuId`)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping events for database 'sisreserva'
---
-
---
--- Dumping routines for database 'sisreserva'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -178,4 +173,4 @@ CREATE TABLE `tb_usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-10 16:33:48
+-- Dump completed on 2016-07-15 14:51:23

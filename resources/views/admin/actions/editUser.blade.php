@@ -44,6 +44,15 @@
                   <option value="3" @if($usuario->nivel == 3) selected @endif>Usuário Especial</option>
                 </select>
               </div>
+
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-power-off"></i></span>
+                <select class="form-control" name="status" required data-toggle="tooltip" data-placement="right" title="Status do usuário.">
+                  <option value="">Selecione</option>
+                  <option value="0" @if($usuario->status == 0) selected @endif>Inativo</option>
+                  <option value="1" @if($usuario->status == 1) selected @endif>Ativo</option>
+                </select>
+              </div>
               <br />
               <div class="text-center">
                 <a class="btn btn-danger" style="color: white" data-toggle="modal" data-target="#deleteModal" href="#">Excluir <i class="fa fa-trash"></i></a>

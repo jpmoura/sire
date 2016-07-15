@@ -21,6 +21,7 @@
           <h3 class="text-center">Mudanças na Versão 2.1</h3>
           <ul>
             <li>Adicionado método de login usando dados do <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</li>
+            <li>Adicionado suporte para <em>login</em> via <a target="_blank" href="http://200.239.152.5/meuicea/public"><i class="fa fa-building-o"></i> Meu ICEA</a> automaticamente, usando a mesma sessão;</li>
             <li>Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);</li>
             <li>Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;</li>
             <li>Adicionado persistência local de dados do usuário após o primeiro login;</li>
@@ -52,7 +53,7 @@
         <h3 class="text-center">A Fazer</h3>
         <ul>
           <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
-          <li>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</li>
+          <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
           <li>Otimizar as tabelas do banco de dados;</li>
           <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</li>
           <li>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</li>

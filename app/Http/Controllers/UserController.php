@@ -112,7 +112,7 @@ class UserController extends Controller
     $form = Input::all();
 
     if($this->checkPermissions(1)) {
-      $updated = DB::table("ldapusers")->where('cpf', $form['cpf'])->update(['nivel' => $form['nivel']]);
+      $updated = DB::table("ldapusers")->where('cpf', $form['cpf'])->update(['nivel' => $form['nivel'], 'status' => $form['status']]);
 
       if($updated == 1) {
         $tipo = "Sucesso";
@@ -173,10 +173,6 @@ class UserController extends Controller
     return $password == $encoded;
   }
 
-  public function persistLdapUser() {
-
-  }
-
   /**
   * Retorna o nível de privilégio do usuário, caso ele tenha algum
   * senão retorna 0 e o acesso é proibido
@@ -185,24 +181,37 @@ class UserController extends Controller
   {
     // Procura pelo usuário na tabela ldapusers
     try {
-      $user = DB::table("ldapusers")->select("cpf", "nivel")->where('cpf', $cpf)->first();
+      $user = DB::table("ldapusers")->select("cpf", "nivel", "status")->where('cpf', $cpf)->first();
     } catch(\Illuminate\Database\QueryException $ex){
       Session::flash('message', "Erro durante consulta ao banco de dados.");
     }
 
-    // Se não é NULL, o usuário está persisitno no banco, basta apenas retornar o nível de privelégio
-    if(!is_null($user)) return $user->nivel;
 
-     // Senão pode ser ser primeiro acesso, logo é um professor pois usuários especias e administradores devem estar previamente no banco
-     // Se pertencer ao grupo do ICEA (714), DECEA (715) ou DEENP - ICEA (716) é um professor do campus e está liberado
-    elseif($group == 714 || $group == 715 || $group == 716) {
-      // persistir o usuário no banco
-      // codigo 4 é para persistir o usuário no banco
-      return 4;
+
+    // Se não é NULL, o usuário está persistido no banco
+    if(!is_null($user)) {
+      if($user->status == 0) return 0; // Se já foi cadastrado mas o status é 0, significa que ele não tem mais permissão de uso
+      else return $user->nivel; // Senão ele pode acessar
     }
+    else {// Senão pode ser ser primeiro acesso, logo é um professor pois usuários especias e administradores devem estar previamente no banco
 
-    // Se não estiver presente no banco de dados, nem nos grupos do campus do LDAP, então não tem privilégio
-    else return 0;
+      // Se pertencer à algum grupo vinculado ao campus, está liberado
+      switch ($group) {
+        case 712: // Biblioteca ICEA
+        case 714: // ICEA
+        case 715: // DECEA
+        case 716: // DEENP
+        case 7126: // DECOM - Ouro Preto
+        case 71130: // DECSI
+        case 71481: // DEELT
+          return 4;
+          break;
+
+        default: // Se não pertencer a nenhum grupo, então é um aluno sem privilégio
+          return 0;
+          break;
+      }
+    }
   }
 
   public function doLogin()
@@ -262,7 +271,7 @@ class UserController extends Controller
             return Redirect::route("home");
           }
           else {
-            $mensagem = "A senha está incorrreta!";
+            $mensagem = "A senha está incorreta!";
             $erro = 2;
             $input = Input::get('login');
           }
@@ -344,5 +353,59 @@ class UserController extends Controller
   {
     if(Session::get("nivel") == $nivel) return true;
     else return false;
+  }
+
+  // Decrypt Function
+  function mc_decrypt($decrypt) {
+  	$decoded = base64_decode($decrypt);
+  	$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);
+  	$decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, env('APP_ENC_KEY'), trim($decoded), MCRYPT_MODE_ECB, $iv));
+  	return $decrypted;
+  }
+
+  public function middlewareLogin($id)
+  {
+
+    $id = $this->mc_decrypt(base64_decode($id));
+
+    // descriptografar o id
+    $userData = DB::connection('meuicea')->table('sessions')->select('uid', 'cn', 'sn', 'mail', 'gidnumber')->where('id', $id)->first();
+
+
+    // Se os dados do usuários forem nulos é porque a sessão expirou
+    if(is_null($userData)) {
+      abort(412);
+    }
+
+    $userData->uid = $this->mc_decrypt($userData->uid);
+    $userData->cn = $this->mc_decrypt($userData->cn);
+    $userData->sn = $this->mc_decrypt($userData->sn);
+    $userData->mail = $this->mc_decrypt($userData->mail);
+    $userData->gidnumber = $this->mc_decrypt($userData->gidnumber);
+
+    // Verificar o nível de privilégio do usuário
+    $level = $this->permitted($userData->gidnumber, $userData->uid);
+
+    // Colocar a sessão aproriada para o sistema de reserva
+    $name = ucwords(strtolower($userData->cn . ' ' . $userData->sn));
+    $username = explode(" ", $name);
+
+    if($level < 1) {
+      Log::info("Usuário com ID " . $userData->uid . " e nome " . $name . " entrou no sistema através do MEU ICEA e foi redirecionado para a tela de seleção.");
+      return Redirect::route('getVisualizarView');
+    }
+    elseif($level == 4) { // Se for 4 então é o primeiro acesso do usuário, logo será necessário armazená-lo no banco
+      $level = 2;
+      DB::table("ldapusers")->insert(['cpf' => $userData->uid, 'nome' => $name, 'email' => $userData->mail, 'nivel' => $level]);
+    }
+
+
+    Session::put("username", $username[0] . ' ' . $username[1]);
+    Session::put("id", $userData->uid);
+    Session::put("nome", $name);
+
+    Log::info("Usuário com ID " . $userData->uid . " e nome " . $name . " entrou no sistema através do MEU ICEA.");
+    // Redirecionar para a página principal
+    return Redirect::route('home');
   }
 }

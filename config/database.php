@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'meuicea' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_LOGIN_DATABASE', 'forge'),
+            'username' => env('DB_LOGIN_USERNAME', 'forge'),
+            'password' => env('DB_LOGIN_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
