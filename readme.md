@@ -26,16 +26,12 @@ desenvolvimento da interface com o usuário.
 
 ## Funcionamento
 O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção,
-leitura, atualização e remoção de informações de usuários, salas/equipamentos e
-alocações feitas. Não foi usado modelos de dados tendo em vista as alterações
-que estão programadas, onde a tabela de usuários será refeita para a utilização
-da autenticação única via LDAP a partir do sistema [MinhaUFOP](http://www.minha.ufop.br/)
+leitura, atualização e remoção de informações de salas, equipamentos e
+alocações feitas.
 
-Para autenticação, também não foi utilizado o *middleware* de autenticação nativo
-do [Laravel](https://laravel.com/) também devido as mudanças que virão,
-sendo assim, toda autenticação foi feita "manualmente", através de consultas SQL
-e utilização de variáveis de sessão através provedor de serviço
-[Session](https://laravel.com/docs/5.2/session), nativo do [Laravel](https://laravel.com/).
+Para autenticação foi usado a mesma base de dados LDAP utilizada pelo sistema
+[Minha UFOP](http://www.minha.ufop.br), facilitando o uso para o usuário fazendo
+com que ele não precise de um *login* e senha específicos para utilizar o sistema.
 
 Para o layout, foi usado como base o design [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
 desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
@@ -60,7 +56,7 @@ chown -R www-data:USUARIO PASTA
 ```
 
 Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
-justamente com este comando.
+juntamente com este comando.
 
 A estrutura do banco de dados usada pelo sistema pode ser criada a partir do
 script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário configurar as variáveis
@@ -74,7 +70,7 @@ endereço, senha, usuário e nome da base do banco de dados.
 ### Versão 2.1
 
 * Adicionado método de *login* usando dados do [Minha UFOP](http://www.minha.ufop.br/);
-* Adicionado suporte para *login* via [Meu ICEA](http://200.239.152.5/meuicea/public) automaticamente, usando a mesma sessão; 
+* Adicionado suporte para *login* via [Meu ICEA](http://200.239.152.5/meuicea/public) automaticamente, usando a mesma sessão;
 * Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);
 * Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;
 * Adicionado persistência local de dados do usuário após o primeiro *login*;
