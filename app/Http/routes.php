@@ -63,4 +63,7 @@
 
   Route::post('/searchperson', ['as' => 'doSearch', 'uses' => 'UserController@searchPerson']);
 
+  Route::get('/reserva/consulta', ['as' => 'getViewAllocDate', 'uses' => 'AllocationController@getViewAllocDate']);
+  Route::post('/reserva/consulta', ['as' => 'postViewAllocDate', 'uses' => 'AllocationController@showAllocationAt']);
+
   Route::get('/middleware/{id}', ['as' => 'doLoginMeuIcea', 'uses' => 'UserController@middlewareLogin']);

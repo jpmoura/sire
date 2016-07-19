@@ -24,6 +24,7 @@
             <li @if(Session::get("menu") == "addUsuario") class="active" @endif><a href="{{url('/usuarios/cadastrar')}}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Cadastrar Usuários</span></a></li>
             <li @if(Session::get("menu") == "addRecurso") class="active" @endif><a href="{{url('/recursos/cadastrar')}}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Cadastrar Recurso</span></a></li>
             <li @if(Session::get("menu") == "viewUsuario") class="active" @endif><a href="{{url('/usuarios/consulta')}}"><i class="fa fa-users" aria-hidden="true"></i><span>Consultar Usuários</span></a></li>
+            <li @if(Session::get("menu") == "viewReserva") class="active" @endif><a href="{{url('/reserva/consulta')}}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Reserva</span></a></li>
             <li @if(Session::get("menu") == "ldap") class="active" @endif><a href="{{url('/ldap')}}"><i class="fa fa-server" aria-hidden="true"></i><span>LDAP</span></a></li>
             <li @if(Session::get("menu") == "bug") class="active" @endif><a href="{{url('/bug/visualizar')}}"><i class="fa fa-bug" aria-hidden="true"></i><span>Bugs</span></a></li>
           @endif

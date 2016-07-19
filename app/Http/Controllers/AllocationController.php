@@ -160,4 +160,46 @@ class AllocationController extends Controller
     }
     else abort(403);
   }
+
+  public function getViewAllocDate()
+  {
+    if(!UserController::checkLogin()) return Redirect::route("getLogin");
+    else {
+      Session::put('menu', 'viewReserva');
+      $resources = DB::table('tb_equipamento')->select('equID as id', 'equNome as nome')->get();
+      return View::make('admin.actions.viewAllocDate')->with(['page_title' => '<i class="fa fa-search"></i> Consultar Reserva', 'page_description' => 'Selecione uma data e um laboratório para consultar as reservas daquele dia', 'recursos' => $resources]);
+    }
+  }
+
+  public function searchAllocationAt($date, $resource)
+  {
+    $newAllocations = DB::table('tb_alocacao')->join('ldapusers', 'cpf', '=', 'usuId')
+                                              ->select('nome', 'email', 'aloAula as aula')
+                                              ->where('aloData', $date)
+                                              ->where('equId', $resource)
+                                              ->get();
+
+    $oldAllocations = DB::table('tb_alocacao')->join('tb_usuario', 'tb_usuario.usuId', '=', 'tb_alocacao.usuId')
+                                              ->select('tb_usuario.usuNome as nome', 'tb_usuario.usuEmail as email', 'aloAula as aula')
+                                              ->where('aloData', $date)
+                                              ->where('equId', $resource)
+                                              ->get();
+
+    $allocations = array_merge($oldAllocations, $newAllocations);
+    return $allocations;
+  }
+
+  public function showAllocationAt() {
+    if(!UserController::checkLogin()) return Redirect::route("getLogin");
+
+    if(UserController::checkPermissions(1)) {
+      $form = Input::all();
+      $allocations = $this->searchAllocationAt($form['data'], $form['recurso']);
+      $regras = DB::table('tb_horario')->select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
+
+      return View::make('admin.actions.showAllocAt')->with(['alocacoes' => $allocations, 'page_title' => '<i class="fa fa-search"></i> Consulta de Reserva' ,'page_description' => 'Alocações para o dia ' . $form['data'], 'regras' => $regras]);
+
+    }
+    else abort(403);
+  }
 }
