@@ -77,6 +77,7 @@ endereço, senha, usuário e nome da base do banco de dados.
 * Correção de bugs;
 * Adicionada opção para reportar de bugs para usuários comuns e visualizar os reportes para administradores;
 * Retirada de arquivos desnecessários;
+* Adicionada opção ao administradores para visualizar as reservas de um recurso em um determinado dia;
 * Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.
 
 ### Versão 2.0.1
