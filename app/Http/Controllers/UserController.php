@@ -403,6 +403,7 @@ class UserController extends Controller
     Session::put("username", $username[0] . ' ' . $username[1]);
     Session::put("id", $userData->uid);
     Session::put("nome", $name);
+    Session::put("nivel", $level);
 
     Log::info("Usuário com ID " . $userData->uid . " e nome " . $name . " entrou no sistema através do MEU ICEA.");
     // Redirecionar para a página principal

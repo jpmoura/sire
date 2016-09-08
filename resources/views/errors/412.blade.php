@@ -14,7 +14,7 @@
           então realizar o login no portal
           <a href="http://localhost/meuicea/public/login"><i class="fa fa-building-o"></i> Meu ICEA</a>.
         </p>
+      </div>
     </div>
   </div>
-
 @endsection

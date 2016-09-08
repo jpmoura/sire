@@ -12,7 +12,7 @@
           A página que você requisitou não existe.
           Você pode voltar para a página <a href="{{url('/')}}">inicial</a> ou voltar para a página <a href="javascript:history.back()">anterior</a> em que você estava.
         </p>
+      </div>
     </div>
   </div>
-
 @endsection

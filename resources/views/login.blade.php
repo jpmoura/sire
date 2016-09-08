@@ -29,7 +29,7 @@
 <body class="hold-transition login-page skin-ufop guest">
   <div class="login-box">
     <div class="login-logo">
-      <b>Si</b>stema de <b>Re</b>serva de Salas e Equipamentos
+      <i class="fa fa-calendar-check-o"></i> <b>Si</b>stema de <b>Re</b>serva de Salas e Equipamentos
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">

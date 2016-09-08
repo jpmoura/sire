@@ -11,9 +11,9 @@
 
     <a href="{{url('/')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>S</b>i<b>R</b>e</span>
+      <span class="logo-mini"><i class="fa fa-calendar-check-o"></i></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Si</b>stema de <b>Re</b>servas</span>
+      <span class="logo-lg"><i class="fa fa-calendar-check-o"></i> Reserva</span>
    </a>
 
     <!-- Header Navbar -->
