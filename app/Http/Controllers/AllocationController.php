@@ -109,6 +109,7 @@ class AllocationController extends Controller
 
     $usuarioID = Session::get("id");
     $equipamentoID = (int)Input::get('id');
+    $tipo = "Erro";
 
     $form = Input::all();
     $insert = [];
@@ -118,13 +119,27 @@ class AllocationController extends Controller
       if(strrchr($input, ".")) { // se houver o horario e a data
         $data = substr($input, 3);
         $aula = substr($input, 0, 2);
+
+        $reservasEm = DB::table('tb_alocacao')->select('equId', 'aloAula')->where('usuId', $usuarioID)->where('aloData', $data)->get();
+
+        // Verifica se não foi reservado outro recurso no mesmo horário
+        foreach ($reservasEm as $reserva) {
+          if($reserva->aloAula == $aula && Session::get('nivel') != 1) {
+            Log::warning("O Usuário " . Session::get('id') . " de nome " . Session::get('nome') ." tentou reservar mais de um recurso no mesmo horário");
+            Session::flash('tipo', "Erro");
+            Session::flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
+            Session::put("allocRedir", $equipamentoID);
+            return Redirect::route("getResourceBoard");
+          }
+        }
+
         $insert[$i] = array('aloData' => $data, 'aloAula' => $aula, 'usuId' => $usuarioID, 'equId' => $equipamentoID);
         ++$i;
       }
     } // end for each
 
     $qtd = DB::table('tb_alocacao')->insert($insert);
-    $tipo = "Erro";
+
     if($qtd == (count($form) - 2)) {
       $tipo = "Sucesso";
       $mensagem = "Recurso reservado com sucesso.";
