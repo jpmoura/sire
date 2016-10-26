@@ -3,7 +3,7 @@
 @section('content')
   <div class="row">
     <div class="col-md-12">
-      <img src="{{asset('/img/stackholders.png')}}" alt="Stackholders do Sistema" class="center-block img-responsive"/>
+      <img src="{{asset('public/img/stackholders.png')}}" alt="Stackholders do Sistema" class="center-block img-responsive"/>
     </div>
   </div>
   <br />

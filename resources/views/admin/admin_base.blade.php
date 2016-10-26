@@ -11,17 +11,17 @@
     </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
-    <link href="{{ asset("/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("public//bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
-    <link href="{{asset('dist/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('public/dist/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="{{ asset("dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("dist/css/custom.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("public/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("public/dist/css/custom.css")}}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins -->
-    <link href="{{ asset("dist/css/skins/skin-ufop.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("public/dist/css/skins/skin-ufop.css")}}" rel="stylesheet" type="text/css" />
 
-    <link rel="shortcut icon" href="{{url('/favicon.ico')}}" type="image/x-icon">
-    <link rel="icon" href="{{url('/favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -70,7 +70,7 @@
         <!-- Main content -->
         <section class="content">
             <!-- jQuery 2.2.4 -->
-            <script src="{{ asset ('plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
+            <script src="{{ asset ('public/plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
             @yield('content')
         </section><!-- /.content -->
 @if(Session::has("id"))
@@ -86,10 +86,10 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- Bootstrap 3.3.2 JS -->
-<script src="{{ asset ('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset ('public/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="{{ asset ('plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset ('public/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 <!-- FastClick -->
-<script src="{{ asset ('plugins/fastclick/fastclick.js') }}" type="text/javascript"></script>
+<script src="{{ asset ('public/plugins/fastclick/fastclick.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset ('dist/js/app.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset ('public/dist/js/app.min.js') }}" type="text/javascript"></script>

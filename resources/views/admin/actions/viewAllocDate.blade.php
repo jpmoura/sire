@@ -1,7 +1,7 @@
 @extends('admin.admin_base')
 
 @section('content')
-    <link rel="stylesheet" href="{{url('plugins/datepicker/datepicker3.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/datepicker/datepicker3.css')}}">
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
           <div class="box box-primary-ufop">

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class='row'>
-        <link rel="stylesheet" href="{{url('plugins/datatables/dataTables.bootstrap.css')}}">
+        <link rel="stylesheet" href="{{url('public/plugins/datatables/dataTables.bootstrap.css')}}">
         <div class='col-md-8 col-md-offset-2'>
           @if(Session::has("tipo"))
             <div class="row">
@@ -76,8 +76,8 @@
         </div><!-- /.col -->
     </div><!-- /.row -->
 
-    <script src="{{url('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{url('public/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url('public/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 
     <div class="row">
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">

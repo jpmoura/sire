@@ -1,7 +1,7 @@
 @extends('admin.admin_base')
 
 @section('content')
-    <link rel="stylesheet" href="{{url('plugins/datatables/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/datatables/dataTables.bootstrap.css')}}">
 
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
@@ -103,8 +103,8 @@
           </div>
         </div>
 
-        <script src="{{url('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-        <script src="{{url('plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+        <script src="{{url('public/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{url('public/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
         <script>
           $(function () {
                           $("#table").DataTable( {

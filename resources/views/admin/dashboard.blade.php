@@ -94,7 +94,7 @@
               </div>
             </div>
 
-            <script src="{{ asset ('plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
+            <script src="{{ asset ('public/plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
             <script>
             function getRandomColor() {
               var letters = '0123456789ABCDEF'.split('');

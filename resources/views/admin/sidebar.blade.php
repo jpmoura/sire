@@ -4,18 +4,6 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-        {{-- <!-- Sidebar user panel (optional) -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img src="{{ asset("dist/img/default-user.png") }}" class="img-circle" alt="User Image" />
-            </div>
-            <div class="pull-left info">
-                <p>{{ Session::get("username") }}</p>
-                <!-- Status -->
-                <h6><i class="fa fa-circle text-success"></i> Online</h6>
-            </div>
-        </div> --}}
-
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
           @if(Session::get("nivel") == 1)
