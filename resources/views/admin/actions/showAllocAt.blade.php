@@ -6,6 +6,7 @@
       @if(count($alocacoes) == 0)
         <h2 class="text-center">Não há nenhuma alocação para esse dia</h2>
       @else
+        <h2 class="text-center">{!! $recurso->nome !!}</h2>
         @for($i=0; $i < 3; ++$i)
           <div class="box box-primary-ufop collapsed-box">
             <div class="box-header with-border">

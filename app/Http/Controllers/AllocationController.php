@@ -209,10 +209,11 @@ class AllocationController extends Controller
 
     if(UserController::checkPermissions(1)) {
       $form = Input::all();
+      $resource = DB::table('tb_equipamento')->select('equNome as nome')->where('equId', $form['recurso'])->first();
       $allocations = $this->searchAllocationAt($form['data'], $form['recurso']);
       $regras = DB::table('tb_horario')->select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
 
-      return View::make('admin.actions.showAllocAt')->with(['alocacoes' => $allocations, 'page_title' => '<i class="fa fa-search"></i> Consulta de Reserva' ,'page_description' => 'Alocações para o dia ' . $form['data'], 'regras' => $regras]);
+      return View::make('admin.actions.showAllocAt')->with(['recurso' => $resource, 'alocacoes' => $allocations, 'page_title' => '<i class="fa fa-search"></i> Consulta de Reserva' ,'page_description' => 'Alocações para o dia ' . $form['data'] . ' do recurso ' . $resource->nome, 'regras' => $regras]);
 
     }
     else abort(403);
