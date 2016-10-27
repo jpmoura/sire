@@ -67,6 +67,13 @@ endereço, senha, usuário e nome da base do banco de dados.
 
 ## Changelog
 
+### Versão 2.1.1
+
+* Adicionada restrição de alocações para usuários ordinários. Agora somente administradores podem alocar mais de um recurso no mesmo horário e dia;
+* Alterada o local onde o sistema é servido;
+* Correção dos caminhos dos arquivos CSS e Javascript;
+* Correção de erro de usuário tentar executar qualquer ação com *token* de sessão expirado.
+
 ### Versão 2.1
 
 * Adicionado método de *login* usando dados do [Minha UFOP](http://www.minha.ufop.br/);
@@ -100,9 +107,10 @@ não acontece de maneira correta;
 
 * ~~Autenticação LDAP via [Minha UFOP](http://www.minha.ufop.br/);~~
 * ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;~~
+* ~~Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário~~;
+* Capturar exceções de erro de conexão com o banco de dados;
 * Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para reforçar o padrão MVC;
 * Otimização da estrutura do banco de dados;
-* Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;
 * Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno;
 * Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);
 * Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS.

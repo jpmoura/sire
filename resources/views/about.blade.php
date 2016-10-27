@@ -18,6 +18,14 @@
         que davam suporte ao funcionamento do sistema. Um dos objetivos do sistema era atualizar as ferramentas sem comprometer a estrutura já existente do
         banco de dados, que contém todo o histórico de alocação
         <section id="modificacoes">
+          <h3 class="text-center">Mudanças na Versão 2.1.1</h3>
+          <ul>
+            <li>Adicionada restrição de alocações para usuários ordinários. Agora somente administradores podem alocar mais de um recurso no mesmo horário e dia;</li>
+            <li>Alterada o local onde o sistema é servido;</li>
+            <li>Correção dos caminhos dos arquivos CSS e Javascript;</li>
+            <li>Correção de erro de usuário tentar executar qualquer ação com <em>token</em> de sessão expirado.</li>
+          </ul>
+
           <h3 class="text-center">Mudanças na Versão 2.1</h3>
           <ul>
             <li>Adicionado método de login usando dados do <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</li>
@@ -55,9 +63,11 @@
         <ul>
           <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
           <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
+          <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>
+          <li>Capturar exceções de erro de conexão com o banco de dados;</li>
+          <li>Utilizar o <em>eloquent</em> para evitar uso de intensivo da classe DB;</li>
           <li>Otimizar as tabelas do banco de dados;</li>
           <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</li>
-          <li>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</li>
           <li>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</li>
           <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
         </ul>
