@@ -6,7 +6,7 @@
         <div class='col-md-8 col-md-offset-2'>
           <div class="box box-primary-ufop">
             <div class="box-body">
-              <form class="form" action="{{url('/reserva/consulta')}}" method="post">
+              <form class="form" action="{{url('/alocacao/consulta')}}" method="post">
                 {{csrf_field()}}
                 <div class="input-group" >
                   <span class="input-group-addon date"><i class="fa fa-calendar"></i></span>
