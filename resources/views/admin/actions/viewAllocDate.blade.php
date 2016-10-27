@@ -10,7 +10,7 @@
                 {{csrf_field()}}
                 <div class="input-group" >
                   <span class="input-group-addon date"><i class="fa fa-calendar"></i></span>
-                  <input type="text" id="data" name="data" class="form-control" placeholder="Data no formato dd/mm/aa" required>
+                  <input maxlength="8" minlength="8" type="text" id="data" name="data" class="form-control" placeholder="Data no formato dd/mm/aa" required>
                 </div>
 
                 <div class="input-group">
@@ -34,8 +34,8 @@
         </div>
     </div>
 
-    <script src="{{url('/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
-    <script src="{{url('/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js')}}"></script>
+    <script src="{{url('public/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
+    <script src="{{url('public/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js')}}"></script>
     <script>
        $(function() {
           $( "#data" ).datepicker({
