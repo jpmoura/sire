@@ -13,6 +13,7 @@
 
 
   Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getHome']);
+  Route::get('/index.html', ['as' => 'home', 'uses' => 'HomeController@getHome']);
 
   Route::get('/usuarios/consulta', ['as' => 'viewUsuarios', 'uses' => 'UserController@getUsers']);
   Route::get('/usuarios/editar/{cpf}', ['as' => 'editUsuarioView', 'uses' => 'UserController@getEditUser']);

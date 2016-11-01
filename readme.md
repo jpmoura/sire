@@ -20,7 +20,7 @@ manutenção e atualização;
 
 O sistema foi desenvolvido usando a versão 5.2 do *framework* [Laravel](https://laravel.com/)
 para aplicações web, um dos mais usados no mercado durante o período de
-desenvolvimento. Uma restrissão do desenvolvimento foi a necessidade de usar o
+desenvolvimento. Uma restrição do desenvolvimento foi a necessidade de usar o
 banco de dados original da primeira versão, o que limitou alguns pontos no
 desenvolvimento da interface com o usuário.
 
@@ -59,44 +59,56 @@ Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
 juntamente com este comando.
 
 A estrutura do banco de dados usada pelo sistema pode ser criada a partir do
-script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário configurar as variáveis
-de ambiente do Laravel a partir do arquivo na raiz do projeto sem nome mas de
-extensão ENV. Existe um arquivo de exemplo [aqui](./.env.example) que pode ser editado e depois
-renomeado apropriadamente apenas para .env onde nele deve-se encontrar o
-endereço, senha, usuário e nome da base do banco de dados.
+script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário
+configurar as variáveis de ambiente do Laravel a partir do arquivo na raiz do
+projeto sem nome mas de extensão ENV. Existe um arquivo de exemplo
+[aqui](./.env.example) que pode ser editado e depois renomeado apropriadamente
+apenas para .env onde nele deve-se encontrar o endereço, senha, usuário e nome
+da base do banco de dados.
 
 ## Changelog
 
 ### Versão 2.1.1
 
-* Adicionada restrição de alocações para usuários ordinários. Agora somente administradores podem alocar mais de um recurso no mesmo horário e dia;
+* Adicionada restrição de alocações para usuários ordinários. Agora somente
+administradores podem alocar mais de um recurso no mesmo horário e dia;
 * Alterada o local onde o sistema é servido;
 * Correção dos caminhos dos arquivos CSS e Javascript;
-* Correção de erro de usuário tentar executar qualquer ação com *token* de sessão expirado.
+* Correção de erro de usuário tentar executar qualquer ação com *token* de
+sessão expirado.
 
 ### Versão 2.1
 
 * Adicionado método de *login* usando dados do [Minha UFOP](http://www.minha.ufop.br/);
-* Adicionado suporte para *login* via [Meu ICEA](http://200.239.152.5/meuicea/public) automaticamente, usando a mesma sessão;
-* Criptografia dos arquivos de sessões e alterado o tempo de vida para 30 minutos (eram 120);
-* Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo usuário não pertença a nenhum grupo do campus;
+* Adicionado suporte para *login* via
+[Meu ICEA](http://200.239.152.5/meuicea/public) automaticamente, usando a mesma
+sessão;
+* Criptografia dos arquivos de sessões e alterado o tempo de vida para 30
+minutos (eram 120);
+* Adicionado mais um tipo de usuário: Usuário Especial. Necessário caso o novo
+usuário não pertença a nenhum grupo do campus;
 * Adicionado persistência local de dados do usuário após o primeiro *login*;
 * Correção de bugs;
-* Adicionada opção para reportar de bugs para usuários comuns e visualizar os reportes para administradores;
+* Adicionada opção para reportar de bugs para usuários comuns e visualizar os
+reportes para administradores;
 * Retirada de arquivos desnecessários;
-* Adicionada opção ao administradores para visualizar as reservas de um recurso em um determinado dia;
-* Adicionado uma pré-visualização dos dados no momento do cadastro para confirmação.
+* Adicionada opção ao administradores para visualizar as reservas de um recurso
+em um determinado dia;
+* Adicionado uma pré-visualização dos dados no momento do cadastro para
+confirmação.
 
 ### Versão 2.0.1
 
 * Possibilidade de mundaça de senha do usuário;
 * Horários agora estão definidos e não são mais uma referência genérica de ordem;
 * Página de visualização do quadro de alocação agora possui um botão de voltar;
-* Os quadros de turnos agora podem ser expandidos e minizados clicando também sobre o nome do turno.
+* Os quadros de turnos agora podem ser expandidos e minizados clicando também
+sobre o nome do turno.
 
 ## Erros conhecidos
 
-* ~~Uso do sistema em navegadores Safari para iOS em modo privativo pode ocasionar problemas no momento de alocação;~~
+* ~~Uso do sistema em navegadores Safari para iOS em modo privativo pode
+ocasionar problemas no momento de alocação;~~
 * Tabela de usuários não é mostrada apropriadamente em navegadores Safari;
 * Em Safari para plataforma Windows, o redimensionamento da imagem do usuário
 não acontece de maneira correta;
@@ -106,11 +118,16 @@ não acontece de maneira correta;
 ## TODO
 
 * ~~Autenticação LDAP via [Minha UFOP](http://www.minha.ufop.br/);~~
-* ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;~~
-* ~~Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário~~;
+* ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados
+para evitar expor os dados no código-fonte;~~
+* ~~Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em>
+de cada horário~~;
 * Capturar exceções de erro de conexão com o banco de dados;
-* Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para reforçar o padrão MVC;
+* Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para
+reforçar o padrão MVC;
 * Otimização da estrutura do banco de dados;
-* Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno;
+* Tratar para que caso altere o horário de início de cada turno para que o
+último horário do turno não sobreponha o início do próximo turno;
 * Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);
-* Otimização do carregamento dos elementos CSS e Javascript usando Gulp juntamente com SASS ou LESS.
+* Otimização do carregamento dos elementos CSS e Javascript usando Gulp
+juntamente com SASS ou LESS.
