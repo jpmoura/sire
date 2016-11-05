@@ -18,3 +18,9 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
+
+
+Require all denied
+<Files index.php>
+	Require all granted
+</Files>
