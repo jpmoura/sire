@@ -19,8 +19,14 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
 
+Options All -Indexes
 
-Require all denied
-<Files index.php>
-	Require all granted
+# Deny access to sub directory
+<Files subdirectory/*>
+    deny from all
+</Files>
+
+<Files .env>
+    Order allow,deny
+    Deny from all
 </Files>
