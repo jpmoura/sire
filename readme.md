@@ -68,6 +68,17 @@ da base do banco de dados.
 
 ## Changelog
 
+### Versão 2.2
+
+* Refatoração massiva de toda a estrutura do back-end;
+* Mudança no sistema de autenticação, usando a autenticação nativa do framework aliada com a API de autenticação
+[LDAPI](https://github.com/jpmoura/ldapi). Agora também é possível o usuários optar por ser lembrado e assim o login é
+renovado automaticamente;
+* Melhoria no sistema de Log, agora registrando informações mais estruturadas e sendo feito através de eventos;
+* Alteração em todo sistema de rotas, usando grupos e middlewares;
+* Migração para o uso de modelos ao invés de execução de queries, atingindo assim o padrão MVC;
+* Mudança na organização dos arquivos das Views para um padrão semelhante de outros frameworks.
+
 ### Versão 2.1.1
 
 * Adicionada restrição de alocações para usuários ordinários. Agora somente
@@ -121,10 +132,11 @@ não acontece de maneira correta;
 * ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados
 para evitar expor os dados no código-fonte;~~
 * ~~Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em>
-de cada horário~~;
-* Capturar exceções de erro de conexão com o banco de dados;
-* Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para
-reforçar o padrão MVC;
+de cada horário;~~
+* ~~Capturar exceções de erro de conexão com o banco de dados;~~
+* ~~Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para
+reforçar o padrão MVC;~~
+* Criar testes automatizados;
 * Otimização da estrutura do banco de dados;
 * Tratar para que caso altere o horário de início de cada turno para que o
 último horário do turno não sobreponha o início do próximo turno;
