@@ -52,7 +52,7 @@ gravação e execução da pasta em que se encontra o sistema para o grupo
 administrador:
 
 ```bash
-chown -R www-data:USUARIO PASTA
+chown -R USUARIO:www-data PASTA
 ```
 
 Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
