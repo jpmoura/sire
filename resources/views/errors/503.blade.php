@@ -28,25 +28,25 @@
 </head>
 
 <body class="hold-transition login-page skin-ufop guest">
-  <div class="login-box">
-    <div class="login-logo">
-      <p class="text-bold"><i class="fa fa-refresh fa-spin fa-2x fa-fw"></i><br />Sistema em Manutenção.</p>
-      <p>Por favor<br>volte mais tarde.</p>
-    </div>
+<div class="login-box">
+  <div class="login-logo">
+    <p class="text-bold"><i class="fa fa-refresh fa-spin fa-2x fa-fw"></i><br />Sistema em Manutenção.</p>
+    <p>Por favor<br>volte mais tarde.</p>
   </div>
-  <footer class="text-center">
-    <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{url('/sobre')}}">NTI ICEA</a></strong>.
-  </footer>
-  <!-- jQuery 2.1.3 -->
-  <script src="{{ asset ('plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
-  <!-- Bootstrap 3.3.2 JS -->
-  <script src="{{ asset ('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-  <!-- SlimScroll -->
-  <script src="{{ asset ('plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
-  <!-- FastClick -->
-  <script src="{{ asset ('plugins/fastclick/fastclick.js') }}" type="text/javascript"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ asset ('dist/js/app.min.js') }}" type="text/javascript"></script>
+</div>
+<footer class="text-center">
+  <!-- Default to the left -->
+  <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{url('/sobre')}}">NTI ICEA</a></strong>.
+</footer>
+<!-- jQuery 2.1.3 -->
+<script src="{{ asset ('plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="{{ asset ('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+<!-- SlimScroll -->
+<script src="{{ asset ('plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+<!-- FastClick -->
+<script src="{{ asset ('plugins/fastclick/fastclick.js') }}" type="text/javascript"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset ('dist/js/app.min.js') }}" type="text/javascript"></script>
 </body>
 </html>

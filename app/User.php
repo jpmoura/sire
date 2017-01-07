@@ -6,13 +6,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
+    protected $table = 'ldapusers';
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'cpf', 'nome', 'email', 'nivel', 'status',
     ];
 
     /**
@@ -21,6 +25,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+         'id', 'remember_token',
     ];
+
+    public function isAdmin() {
+        return $this->attributes['nivel'] === 1;
+    }
+
+    /**
+     * Recupera os bugs relatados por um determinado usuário.
+     */
+    public function bugs() {
+        return $this->hasMany('App\Bug', 'user', 'cpf');
+    }
 }
