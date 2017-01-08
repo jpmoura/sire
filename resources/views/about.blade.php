@@ -37,6 +37,7 @@
                         <li>Mudança no sistema de autenticação, usando a autenticação nativa do framework aliada com a API de autenticação <a href="https://github.com/jpmoura/ldapi" target="_blank">LDAPI</a>.
                             Agora também é possível o usuários optar por ser lembrado e assim o login é renovado automaticamente;
                         </li>
+                        <li>Adicionado compactação, mesclagem e otimização dos arquivos CSS e JavaScript;</li>
                         <li>Melhoria no sistema de Log, agora registrando informações mais estruturadas e sendo feito através de eventos;</li>
                         <li>Alteração em todo sistema de rotas, usando grupos e middlewares;</li>
                         <li>Migração para o uso de modelos ao invés de execução de queries, atingindo assim o padrão MVC;</li>
@@ -91,11 +92,12 @@
                 <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>
                 <li><del>Utilizar o <em>eloquent</em> para evitar uso de intensivo da classe DB;</del></li>
                 <li><del>Capturar exceções de erro de conexão com o banco de dados;</del></li>
+                <li><del>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</del></li>
                 <li>Criar testes automatizados;</li>
+                <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
                 <li>Otimizar as tabelas do banco de dados;</li>
-                <li>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</li>
-                <li>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</li>
                 <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
+                <li>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</li>
             </ul>
             </p>
         </div>

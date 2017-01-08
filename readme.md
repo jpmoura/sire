@@ -136,10 +136,11 @@ de cada horário;~~
 * ~~Capturar exceções de erro de conexão com o banco de dados;~~
 * ~~Utilizar a ferramenta *eloquent* do [Laravel](http://laravel.com) para
 reforçar o padrão MVC;~~
+* ~~Otimização do carregamento dos elementos CSS e Javascript usando Gulp
+juntamente com SASS ou LESS;~~
 * Criar testes automatizados;
+* Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;
 * Otimização da estrutura do banco de dados;
 * Tratar para que caso altere o horário de início de cada turno para que o
 último horário do turno não sobreponha o início do próximo turno;
-* Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);
-* Otimização do carregamento dos elementos CSS e Javascript usando Gulp
-juntamente com SASS ou LESS.
+* Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários).
