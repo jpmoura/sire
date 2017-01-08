@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="079a91a5-4e49-4928-821f-9e1ef875b96f" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.overview.gif" afterPath="$PROJECT_DIR$/overview.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
     </list>
     <ignored path="sire-icea-ufop.iws" />
@@ -31,8 +33,8 @@
         <entry file="file://$PROJECT_DIR$/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="329">
-                <caret line="55" column="2" lean-forward="false" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
+              <first_editor relative-caret-position="68">
+                <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -591,12 +593,12 @@
       <workItem from="1483713033194" duration="60000" />
       <workItem from="1483713130093" duration="44754000" />
       <workItem from="1483803626625" duration="14487000" />
-      <workItem from="1483818719446" duration="19216000" />
+      <workItem from="1483818719446" duration="19743000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169361000" />
+    <option name="totallyTimeSpent" value="169888000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1022,8 +1024,8 @@
     <entry file="file://$PROJECT_DIR$/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="329">
-            <caret line="55" column="2" lean-forward="false" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
+          <first_editor relative-caret-position="68">
+            <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
             <folding />
           </first_editor>
           <second_editor />
