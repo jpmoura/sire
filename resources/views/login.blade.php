@@ -8,10 +8,12 @@
 
     <title>Sistema de Reserva - Login</title>
 
+    {!! HTML::style('public/css/bootstrap/bootstrap.min.css') !!}
+    {!! HTML::style('public/css/font-awesome/font-awesome.min.css') !!}
     {!! HTML::style('public/css/app.css') !!}
 
-    <link rel="shortcut icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
-    <link rel="icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('public/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('public/favicon.ico') }}" type="image/x-icon">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
