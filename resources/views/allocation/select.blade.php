@@ -12,12 +12,37 @@
     Selecione um recurso.
 @endsection
 
-@section('content')
-
+@push('extra-css')
     @if(Route::is('selectDetailsAllocation'))
-        <link rel="stylesheet" href="{{url('public/plugins/datepicker/datepicker3.css')}}">
+        {!! HTML::style('public/plugins/datepicker/datepicker3.css') !!}
     @endif
+@endpush
 
+@push('extra-js')
+    @if(Route::is('selectDetailsAllocation'))
+        {!! HTML::script('public/plugins/datepicker/bootstrap-datepicker.js') !!}
+        {!! HTML::script('public/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js') !!}
+        <script>
+            $(function()
+            {
+                $( "#data" ).datepicker({
+                    showWeek: true,
+                    daysOfWeekDisabled: [0],
+                    todayHighlight: true,
+                    todayBtn: false,
+                    format: "d/mm/yy",
+                    showAnim: "slide",
+                    language: 'pt-BR',
+                    weekStart: 1,
+                    autoclose: true,
+                    showOnFocus: true
+                });
+            });
+        </script>
+    @endif
+@endpush
+
+@section('content')
     <div class='row'>
         <div class='col-md-4 col-md-offset-4 text-center'>
             <div class="box box-primary-ufop">
@@ -57,25 +82,5 @@
             </div>
         </div><!-- /.col -->
     </div><!-- /.row -->
-
-    @if(Route::is('selectDetailsAllocation'))
-        <script src="{{url('public/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
-        <script src="{{url('public/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js')}}"></script>
-        <script>
-            $(function() {
-                $( "#data" ).datepicker({
-                    showWeek:true,
-                    daysOfWeekDisabled: [0],
-                    todayHighlight: true,
-                    todayBtn: false,
-                    format: "d/mm/yy",
-                    showAnim: "slide",
-                    language: 'pt-BR',
-                    weekStart: 1,
-                    autoclose: true,
-                    showOnFocus: true
-                });
-            });
-        </script>
-    @endif
 @endsection
+

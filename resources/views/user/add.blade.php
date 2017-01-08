@@ -12,6 +12,53 @@
     Preencha os campos para adicionar um novo usuário ao sistema.
 @endsection
 
+@push('extra-js')
+<script type="text/javascript">
+    $(function(){
+        $('#cpf').blur(function(){
+            $("#details").html("<img width='36px' height='36px' alt='Carregando...' src='{{ asset('public/img/loading.gif') }}'/>"); // ícone mostrando o carregamento da informação
+            $.ajax({
+                url: '{{url('/searchperson')}}', // url
+                type: "post", // método
+                data: {'cpf':$('input[name=cpf]').val(), '_token': $('input[name=_token]').val()}, // dados para o método post
+
+                success: function(response){
+                    $("#details").html("<h3>Detalhes do Usuário</h3>");
+
+                    // Se a resposta for OK
+                    if(response.status == 'success') { // Achou o usuário
+                        $("#details").append("<i class='fa fa-user'></i> " + response.name + "<br />");
+                        $("#details").append("<i class='fa fa-envelope'></i> " + response.email + "<br />");
+                        $("#details").append("<i class='fa fa-users'></i> " + response.group + "<br />");
+
+                        //alterar os inputs escondidos
+                        $('input[name=nome]').val(response.name);
+                        $('input[name=email]').val(response.email);
+                        $('input[name=canAdd]').val(1); // significa que pode adicionar
+
+                    }
+                    else { // Não encontrou ninguém
+                        $("#details").append("<p>" + response.msg + "</p><p>É <span class='text-bold'>necessário</span> que o futuro usuário esteja cadastrado no servidor LDAP.</p><br />");
+                        $('input[name=nome]').val('');
+                        $('input[name=email]').val('');
+                        $('input[name=canAdd]').val(0);
+                    }
+                },
+
+                // Se houver erro na requisição (e.g. 404)
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#details").html(XMLHttpRequest.responseText);
+                },
+
+                complete: function(data){
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
+@endpush
+
 @section('content')
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
@@ -63,51 +110,4 @@
             </div>
         </div><!-- /.col -->
     </div><!-- /.row -->
-
-
-    <script type="text/javascript">
-        $(function(){
-            $('#cpf').blur(function(){
-                $("#details").html("<img width='36px' height='36px' alt='Carregando...' src='{{ asset('public/img/loading.gif') }}'/>"); // ícone mostrando o carregamento da informação
-                $.ajax({
-                    url: '{{url('/searchperson')}}', // url
-                    type: "post", // método
-                    data: {'cpf':$('input[name=cpf]').val(), '_token': $('input[name=_token]').val()}, // dados para o método post
-
-                    success: function(response){
-                        $("#details").html("<h3>Detalhes do Usuário</h3>");
-
-                        // Se a resposta for OK
-                        if(response.status == 'success') { // Achou o usuário
-                            $("#details").append("<i class='fa fa-user'></i> " + response.name + "<br />");
-                            $("#details").append("<i class='fa fa-envelope'></i> " + response.email + "<br />");
-                            $("#details").append("<i class='fa fa-users'></i> " + response.group + "<br />");
-
-                            //alterar os inputs escondidos
-                            $('input[name=nome]').val(response.name);
-                            $('input[name=email]').val(response.email);
-                            $('input[name=canAdd]').val(1); // significa que pode adicionar
-
-                        }
-                        else { // Não encontrou ninguém
-                            $("#details").append("<p>" + response.msg + "</p><p>É <span class='text-bold'>necessário</span> que o futuro usuário esteja cadastrado no servidor LDAP.</p><br />");
-                            $('input[name=nome]').val('');
-                            $('input[name=email]').val('');
-                            $('input[name=canAdd]').val(0);
-                        }
-                    },
-
-                    // Se houver erro na requisição (e.g. 404)
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $("#details").html(XMLHttpRequest.responseText);
-                    },
-
-                    complete: function(data){
-                        console.log(data);
-                    }
-                });
-            });
-        });
-
-    </script>
 @endsection

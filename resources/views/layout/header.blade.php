@@ -9,7 +9,7 @@
       <span class="logo-lg"><b>S</b>i<b>R</b>e<b>SE</b></span>
     </a> --}}
 
-    <a href="{{url('/')}}" class="logo">
+    <a href="{{ route('home') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><i class="fa fa-calendar-check-o"></i></span>
       <!-- logo for regular state and mobile devices -->
@@ -29,7 +29,7 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li>
-              <a href="{{url('sair')}}"><i class="fa fa-sign-out"></i> Sair</a>
+              <a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Sair</a>
             </li>
           </ul>
         </div>

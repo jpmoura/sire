@@ -84,8 +84,7 @@ class HomeController extends Controller
                 ->get();
 
             $recUso = DB::select("select count(aloData) as qtd, equNome as nome from tb_alocacao natural join tb_equipamento where STR_TO_DATE(aloData, '%d/%m/%y') >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) and STR_TO_DATE(aloData, '%d/%m/%y') <= now() group by nome;");
-            //$recSazonal = DB::select("select month(STR_TO_DATE(aloData, '%d/%m/%y')) as mes, year(STR_TO_DATE(aloData, '%d/%m/%y')) as ano, count(*) as qtd, equNome as equipamento from tb_alocacao natural join tb_equipamento where STR_TO_DATE(aloData, '%d/%m/%y') between DATE_SUB(CURDATE(), INTERVAL 6 MONTH) and curdate() group by ano, mes, equId;");
-            return View::make("dashboard")->with(["recUso" => $recUso ,'uso' => $uso, 'usuariosAtual' => $usuMesAtual, 'usuariosAnterior' => $usuMesAnterior, 'recursosAtual' => $recMesAtual, 'recursosAnterior' => $recMesAnterior ,'data' => $data, "page_title" => "Início", "page_description" => "Bem-vindo"]);
+            return View::make("dashboard")->with(["recUso" => $recUso ,'uso' => $uso, 'usuariosAtual' => $usuMesAtual, 'usuariosAnterior' => $usuMesAnterior, 'recursosAtual' => $recMesAtual, 'recursosAnterior' => $recMesAnterior ,'data' => $data]);
         } // fim widgets de administração
 
         else {

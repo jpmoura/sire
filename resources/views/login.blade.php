@@ -8,11 +8,8 @@
 
     <title>Sistema de Reserva - Login</title>
 
-    <link href="{{ asset("public/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('public/dist/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("public/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("public/dist/css/skins/skin-ufop.css")}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset("public/dist/css/custom.css")}}" rel="stylesheet" type="text/css" />
+    {!! HTML::style('public/css/app.css') !!}
+
     <link rel="shortcut icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{url('public/favicon.ico')}}" type="image/x-icon">
 
@@ -67,13 +64,10 @@
 
 <footer class="text-center">
     <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{url('/sobre')}}">NTI ICEA</a></strong>.
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{ route('showAbout') }}">NTI ICEA</a></strong>.
 </footer>
 
-<script src="{{ asset ('public/plugins/jQuery/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset ('public/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset ('public/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset ('public/plugins/fastclick/fastclick.js') }}" type="text/javascript"></script>
-<script src="{{ asset ('public/dist/js/app.min.js') }}" type="text/javascript"></script>
+{!! HTML::script('public/js/app.js') !!}
+
 </body>
 </html>

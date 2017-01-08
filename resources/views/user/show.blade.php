@@ -12,9 +12,53 @@
     Lista com todos os usuários cadastrados no sistema.
 @endsection
 
-@section('content')
-    <link rel="stylesheet" href="{{url('public/plugins/datatables/dataTables.bootstrap.css')}}">
+@push('extra-css')
+{!! HTML::style('public/js/plugins/datatables/dataTables.bootstrap.css') !!}
+@endpush
 
+@push('extra-js')
+{{--{!! HTML::script('public/js/plugins/datatables/datatables.min.js') !!}--}}
+{!! HTML::script('public/js/plugins/datatables/jquery.dataTables.min.js') !!}
+{!! HTML::script('public/js/plugins/datatables/dataTables.bootstrap.min.js') !!}
+
+<script>
+    $(function () {
+        $("#table").DataTable( {
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado.",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(Filtrado de _MAX_ registros)",
+                "search": "Procurar:",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth" : true,
+            "aaSorting": [[ 0, "asc" ]],
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tudo"]]
+        });
+    });
+
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var link = $(event.relatedTarget); // Button that triggered the modal
+        var cpf = link.data('cpf'); // Extract info from data-* attributes
+        var nome = link.data('nome'); // Extract info from data-* attributes
+
+        document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o usuario ' + nome + '?';
+        document.getElementById("formID").setAttribute("value", cpf)
+    });
+
+    $('#deleteModal').on('hide.bs.modal', function (event) {
+        document.getElementById("mensagem").innerHTML = "";
+        document.getElementById("formID").setAttribute("value", "")
+    });
+</script>
+@endpush
+
+@section('content')
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
 
@@ -118,43 +162,5 @@
                 </div>
             </div>
         </div>
-
-        <script src="{{url('public/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-        <script src="{{url('public/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-        <script>
-            $(function () {
-                $("#table").DataTable( {
-                    "language": {
-                        "lengthMenu": "Mostrar _MENU_ registros por página",
-                        "zeroRecords": "Nada encontrado.",
-                        "info": "Mostrando página _PAGE_ de _PAGES_",
-                        "infoEmpty": "Nenhum registro disponível",
-                        "infoFiltered": "(Filtrado de _MAX_ registros)",
-                        "search": "Procurar:",
-                        "paginate": {
-                            "next": "Próximo",
-                            "previous": "Anterior"
-                        }
-                    },
-                    "autoWidth" : true,
-                    "aaSorting": [[ 0, "asc" ]],
-                    "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tudo"]]
-                });
-            });
-
-            $('#deleteModal').on('show.bs.modal', function (event) {
-                var link = $(event.relatedTarget); // Button that triggered the modal
-                var cpf = link.data('cpf'); // Extract info from data-* attributes
-                var nome = link.data('nome'); // Extract info from data-* attributes
-
-                document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o usuario ' + nome + '?';
-                document.getElementById("formID").setAttribute("value", cpf)
-            });
-
-            $('#deleteModal').on('hide.bs.modal', function (event) {
-                document.getElementById("mensagem").innerHTML = "";
-                document.getElementById("formID").setAttribute("value", "")
-            });
-        </script>
     </div>
 @endsection
