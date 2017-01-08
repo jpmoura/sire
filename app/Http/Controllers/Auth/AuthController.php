@@ -157,7 +157,7 @@ class AuthController extends Controller
         else // Senão retorna para a página de login com mensagem de erro.
         {
             Session::flash('erro', 1);
-            Session::flash('mensagem', 'Você não etá mais autorizado a usar o sistema.');
+            Session::flash('mensagem', 'Você não está mais autorizado a usar o sistema.');
             return redirect()->back();
         }
     }
