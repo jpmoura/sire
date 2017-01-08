@@ -42,8 +42,9 @@ Para instalação é necessário ter o gerenciado de dependências composer inst
 e a partir dele usar o comando de instalação:
 
 ```bash
-composer install
-composer update
+$ composer install
+$ npm install
+$ gulp
 ```
 
 Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
@@ -52,7 +53,7 @@ gravação e execução da pasta em que se encontra o sistema para o grupo
 administrador:
 
 ```bash
-chown -R USUARIO:www-data PASTA
+$ chown -R USUARIO:www-data PASTA
 ```
 
 Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
