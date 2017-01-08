@@ -36,7 +36,7 @@
                 {{ csrf_field() }}
                 <div class="input-group @if(Session::get('erro') == 1) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" name="username" class="form-control" placeholder="CPF do Minha UFOP (Sem números)" required value="{{Input::old('login')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
+                    <input type="text" name="username" class="form-control" placeholder="CPF do Minha UFOP (Sem números)" required value="{{Input::old('username')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
                 </div>
 
                 <div class="input-group @if(Session::get('erro') == 2) has-error @endif">
