@@ -46,7 +46,7 @@ e a partir dele usar o comando de instalação:
 ```bash
 $ composer install
 $ npm install
-$ gulp
+$ gulp --production
 ```
 
 Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
