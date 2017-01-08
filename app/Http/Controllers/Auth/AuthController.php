@@ -143,7 +143,7 @@ class AuthController extends Controller
 
                 Event::fire(new NewUserCreated($user));
             }
-            else redirect()->route('selectAllocatedAsset'); // Senão redireciona para a rota de seleção de recurso
+            else return redirect()->route('selectAllocatedAsset'); // Senão redireciona para a rota de seleção de recurso
         }
 
         // Se o usuário tem status ativo, então realiza-se o login
