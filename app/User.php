@@ -28,8 +28,12 @@ class User extends Authenticatable
          'id', 'remember_token',
     ];
 
+    /**
+     * Verifica se o usuário é um administrador do sistema.
+     * @return bool True se o usuário é administrador e False caso contrário
+     */
     public function isAdmin() {
-        return $this->attributes['nivel'] === 1;
+        return $this->nivel == 1;
     }
 
     /**
