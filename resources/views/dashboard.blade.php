@@ -12,57 +12,6 @@
     Bem vindo {{ Auth::user()->nome }}
 @endsection
 
-@push('extra-js')
-<script src="{{ asset ('resources/assets/js/chartjs/Chart.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset ('resources/assets/js/chartjs/chartHelpers.js') }}" type="text/javascript"></script>
-<script>
-    var PieData = [
-            @foreach($recUso as $recurso)
-            {
-                value: {{ $recurso->qtd }},
-                color: getRandomColor(),
-                highlight: "black",
-                label: "{!! $recurso->nome !!}"
-            },
-            @endforeach
-    ];
-    var pieOptions = getPieChartOptions();
-    var pieChartCanvas = $("#recursos").get(0).getContext("2d");
-    var pieChart = new Chart(pieChartCanvas);
-    pieChart.Doughnut(PieData, pieOptions);
-
-    var lineData = {
-        labels: [
-            @foreach($uso as $alocacao)
-                getMonthName({{$alocacao->mes - 1}}),
-            @endforeach
-        ],
-        datasets: [
-            {
-                label: "Alocações",
-                fillColor: "rgba(210, 214, 222, 1)",
-                strokeColor: "#0073b7",
-                pointColor: "white",
-                pointStrokeColor: "#c1c7d1",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [
-                    @foreach($uso as $alocacao)
-                    {{ $alocacao->qtd }},
-                    @endforeach
-                ]
-            }
-        ]
-    };
-
-    var lineChartOptions = getLineChartOptions();
-    lineChartOptions.datasetFill = false;
-    var lineChartCanvas = $("#canvas").get(0).getContext("2d");
-    var lineChart = new Chart(lineChartCanvas);
-    lineChart.Line(lineData, lineChartOptions);
-</script>
-@endpush
-
 @section('content')
     <div class='row'>
         <div class='col-md-12 text-center'>
@@ -77,6 +26,58 @@
                 {{ Session::get("nome") }}, hoje é {{ $data['weekday'] }}, {{ $data['mday'] }} de {{ $data['month'] }} de {{ $data['year'] }}.</h3>
             <br />
             @if(Auth::user()->isAdmin()) {{-- Widgets de administrador --}}
+
+            @push('extra-js')
+            <script src="{{ asset ('resources/assets/js/chartjs/Chart.min.js') }}" type="text/javascript"></script>
+            <script src="{{ asset ('resources/assets/js/chartjs/chartHelpers.js') }}" type="text/javascript"></script>
+            <script>
+                var PieData = [
+                        @foreach($recUso as $recurso)
+                    {
+                        value: {{ $recurso->qtd }},
+                        color: getRandomColor(),
+                        highlight: "black",
+                        label: "{!! $recurso->nome !!}"
+                    },
+                    @endforeach
+                ];
+                var pieOptions = getPieChartOptions();
+                var pieChartCanvas = $("#recursos").get(0).getContext("2d");
+                var pieChart = new Chart(pieChartCanvas);
+                pieChart.Doughnut(PieData, pieOptions);
+
+                var lineData = {
+                    labels: [
+                        @foreach($uso as $alocacao)
+                            getMonthName({{$alocacao->mes - 1}}),
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            label: "Alocações",
+                            fillColor: "rgba(210, 214, 222, 1)",
+                            strokeColor: "#0073b7",
+                            pointColor: "white",
+                            pointStrokeColor: "#c1c7d1",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [
+                                @foreach($uso as $alocacao)
+                                {{ $alocacao->qtd }},
+                                @endforeach
+                            ]
+                        }
+                    ]
+                };
+
+                var lineChartOptions = getLineChartOptions();
+                lineChartOptions.datasetFill = false;
+                var lineChartCanvas = $("#canvas").get(0).getContext("2d");
+                var lineChart = new Chart(lineChartCanvas);
+                lineChart.Line(lineData, lineChartOptions);
+            </script>
+            @endpush
+
             <div class="col-md-3">
                 <div class="info-box bg-blue">
                     <span class="info-box-icon"><i class="fa fa-users"></i></span>
