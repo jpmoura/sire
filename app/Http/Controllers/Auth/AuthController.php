@@ -7,6 +7,7 @@ use App\Events\NewUserCreated;
 use App\User;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Config;
 use Input;
 use Session;
 use View;
@@ -88,9 +89,6 @@ class AuthController extends Controller
     public function postLogin() {
         $input = Input::all();
 
-        $ldapi_user = env('LDAPI_USER', 'test');
-        $ldapi_password = env('LDAPI_PASSWORD', 'test');
-
         // Componentes do corpo da requisição
         $requestBody['user'] = $input['username'];
         $requestBody['password'] = $input['password'];
@@ -101,7 +99,7 @@ class AuthController extends Controller
         try
         {
             $response = $httpClient->request("POST", "http://200.239.152.5/ldapi/auth", [
-                "auth" => [$ldapi_user, $ldapi_password, "Basic"],
+                "auth" => [Config::get('ldapi.user'), Config::get('ldapi.password'), "Basic"],
                 "body" => json_encode($requestBody),
                 "headers" => [
                     "Content-type" => "application/json",

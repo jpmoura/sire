@@ -40,13 +40,15 @@ desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
 alterando-se basicamente só a palheta de cores do tema.
 
 ## Instalação
-Para instalação é necessário ter o gerenciado de dependências composer instalado,
-e a partir dele usar o comando de instalação:
+Para a instalação é necessário ter previamente instalados o gerenciador de dependências [Composer](https://getcomposer.org/)
+e a o [Node.js](https://nodejs.org/) entre as versões 0.12 e 6.9.4 e também o
+[Gulp.js](http://gulpjs.com/) instalado globalmente através do NPM do Node.js. Com todas essas três dependências instaladas,
+executam-se os seguintes comandos:
 
 ```bash
 $ composer install
 $ npm install
-$ gulp --production
+$ gulp --prod
 ```
 
 Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
@@ -58,7 +60,7 @@ administrador:
 $ chown -R USUARIO:www-data PASTA
 ```
 
-Basta usar o comando *sudo* ou *su* dependendo da distribuição *Linux*
+Basta usar o comando ```sudo``` ou ```su``` dependendo da distribuição *Linux*
 juntamente com este comando.
 
 A estrutura do banco de dados usada pelo sistema pode ser criada a partir do

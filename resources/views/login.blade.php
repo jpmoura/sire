@@ -51,7 +51,7 @@
                     <label>Lembre-se de mim</label>
                 </div>
                 @if(Session::has("mensagem"))
-                    <h5 class="text-center text-danger"><b>{{ Session::get("mensagem") }}</b></h5>
+                    <h5 class="text-center text-danger"><b>{!! Session::get("mensagem") !!}</b></h5>
                 @endif
                 <br />
                 <button type="submit" style="background-color: #962038" class="btn btn-primary center-block btn-block"><i class="fa fa-sign-in"></i> Entrar</button>
