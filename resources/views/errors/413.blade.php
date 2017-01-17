@@ -18,15 +18,11 @@
             <h2 class="headline text-yellow">413</h2>
             <br />
             <div class="error-content">
-                <h3><i class="fa fa-warning text-yellow"></i> Sua Sessão expirou!</h3>
+                <h3><i class="fa fa-warning text-yellow"></i> Requisição muito grande!</h3>
 
                 <p>
-                    Você está tentando executar uma ação com sua sessão expirada. Efetue
-                    o logout e então refaça o <a href="{{url('/login')}}">login</a> para renovar a sessão e poder realizar a ação.
-                </p>
-
-                <p>
-                    Para evitar esse erro, <span class="text-bold">sempre</span> realize o logout.
+                    Esse erro aconteceu porque o conteúdo da sua requisição é muito grande para ser decodificado.
+                    Isso pode ser um erro do seu navegador que pode estar enviando mais informação que o necessário.
                 </p>
             </div>
         </div>

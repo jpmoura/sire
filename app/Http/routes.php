@@ -88,7 +88,8 @@ Route::group(['middleware' => 'auth'], function()
 // Rotas que não é necessária autenticação
 Route::get('login', ['as' => 'showLogin', 'middleware'  => 'guest', 'uses' => 'Auth\AuthController@getLogin']);
 Route::post('login', ['as' => 'login', 'middleware'  => 'guest', 'uses' => 'Auth\AuthController@postLogin']);
-Route::get('middleware/{id}', ['as' => 'loginViaMiddleware', 'uses' => 'UserController@middlewareLogin']);
+Route::get('token/generate', ['as' => 'loginViaMiddleware', 'uses' => 'Auth\AuthController@generateMeuIceaToken']);
+Route::get('token/login/{token}', ['as' => 'loginViaToken', 'uses' => 'Auth\AuthController@tokenLogin']);
 
 Route::get('quadro/selecionar', ['as' => 'selectAllocatedAsset', 'uses' => 'AllocationController@select']);
 Route::post('quadro/visualizar', ['as' => 'showAllocatedAssetBoard', 'uses' => 'AllocationController@show']);

@@ -24,4 +24,30 @@ return [
 
     'password' => env('LDAPI_PASSWORD'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Método da Requisição
+    |--------------------------------------------------------------------------
+    |
+    | Método HTTP da requisição usada. Verifique com o responsável pela API
+    | qual é o método que é utilizado pela mesma.
+    |
+    | Normalmente o método é GET ou POST.
+    |
+    */
+    'requestMethod' => env('LDAPI_REQUEST_METHOD'),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | URL de Autenticação
+    |--------------------------------------------------------------------------
+    |
+    | URL para qual serão enviados os dados de autenticação do usuário.
+    | Verifique com o responsável pela API qual é a URL.
+    |
+    */
+
+    'authUrl' => env('LDAPI_AUTH_URL'),
+
 ];

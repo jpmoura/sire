@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\LoginFailed;
 use App\Events\NewUserCreated;
+use App\MeuIceaUser;
+use Illuminate\Http\Request;
 use App\User;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Config;
 use Input;
 use Session;
@@ -17,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Event;
+use Crypt;
 
 class AuthController extends Controller
 {
@@ -157,6 +161,68 @@ class AuthController extends Controller
             Session::flash('erro', 1);
             Session::flash('mensagem', 'Você não está mais autorizado a usar o sistema.');
             return redirect()->back();
+        }
+    }
+
+    /**
+     * Gera o token de autenticação para login através do portal Meu ICEA
+     */
+    public function generateMeuIceaToken(Request $request)
+    {
+        // Cria o decriptador com a chave do Meu ICEA
+        $decrypter = new Encrypter(Config::get('meuicea.chave'), Config::get('meuicea.algoritmo'));
+        $id = $decrypter->decrypt($request->header('Meu-ICEA')); // decripta a informação
+
+        $meuIceaUser = MeuIceaUser::find($id);
+
+        $user = User::where('cpf', $meuIceaUser->cpf)->first();
+
+        // Se o usuário não existir no sistema
+        if(is_null($user))
+        {
+            // Verifica se ele é permitido a usar o sistema
+            if($this->isPermitted($meuIceaUser->id_grupo))
+            {
+                // Cria o novo usuário se sim
+                $user = User::create([
+                    'cpf' => $meuIceaUser->cpf,
+                    'email' => $meuIceaUser->email,
+                    'nome' => $meuIceaUser->nomecompleto,
+                    'nivel' => 2,
+                    'status' => 1
+                ]);
+
+                Event::fire(new NewUserCreated($user)); // Dispara o evento de novo usuário
+            }
+            else return response('quadro', 200); // Se não for permitido, redireciona para a seleção de recursos para visualizar o quadro de reserva
+        }
+
+        // Se o usuário tem status ativo, então realiza-se o login
+        if($user->status == 1)
+        {
+            // Gera um novo token para ser utilizado na autenticação
+            $newToken = str_random(32);
+            $user->meuicea_token = $newToken;
+            $user->save();
+            return response($newToken, 200);
+        }
+        else return response('Você não está mais autorizado a usar o sistem de reserva.', 403); // Senão retorna com erro de não permitido
+    }
+
+    public function tokenLogin($token)
+    {
+        $user = User::where('meuicea_token', $token)->first();
+
+        // Se o token não foi encontrado, ou ele nunca existiu ou já foi consumido o que siginifca um erro de autorização
+        if(is_null($user)) abort(430);
+        else
+        {
+            // O token ainda não foi usado e será consumido neste login
+            $user->meuicea_token = NULL;
+            $user->save();
+
+            Auth::login($user);
+            return redirect()->route('home');
         }
     }
 }

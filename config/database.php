@@ -68,11 +68,11 @@ return [
 
         'meuicea' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_LOGIN_DATABASE', 'forge'),
-            'username' => env('DB_LOGIN_USERNAME', 'forge'),
-            'password' => env('DB_LOGIN_PASSWORD', ''),
+            'host' => env('DB_MEU_ICEA_HOST'),
+            'port' => env('DB_MEU_ICEA_PORT'),
+            'database' => env('DB_MEU_ICEA_DATABASE'),
+            'username' => env('DB_MEU_ICEA_USERNAME'),
+            'password' => env('DB_MEU_ICEA_PASSWORD'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
