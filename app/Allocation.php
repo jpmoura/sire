@@ -23,13 +23,13 @@ class Allocation extends Model
      */
     public function user()
     {
-        return $this->hasOne('App\User', 'cpf', 'usuId');
+        return $this->belongsTo('App\User', 'usuId', 'cpf');
     }
 
     /**
      * Recupera o recurso alocado.
      */
     public function asset() {
-        return $this->hasOne('App\Asset', 'equId', 'equId');
+        return $this->belongsTo('App\Asset', 'equId', 'equId');
     }
 }

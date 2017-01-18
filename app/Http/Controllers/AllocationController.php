@@ -68,7 +68,7 @@ class AllocationController extends Controller
             $finalDay = Carbon::now()->addDays($totalDays); // Até este dias
 
             $allocations = DB::table('tb_alocacao')->join('ldapusers', 'cpf', '=', 'tb_alocacao.usuId')
-                ->select("aloId as reservaID", "cpf as autorID", "nome as autorNOME", "email as autorEMAIL", "equId as recursoID", "aloData as data", "aloAula as aula")
+                ->select("aloId as reservaID", "cpf as autorID", "nome as autorNOME", "email as autorEMAIL", "equId as recursoID", "aloData as data", "aloAula as aula", "nivel as autorNivel")
                 ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), ">=", $initialDay)
                 ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), "<=", $finalDay)
                 ->where("equId", $assetID)

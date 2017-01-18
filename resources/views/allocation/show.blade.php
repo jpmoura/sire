@@ -109,13 +109,13 @@
                                                 @foreach($alocacoes as $alocacao)
                                                     @if($alocacao->aula == ($j . $turno) && $alocacao->data == $dias[$k]) {{-- Se for igual então está reservado --}}
 
-                                                        {{-- Tratamento para não motrar o e-mail e nome dos administradores --}}
-                                                        {{--@if(Auth::user()->isAdmin())--}}
-                                                            {{--@php--}}
-                                                                {{--$alocacao->autorEMAIL = "suporteinformatica@decea.ufop.br";--}}
-                                                                {{--$alocacao->autorNOME = "NTI";--}}
-                                                            {{--@endphp--}}
-                                                        {{--@endif--}}
+                                                         {{-- Tratamento para não motrar o e-mail e nome dos administradores --}}
+                                                        @if($alocacao->autorNivel == 1)
+                                                            @php
+                                                                $alocacao->autorEMAIL = "suporteinformatica@decea.ufop.br";
+                                                                $alocacao->autorNOME = "NTI";
+                                                            @endphp
+                                                        @endif
 
                                                         <a target="_blank" href="mailto:{{$alocacao->autorEMAIL}}?subject=[UFOP-ICEA] Alocação do recurso {{$recursoNome}}">{{$alocacao->autorNOME}}</a>
 
