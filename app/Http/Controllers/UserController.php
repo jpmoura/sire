@@ -8,6 +8,7 @@ use App\Events\UserDeleted;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Config;
 use View;
 use DB;
 use Session;
@@ -161,7 +162,7 @@ class UserController extends Controller
         $httpClient = new Client();
         try
         {
-            $response = $httpClient->request("POST", "http://200.239.152.5/ldapi/search", [
+            $response = $httpClient->request(Config::get('ldapi.requestMethod'), Config::get('ldapi.searchUrl'), [
                 "auth" => [$ldapi_user, $ldapi_password, "Basic"],
                 "body" => json_encode($requestBody),
                 "headers" => [

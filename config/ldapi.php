@@ -50,4 +50,16 @@ return [
 
     'authUrl' => env('LDAPI_AUTH_URL'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | URL de Busca
+    |--------------------------------------------------------------------------
+    |
+    | URL para qual serão enviados as requisições de busca de usuário para
+    | adição dos mesmos.
+    |
+    */
+
+    'searchUrl' => env('LDAPI_SEARCH_URL'),
+
 ];

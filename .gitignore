@@ -9,5 +9,4 @@
 Homestead.yaml
 Homestead.json
 .env
-.idea/inspectionProfiles/
-.idea/php.xml
+.idea
