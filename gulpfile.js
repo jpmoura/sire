@@ -21,6 +21,7 @@ elixir(function(mix) {
     // Plugins on demand
     mix.copy('resources/assets/js/datepicker', 'public/js/plugins/datepicker'); // Seleção de datas
     mix.copy('resources/assets/js/datatables', 'public/js/plugins/datatables'); // Organização e pesquisa em tabelas
+    mix.copy('resources/assets/js/jQueryMask', 'public/js/plugins/jQueryMask'); // Máscaras de entradas
 
     // CSS que não funcionam em conjunto
     // TODO verificar se usando SASS e LESS o erro é resolvido
