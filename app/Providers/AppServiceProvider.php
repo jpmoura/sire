@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $this->app->setLocale("pt_BR");
+        \URL::forceSchema('https');
     }
 
     /**
