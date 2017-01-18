@@ -106,7 +106,7 @@ class AuthController extends Controller
         $httpClient = new Client();
         try
         {
-            $response = $httpClient->request("POST", "http://200.239.152.5/ldapi/auth", [
+            $response = $httpClient->request(Config::get('ldapi.requestMethod'), Config::get('ldapi.authUrl'), [
                 "auth" => [Config::get('ldapi.user'), Config::get('ldapi.password'), "Basic"],
                 "body" => json_encode($requestBody),
                 "headers" => [

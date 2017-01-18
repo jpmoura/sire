@@ -36,7 +36,7 @@
                 {{ csrf_field() }}
                 <div class="input-group @if(Session::get('erro') == 1) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" data-mask="000.000.000-00" minlength="11" maxlength="14" data-mask-reverse="true" name="username" class="form-control" placeholder="CPF do Minha UFOP (Somente números)" required value="{{Input::old('username')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
+                    <input type="text" data-mask="000.000.000-00" minlength="11" maxlength="14" data-mask-reverse="true" name="username" class="form-control" placeholder="CPF do Minha UFOP" required value="{{Input::old('username')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
                 </div>
 
                 <div class="input-group @if(Session::get('erro') == 2) has-error @endif">
