@@ -149,9 +149,6 @@ class UserController extends Controller
      */
     public function searchPerson() {
 
-        $ldapi_user = env('LDAPI_USER', 'test');
-        $ldapi_password = env('LDAPI_PASSWORD', 'test');
-
         // Componentes do corpo da requisição
         $requestBody['baseConnector'] = "and";
         $requestBody['attributes'] = ["cpf", "nomecompleto", "email", "grupo"]; // Atributos que devem ser retornados em caso autenticação confirmada
@@ -159,11 +156,11 @@ class UserController extends Controller
         $requestBody['filters'][0] = ["cpf" => ["equals", Input::get('cpf')]];
 
         // Chamada de autenticação para a LDAPI
-        $httpClient = new Client();
+        $httpClient = new Client(['verify' => false]);
         try
         {
             $response = $httpClient->request(Config::get('ldapi.requestMethod'), Config::get('ldapi.searchUrl'), [
-                "auth" => [$ldapi_user, $ldapi_password, "Basic"],
+                "auth" => [Config::get('ldapi.user'), Config::get('ldapi.password'), "Basic"],
                 "body" => json_encode($requestBody),
                 "headers" => [
                     "Content-type" => "application/json",
@@ -171,6 +168,7 @@ class UserController extends Controller
             ]);
         } catch (RequestException $ex) {
             // TODO log do erro
+            \Illuminate\Support\Facades\Log::error('Erro na busca de usuário.', ['erro' => $ex->getMessage()]);
             return response()->json(['status' => 'danger', 'msg' => 'Erro de conexão com o servidor LDAP.']);
         }
 

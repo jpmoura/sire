@@ -84,8 +84,8 @@
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                            <select class="form-control" name="nivel" required data-toggle="tooltip" data-placement="right" title="Nível de privilégio">
-                                <option value="">Selecione</option>
+                            <select class="form-control" name="nivel" required title="Nível de privilégio">
+                                <option value="">Selecione o nível de privilégio</option>
                                 <option value="1" @if(Input::old('nivel') == 1) selected @endif>Administrador</option>
                                 <option value="2" @if(Input::old('nivel') == 2) selected @endif>Professor / Administrativo</option>
                                 <option value="3" @if(Input::old('nivel') == 3) selected @endif>Usuário Especial</option>
