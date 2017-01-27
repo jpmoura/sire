@@ -28,7 +28,7 @@
             <h2>{{$recursoNome}}</h2>
             <form class="form" action="{{ route('storeAllocation') }}" method="post" >
                 {{csrf_field()}}
-                <input type="hidden" name="id" value="{{$recursoID}}" />
+                <input type="hidden" name="id" value="{{ $recursoID }}" />
                 @for($i=0; $i < 3; ++$i)
                     <div class="box box-primary-ufop collapsed-box">
                         <div class="box-header with-border">

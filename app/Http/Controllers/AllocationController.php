@@ -83,58 +83,69 @@ class AllocationController extends Controller
      */
     public function store()
     {
-        $userID = Auth::user()->cpf;
-        $assetID = (int) Input::get('id');
-
-        $tipo = "Erro";
-
         $allocations = Input::get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
-        $toInsert = []; // array de reservas a serem inseridas no banco
-        $i = 0; // índice do array de reservas
-
-        foreach ($allocations as $allocation) // Para todas as aulas selecionadas
+        if(!isset($allocations))
         {
-            // Recupera o conjunto de informações sobre a reserva
-            // Os índices são 'dia', 'horario' e 'turno'
-            $newAllocation = json_decode($allocation, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
-
-            // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
-            $userAllocationsAt = Allocation::select('equId', 'aloAula')->where('usuId', $userID)->where('aloData', $newAllocation['dia'])->get();
-
-            // Define a aula (conjunto do horario concatenado com o turno)
-            $schedule = $newAllocation['horario'] . $newAllocation['turno'];
-
-            // Verifica se o usuário não reservou outro recurso no mesmo horário
-            foreach ($userAllocationsAt as $previousAllocation)
-            {
-                if($previousAllocation->aloAula == $schedule && Auth::user()->nivel != 1)
-                {
-                    Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou reservar mais de um recurso no mesmo horário");
-                    Session::flash('tipo', "Erro");
-                    Session::flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
-                    Session::flash("allocationRedirection", $assetID);
-                    return Redirect::back();
-                }
-            }
-
-            $toInsert[$i] = array('aloData' => $newAllocation['dia'], 'aloAula' => $schedule, 'usuId' => $userID, 'equId' => $assetID);
-            ++$i;
-        } // end for each
-
-        $total = Allocation::insert($toInsert);
-
-        // Verifica se todas as reseervas foram inseridas
-        if($total == count($allocations))
-        {
-            $tipo = "Sucesso";
-            $mensagem = "Recurso reservado com sucesso.";
+            // Se nenhum horário foi selecionado, então volta para a página de seleção
+            session()->flash('tipo', 'Erro');
+            session()->flash('mensagem', 'Você não selecionou nenhum horário.');
+            session()->flash("allocationRedirection", Input::get('id'));
+            return back();
         }
-        else $mensagem = "Falha de SQL ao inserir reservas";
+        else
+        {
+            $userID = Auth::user()->cpf;
+            $assetID = (int) Input::get('id');
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
-        Session::flash("allocationRedirection", $assetID);
-        return Redirect::back();
+            $tipo = "Erro";
+
+            $toInsert = []; // array de reservas a serem inseridas no banco
+            $i = 0; // índice do array de reservas
+
+            foreach ($allocations as $allocation) // Para todas as aulas selecionadas
+            {
+                // Recupera o conjunto de informações sobre a reserva
+                // Os índices são 'dia', 'horario' e 'turno'
+                $newAllocation = json_decode($allocation, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
+
+                // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
+                $userAllocationsAt = Allocation::select('equId', 'aloAula')->where('usuId', $userID)->where('aloData', $newAllocation['dia'])->get();
+
+                // Define a aula (conjunto do horario concatenado com o turno)
+                $schedule = $newAllocation['horario'] . $newAllocation['turno'];
+
+                // Verifica se o usuário não reservou outro recurso no mesmo horário
+                foreach ($userAllocationsAt as $previousAllocation)
+                {
+                    if($previousAllocation->aloAula == $schedule && Auth::user()->nivel != 1)
+                    {
+                        Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou reservar mais de um recurso no mesmo horário");
+                        Session::flash('tipo', "Erro");
+                        Session::flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
+                        Session::flash("allocationRedirection", $assetID);
+                        return back();
+                    }
+                }
+
+                $toInsert[$i] = array('aloData' => $newAllocation['dia'], 'aloAula' => $schedule, 'usuId' => $userID, 'equId' => $assetID);
+                ++$i;
+            } // end for each
+
+            $total = Allocation::insert($toInsert);
+
+            // Verifica se todas as reseervas foram inseridas
+            if($total == count($allocations))
+            {
+                $tipo = "Sucesso";
+                $mensagem = "Recurso reservado com sucesso.";
+            }
+            else $mensagem = "Falha de SQL ao inserir reservas";
+
+            Session::flash("mensagem", $mensagem);
+            Session::flash("tipo", $tipo);
+            Session::flash("allocationRedirection", $assetID);
+            return back();
+        }
     }
 
     /**

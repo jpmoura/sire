@@ -158,6 +158,8 @@ class AuthController extends Controller
             if(isset($input['remember-me']))  Auth::login($user, true);
             else Auth::login($user);
 
+            if(session('url.intended')) session()->put('url.intended', secure_url(session('url.intended')));
+
             return redirect()->intended(secure_url(route('home')), 302, [], true);
         }
         else // Senão retorna para a página de login com mensagem de erro.

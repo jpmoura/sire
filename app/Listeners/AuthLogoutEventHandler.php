@@ -27,6 +27,7 @@ class AuthLogoutEventHandler
     public function handle(Logout $event)
     {
         $user = $event->user;
-        Log::info("Usuário realizou logout.", ["ID" => $user->cpf, "Nome" => $user->nome]);
+        if(!is_null($user)) Log::info("Usuário realizou logout.", ["ID" => $user->cpf, "Nome" => $user->nome]);
+        else Log::info("Usuário realizou logout.", ["ID" => 'desconhecido', "Nome" => 'desconhecido']);
     }
 }
