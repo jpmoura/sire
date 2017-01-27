@@ -90,6 +90,7 @@ class AllocationController extends Controller
             session()->flash('tipo', 'Erro');
             session()->flash('mensagem', 'Você não selecionou nenhum horário.');
             session()->flash("allocationRedirection", Input::get('id'));
+            Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
             return back();
         }
         else
