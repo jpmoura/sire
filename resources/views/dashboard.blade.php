@@ -9,7 +9,7 @@
 @endsection
 
 @section('description')
-    Bem vindo {{ Auth::user()->nome }}
+    Bem vindo {{ auth()->user()->nome }}
 @endsection
 
 @section('content')
@@ -25,7 +25,7 @@
                 @endif
                 {{ Session::get("nome") }}, hoje é {{ $data['weekday'] }}, {{ $data['mday'] }} de {{ $data['month'] }} de {{ $data['year'] }}.</h3>
             <br />
-            @if(Auth::user()->isAdmin()) {{-- Widgets de administrador --}}
+            @if(auth()->user()->isAdmin()) {{-- Widgets de administrador --}}
 
             @push('extra-js')
             <script src="{{ asset ('resources/assets/js/chartjs/Chart.min.js') }}" type="text/javascript"></script>
@@ -86,8 +86,8 @@
                         <!-- The progress section is optional -->
                         @foreach($usuariosAtual as $usuario)
                             <span class="progress-description text-left">
-                      {{$usuario->nome}}: {{$usuario->qtd}} reservas
-                    </span>
+                                {{$usuario->nome}}: {{$usuario->qtd}} reservas
+                            </span>
                         @endforeach
                     </div><!-- /.info-box-content -->
                 </div>
@@ -101,8 +101,8 @@
                         <!-- The progress section is optional -->
                         @foreach($usuariosAnterior as $usuario)
                             <span class="progress-description text-left">
-                      {{$usuario->nome}}: {{$usuario->qtd}} reservas
-                    </span>
+                                {{$usuario->nome}}: {{$usuario->qtd}} reservas
+                            </span>
                         @endforeach
                     </div><!-- /.info-box-content -->
                 </div>
@@ -116,8 +116,8 @@
                         <!-- The progress section is optional -->
                         @foreach($recursosAtual as $recurso)
                             <span class="progress-description text-left">
-                      {{$recurso->nome}}: {{$recurso->qtd}} reservas
-                    </span>
+                                {{$recurso->nome}}: {{$recurso->qtd}} reservas
+                            </span>
                         @endforeach
                     </div><!-- /.info-box-content -->
                 </div>
@@ -131,8 +131,8 @@
                         <!-- The progress section is optional -->
                         @foreach($recursosAnterior as $recurso)
                             <span class="progress-description text-left">
-                      {{$recurso->nome}}: {{$recurso->qtd}} reservas
-                    </span>
+                                {{$recurso->nome}}: {{$recurso->qtd}} reservas
+                            </span>
                         @endforeach
                     </div><!-- /.info-box-content -->
                 </div>
@@ -169,12 +169,12 @@
                             <span class="info-box-text">Recurso favorito no mês</span>
                             <br />
                             <span class="info-box-number">
-                      @if(isset($recursoAtual))
+                                @if(isset($recursoAtual))
                                     {{$recursoAtual->nome}}
                                 @else
                                     NENHUMA RESERVA FEITA
                                 @endif
-                    </span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -186,12 +186,12 @@
                             <span class="info-box-text">Recurso favorito no mês passado</span>
                             <br />
                             <span class="info-box-number">
-                      @if(isset($recursoAnterior))
+                                @if(isset($recursoAnterior))
                                     {{$recursoAnterior->nome}}
                                 @else
                                     NENHUMA RESERVA FEITA
                                 @endif
-                    </span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -203,12 +203,12 @@
                             <span class="info-box-text">Quantidade de reservas feitas</span>
                             <br />
                             <span class="info-box-number">
-                      @if(isset($reservasAtual))
+                                @if(isset($reservasAtual))
                                     {{$reservasAtual->qtd}} RESERVAS NESSE MÊS
                                 @else
                                     NENHUMA RESERVA FEITA
                                 @endif
-                    </span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -220,12 +220,12 @@
                             <span class="info-box-text">Quantidade de reservas feitas</span>
                             <br />
                             <span class="info-box-number">
-                      @if(isset($reservasAnterior))
+                                @if(isset($reservasAnterior))
                                     {{$reservasAnterior->qtd}} RESERVAS NO MÊS ANTERIOR
                                 @else
                                     NENHUMA RESERVA FEITA
                                 @endif
-                    </span>
+                            </span>
                         </div>
                     </div>
                 </div>

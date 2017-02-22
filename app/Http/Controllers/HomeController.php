@@ -10,7 +10,6 @@ use Session;
 use DB;
 use Carbon\Carbon;
 use App;
-use Auth;
 
 class HomeController extends Controller
 {
@@ -26,7 +25,7 @@ class HomeController extends Controller
         $mes = date("m"); // mes atual
         $ano = date("Y"); // ano atual
 
-        if(Auth::user()->isAdmin()) { // Se for administrador
+        if(auth()->user()->isAdmin()) { // Se for administrador
 
             // usuários com mais reservas
 
@@ -48,6 +47,7 @@ class HomeController extends Controller
                 ->orderby(DB::raw("count(tb_equipamento.equID)"), "desc")
                 ->take(3)
                 ->get();
+
             // Mês anterior
             --$mes;
             if($mes == 0) {
@@ -84,14 +84,14 @@ class HomeController extends Controller
                 ->get();
 
             $recUso = DB::select("select count(aloData) as qtd, equNome as nome from tb_alocacao natural join tb_equipamento where STR_TO_DATE(aloData, '%d/%m/%y') >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) and STR_TO_DATE(aloData, '%d/%m/%y') <= now() group by nome;");
-            return View::make("dashboard")->with(["recUso" => $recUso ,'uso' => $uso, 'usuariosAtual' => $usuMesAtual, 'usuariosAnterior' => $usuMesAnterior, 'recursosAtual' => $recMesAtual, 'recursosAnterior' => $recMesAnterior ,'data' => $data]);
+            return view("dashboard")->with(["recUso" => $recUso ,'uso' => $uso, 'usuariosAtual' => $usuMesAtual, 'usuariosAnterior' => $usuMesAnterior, 'recursosAtual' => $recMesAtual, 'recursosAnterior' => $recMesAnterior ,'data' => $data]);
         } // fim widgets de administração
 
         else {
             // proximas reservas
             $proximasReservas = DB::table("tb_alocacao")->join("tb_equipamento", "tb_equipamento.equId", "=", "tb_alocacao.equId")
                 ->select("equNome as nome", DB::raw("date_format(STR_TO_DATE(aloData, '%d/%m/%y'), '%d de %M de %Y') as data"), "aloAula as aula")
-                ->where('tb_alocacao.usuId', Session::get("id"))
+                ->where('tb_alocacao.usuId', auth()->user()->cpf)
                 ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), '>=', DB::raw("curdate()"))
                 ->orderby('data', 'asc')
                 ->take(8)
@@ -100,7 +100,7 @@ class HomeController extends Controller
             // minhas reservas frequentes
             $reservasFrequentes = DB::table("tb_alocacao")->join("tb_equipamento", "tb_equipamento.equId", "=", "tb_alocacao.equId")
                 ->select("equNome as equipamentoNOME", "tb_alocacao.equId as equipamentoID", 'aloAula as aula', DB::raw('count(*) as qtd'))
-                ->where('tb_alocacao.usuId', Session::get("id"))
+                ->where('tb_alocacao.usuId', auth()->user()->cpf)
                 ->groupby('equipamentoNOME')
                 ->groupby('aula')
                 ->orderby("qtd", "desc")
@@ -111,7 +111,7 @@ class HomeController extends Controller
                 ->select(DB::raw('equNome as nome, count(tb_equipamento.equID) as qtd'))
                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                ->where('usuId', Session::get("id"))
+                ->where('usuId', auth()->user()->cpf)
                 ->groupby("tb_equipamento.equId")
                 ->orderby(DB::raw("count(tb_equipamento.equID)"), "desc")
                 ->first();
@@ -119,7 +119,7 @@ class HomeController extends Controller
             $reservasMes = DB::table('tb_alocacao')->select(DB::raw('count(*) as qtd'))
                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                ->where('usuId', Session::get('id'))
+                ->where('usuId', auth()->user()->cpf)
                 ->first();
 
             --$mes;
@@ -132,24 +132,24 @@ class HomeController extends Controller
             $reservasMesPassado = DB::table('tb_alocacao')->select(DB::raw('count(*) as qtd'))
                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                ->where('usuId', Session::get('id'))
+                ->where('usuId', auth()->user()->cpf)
                 ->first();
 
             $recursoMaisAlocadoMesPassado = DB::table('tb_equipamento')->join("tb_alocacao", "tb_equipamento.equId", "=", "tb_alocacao.equId")
                 ->select(DB::raw('equNome as nome, count(tb_equipamento.equID) as qtd'))
                 ->where(DB::raw("month(STR_TO_DATE(aloData, '%d/%m/%y'))"), $mes)
                 ->where(DB::raw("year(STR_TO_DATE(aloData, '%d/%m/%y'))"), $ano)
-                ->where('usuId', Session::get("id"))
+                ->where('usuId', auth()->user()->cpf)
                 ->groupby("tb_equipamento.equId")
                 ->orderby(DB::raw("count(tb_equipamento.equID)"), "desc")
                 ->first();
 
-            return View::make('dashboard')->with(['recursoAtual' => $recursoMaisAlocadoMesAtual, 'reservasAtual' => $reservasMes, 'reservasAnterior' => $reservasMesPassado, 'recursoAnterior' => $recursoMaisAlocadoMesPassado ,'data' => $data, 'proximas' => $proximasReservas, 'frequentes' => $reservasFrequentes]);
+            return view('dashboard')->with(['recursoAtual' => $recursoMaisAlocadoMesAtual, 'reservasAtual' => $reservasMes, 'reservasAnterior' => $reservasMesPassado, 'recursoAnterior' => $recursoMaisAlocadoMesPassado ,'data' => $data, 'proximas' => $proximasReservas, 'frequentes' => $reservasFrequentes]);
         }
     }
 
     public function showAbout()
     {
-        return View::make("about");
+        return view("about");
     }
 }
