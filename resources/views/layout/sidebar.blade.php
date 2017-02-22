@@ -13,7 +13,7 @@
                 <li @if(Route::is("showUser") || Route::is('detailsUser')) class="active" @endif><a href="{{ route('showUser') }}"><i class="fa fa-users" aria-hidden="true"></i><span>Consultar Usuários</span></a></li>
                 <li @if(Route::is('selectDetailsAllocation') || Route::is('detailsAllocation')) class="active" @endif><a href="{{ route('detailsAllocation') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Reserva</span></a></li>
                 <li @if(Route::is("showBug") || Route::is('detailsBug')) class="active" @endif><a href="{{ route('showBug') }}"><i class="fa fa-bug" aria-hidden="true"></i><span>Bugs</span></a></li>
-                <li><a href="{{ route('showLogs') }}"><i class="fa fa-database" aria-hidden="true"></i><span>Logs</span></a></li>
+                <li><a href="{{ route('showLogs') }}" target="_blank"><i class="fa fa-database" aria-hidden="true"></i><span>Logs</span></a></li>
             @endcan
 
             @if(Auth::check())
