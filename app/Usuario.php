@@ -4,10 +4,8 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Usuario extends Authenticatable
 {
-
-    protected $table = 'ldapusers';
     public $timestamps = false;
 
     /**
@@ -32,14 +30,24 @@ class User extends Authenticatable
      * Verifica se o usuário é um administrador do sistema.
      * @return bool True se o usuário é administrador e False caso contrário
      */
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->nivel == 1;
     }
 
     /**
-     * Recupera os bugs relatados por um determinado usuário.
+     * Recupera os bugs relatados pelo usuário.
      */
-    public function bugs() {
-        return $this->hasMany('App\Bug', 'user', 'cpf');
+    public function bugs()
+    {
+        return $this->hasMany('App\Bug');
+    }
+
+    /**
+     * Recupera as reservas feitas pelo usuário.
+     */
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva', 'usuario_id', 'cpf');
     }
 }

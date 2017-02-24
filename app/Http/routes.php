@@ -19,19 +19,19 @@ Route::group(['middleware' => 'auth'], function()
 
         // Rotas de CRUD de usuário
         Route::group(['prefix' => 'usuarios'], function() {
-            Route::get('consulta', ['as' => 'showUser', 'uses' => 'UserController@show']);
-            Route::get('cadastrar', ['as' => 'addUser', 'uses' => 'UserController@add']);
-            Route::post('cadastrar', ['as' => 'storeUser', 'uses' => 'UserController@store']);
-            Route::get('editar/{cpf}', ['as' => 'detailsUser', 'uses' => 'UserController@details']);
-            Route::post('editar', ['as' => 'editUser', 'uses' => 'UserController@edit']);
-            Route::post('deletar', ['as' => 'deleteUser', 'uses' => 'UserController@delete']);
+            Route::get('consulta', ['as' => 'showUser', 'uses' => 'UsuarioController@show']);
+            Route::get('cadastrar', ['as' => 'addUser', 'uses' => 'UsuarioController@add']);
+            Route::post('cadastrar', ['as' => 'storeUser', 'uses' => 'UsuarioController@store']);
+            Route::get('editar/{cpf}', ['as' => 'detailsUser', 'uses' => 'UsuarioController@details']);
+            Route::post('editar', ['as' => 'editUser', 'uses' => 'UsuarioController@edit']);
+            Route::post('deletar', ['as' => 'deleteUser', 'uses' => 'UsuarioController@delete']);
         });
 
         // Rotas de regras de negócio
         Route::group(['prefix' => 'regras'], function(){
-            Route::get('/', ['as' => 'showRule', 'uses' => 'RuleController@show']);
-            Route::get('editar', ['as' => 'detailsRule', 'uses' => 'RuleController@details']);
-            Route::post('editar', ['as' => 'editRule', 'uses' => 'RuleController@edit']);
+            Route::get('/', ['as' => 'showRule', 'uses' => 'RegraController@show']);
+            Route::get('editar', ['as' => 'detailsRule', 'uses' => 'RegraController@details']);
+            Route::post('editar', ['as' => 'editRule', 'uses' => 'RegraController@edit']);
         });
 
         // Rotas relacionadas com manipulação dos registros de bugs
@@ -43,15 +43,15 @@ Route::group(['middleware' => 'auth'], function()
 
         // Rotas relacionadas aos recursos
         Route::group(['prefix' => 'recursos'], function() {
-            Route::get('cadastrar', ['as' => 'addAsset', 'uses' => 'AssetController@add']);
-            Route::post('cadastrar', ['as' => 'storeAsset', 'uses' => 'AssetController@store']);
-            Route::get('editar/{id}', ['as' => 'detailsAsset', 'uses' => 'AssetController@details']);
-            Route::post('editar', ['as' => 'editAsset', 'uses' => 'AssetController@edit']);
-            Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'AssetController@delete']);
+            Route::get('cadastrar', ['as' => 'addAsset', 'uses' => 'RecursoController@add']);
+            Route::post('cadastrar', ['as' => 'storeAsset', 'uses' => 'RecursoController@store']);
+            Route::get('editar/{id}', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
+            Route::post('editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
+            Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
 
             // Rotas para consulta de uma alocação em um dia específico
-            Route::get('alocacao/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'AllocationController@select']);
-            Route::post('alocacao/consulta', ['as' => 'detailsAllocation', 'uses' => 'AllocationController@details']);
+            Route::get('alocacao/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'ReservaController@select']);
+            Route::post('alocacao/consulta', ['as' => 'detailsAllocation', 'uses' => 'ReservaController@details']);
         });
 
         // Rota que mostra os logs do sistema
@@ -59,20 +59,20 @@ Route::group(['middleware' => 'auth'], function()
     }); // Fim de rotas administrativas
 
     // Rotas de páginas iniciais
-    Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getHome']);
-    Route::get('home', ['uses' => 'HomeController@getHome']);
-    Route::get('index.html', ['uses' => 'HomeController@getHome']); // Tratametno do link do site do ICEA
+    Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@getHome']);
+    Route::get('home', ['uses' => 'DashboardController@getHome']);
+    Route::get('index.html', ['uses' => 'DashboardController@getHome']); // Tratametno do link do site do ICEA
 
     // Rotas relacionadas aos recursos
     Route::group(['prefix' => 'recursos'], function() {
-        Route::get('alocacao/selecionar', ['as' => 'selectAllocation', 'uses' => 'AllocationController@select']);
-        Route::get('alocacao/quadro', 'AllocationController@show'); // tratamento para redirecionamentos
-        Route::post('alocacao/quadro', ['as' => 'addAllocation', 'uses' => 'AllocationController@show']);
-        Route::post('alocar', ['as' => 'storeAllocation', 'uses' => 'AllocationController@store']);
-        Route::get('consulta', ['as' => 'showAsset', 'uses' => 'AssetController@show']);
+        Route::get('alocacao/selecionar', ['as' => 'selectAllocation', 'uses' => 'ReservaController@select']);
+        Route::get('alocacao/quadro', 'ReservaController@show'); // tratamento para redirecionamentos
+        Route::post('alocacao/quadro', ['as' => 'addAllocation', 'uses' => 'ReservaController@show']);
+        Route::post('alocar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
+        Route::get('consulta', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
 
         // TODO Uma guard para ser usada como middleware para checar se o usuário pode desalocar o recurso
-        Route::get('desalocar/{id}', ['as' => 'deleteAllocation', 'uses' => 'AllocationController@delete']);
+        Route::get('desalocar/{id}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete']);
     });
 
     // Rotas relacionadas com manipulação dos registros de bugs
@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function()
     });
 
     // Rota para uso de AJAX durante adição de usuário pelo CPF
-    Route::post('searchperson', ['as' => 'doSearch', 'uses' => 'UserController@searchPerson']);
+    Route::post('searchperson', ['as' => 'doSearch', 'uses' => 'UsuarioController@searchPerson']);
 });
 
 // Rotas que não é necessária autenticação
@@ -91,9 +91,9 @@ Route::post('login', ['as' => 'login', 'middleware'  => 'guest', 'uses' => 'Auth
 Route::get('token/generate', ['as' => 'loginViaMiddleware', 'uses' => 'Auth\AuthController@generateMeuIceaToken']);
 Route::get('token/login/{token}', ['as' => 'loginViaToken', 'uses' => 'Auth\AuthController@tokenLogin']);
 
-Route::get('quadro/selecionar', ['as' => 'selectAllocatedAsset', 'uses' => 'AllocationController@select']);
-Route::post('quadro/visualizar', ['as' => 'showAllocatedAssetBoard', 'uses' => 'AllocationController@show']);
+Route::get('quadro/selecionar', ['as' => 'selectAllocatedAsset', 'uses' => 'ReservaController@select']);
+Route::post('quadro/visualizar', ['as' => 'showAllocatedAssetBoard', 'uses' => 'ReservaController@show']);
 
-Route::get('sobre', ['as' => 'showAbout', 'uses' => 'HomeController@showAbout']);
+Route::get('sobre', ['as' => 'showAbout', 'uses' => 'DashboardController@showAbout']);
 
 Route::get('sair', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout']);

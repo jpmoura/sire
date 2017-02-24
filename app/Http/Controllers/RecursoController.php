@@ -11,17 +11,17 @@ use Session;
 use Input;
 use Illuminate\Support\Facades\Redirect;
 use Log;
-use App\AssetType;
+use App\TipoRecurso;
 use App\Asset;
 
-class AssetController extends Controller
+class RecursoController extends Controller
 {
     /**
      * Renderiza uma view com o formulário para adição de um novo recurso.
      */
     public function add()
     {
-        $tipos = AssetType::select('tipoNome as nome', 'tipoId as id')->get();
+        $tipos = TipoRecurso::select('tipoNome as nome', 'tipoId as id')->get();
         return View::make('asset.add')->with(['tipos' => $tipos]);
     }
 
@@ -70,7 +70,7 @@ class AssetController extends Controller
     public function details($id)
     {
         $recurso = Asset::select("tipoId as tipo", "equId as id", "equNome as nome", "equDescricao as descricao", "equStatus as status")->where('equId', $id)->first();
-        $tipos = AssetType::select('tipoNome as nome', 'tipoId as id')->get();
+        $tipos = TipoRecurso::select('tipoNome as nome', 'tipoId as id')->get();
 
         if(empty($recurso) || empty($tipos))
         {

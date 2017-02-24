@@ -6,20 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bug extends Model
 {
-    //
-    protected $table = 'bugs';
-    protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
-        'title', 'description', 'user'
+        'titulo', 'descricao', 'usuario_id'
     ];
 
     /**
      * Recupera o autor da instância do bug
      */
-    public function author()
+    public function autor()
     {
-        return $this->hasOne('App\User', 'cpf', 'user');
+        return $this->belongsTo('App\Usuario');
     }
 }

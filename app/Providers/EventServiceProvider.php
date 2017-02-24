@@ -28,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\LoginFailed' => [
             'App\Listeners\LoginFailedEventHandler'
         ],
+        'App\Events\LoginErrorEvent' => [
+            'App\Listeners\LoginErrorEventHandler'
+        ],
     ];
 
     /**

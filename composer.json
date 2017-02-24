@@ -11,7 +11,7 @@
         "laravelcollective/html": "5.2.*",
         "rap2hpoutre/laravel-log-viewer": "^0.6.1",
         "guzzlehttp/guzzle": "^6.2",
-        "fx3costa/laravelchartjs": "^2.1"
+        "fx3costa/laravelchartjs": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

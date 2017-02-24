@@ -34,25 +34,29 @@
         <div class="form">
             <form class="form" action="{{ route('login') }}" method="post">
                 {{ csrf_field() }}
-                <div class="input-group @if(Session::get('erro') == 1) has-error @endif">
+                <div class="input-group @if($errors->has('credentials') || $errors->has('server')) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" data-mask="000.000.000-00" minlength="11" maxlength="14" data-mask-reverse="true" name="username" class="form-control" placeholder="CPF do Minha UFOP" required value="{{Input::old('username')}}" @if(Session::get('erro') != 2)  autofocus @endif data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
+                    <input type="text" data-mask="000.000.000-00" minlength="11" maxlength="14" data-mask-reverse="true" name="username" class="form-control" placeholder="CPF do Minha UFOP" required value="{{old('username')}}" data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" autofocus>
                 </div>
 
-                <div class="input-group @if(Session::get('erro') == 2) has-error @endif">
+                <div class="input-group @if($errors->has('credentials') || $errors->has('server')) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" placeholder="Senha do Minha UFOP" required @if(Session::get('erro') == 2) autofocus @endif data-toggle="tooltip" data-placement="right" title="Senha do Minha UFOP">
+                    <input type="password" name="password" class="form-control" placeholder="Senha do Minha UFOP" required data-toggle="tooltip" data-placement="right" title="Senha do Minha UFOP">
                 </div>
 
                 <br />
 
                 <div class="text-center">
-                    <input type="checkbox" name="remember-me" />
-                    <label>Lembre-se de mim</label>
+                    <input id="remember-me" type="checkbox" name="remember-me" />
+                    <label for="remember-me">Lembre-se de mim</label>
                 </div>
-                @if(Session::has("mensagem"))
-                    <h5 class="text-center text-danger"><b>{!! Session::get("mensagem") !!}</b></h5>
+
+                @if($errors->has('credentials') || $errors->has('server'))
+                    @foreach($errors->all() as $error)
+                        <h5 class="text-center text-danger"><b><i class="fa fa-exclamation-circle"></i> Erro <br/> {!! $error !!}</b></h5>
+                    @endforeach
                 @endif
+
                 <br />
                 <button type="submit" style="background-color: #962038" class="btn btn-primary center-block btn-block"><i class="fa fa-sign-in"></i> Entrar</button>
             </form>

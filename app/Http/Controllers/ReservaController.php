@@ -2,30 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Recurso;
+use App\Reserva;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use View;
-use DB;
-use Session;
 use Input;
 use Illuminate\Support\Facades\Redirect;
 use Log;
-use Auth;
 use Carbon\Carbon;
-use App\Asset;
-use App\Allocation;
-use App\Rule;
+use App\Regra;
 
-class AllocationController extends Controller
+class ReservaController extends Controller
 {
     /**
      * Exibe a view de seleção de recurso a ser visualizado. A view é a mesma para a consulta em dia específico.
      */
     public function select()
     {
-        $assets = Asset::select('equID as id', 'equNome as nome')->where('equStatus', 1)->get();
-        return View::make('allocation.select')->with(['recursos' => $assets]);
+        $recursos = Recurso::where('status', 1)->get();
+        return view('reserva.select')->with(['recursos' => $recursos]);
     }
 
     /**
@@ -34,47 +30,42 @@ class AllocationController extends Controller
     public function show() {
 
         // Obtém o ID do recurso da sessão caso tnha vindo de um redirecionamento de alocação/desalocação senão recupera do formulário de seleção
-        $assetID = Session::pull('allocationRedirection', Input::get('recurso'));
+        $recurso_id = session()->pull('allocationRedirection', Input::get('recurso'));
 
         // Tratamento para usuários autenticados que fecham o navegador nesta tela e tentam reinicar o processo através de tal página
         // Comum acontecer com dispositivos móveisque realizam cache do endereço e tentam renovar a requisição
-        if(is_null($assetID))
+        if(is_null($recurso_id))
         {
-            Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou acessar o quadro de viualização provavelmente via POST sem o ID do recurso.");
+            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de viualização provavelmente via POST sem o ID do recurso.");
             abort(428);
         }
         else
         {
-            $rule = Rule::select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
-            $assetName = Asset::select("equNome as nome")->where("equId", $assetID)->first()->nome;
+            $regras = Regra::first();
+            $recurso = Recurso::find($recurso_id);
 
             // Obtém o recurso e define a view que será renderizada pelo tipo do usuário
-            if(Auth::check())
+            if(auth()->check())
             { // Selecionado por um usuário autenticado
-                //$view = "allocation.add";
-                $totalDays = (int) $rule->diasQtd;
+                $quantidadeDias = $regras->quantidade_dias_reservaveis;
             }
             else
             { // Selecionado por um usuário não autenticado
-                //$view = 'allocation.show';
-                $totalDays = 8;
+                $quantidadeDias = 8;
             }
 
             // Obtém todas as datas possíveis já formatadas para exibir na view
-            $weekDays = array();
-            for ($i = 0; $i < $totalDays; ++$i) $weekDays[$i] = Carbon::now()->addDays($i)->format('j/m/y');
+            $datas = array();
+            for ($i = 0; $i < $quantidadeDias; ++$i) $datas[$i] = Carbon::now()->addDays($i)->format('d/m/Y');
 
-            $initialDay = Carbon::now()->subDays(1); // Reservas a partir deste dia
-            $finalDay = Carbon::now()->addDays($totalDays); // Até este dias
+            // Faixa de dias a qual a reserva será recuperada
+            $diaInicial = Carbon::now()->subDays(1)->format('Y-m-d'); // Reservas a partir deste dia
+            $diaFinal = Carbon::now()->addDays($quantidadeDias)->format('Y-m-d'); // Até este dias
 
-            $allocations = DB::table('tb_alocacao')->join('ldapusers', 'cpf', '=', 'tb_alocacao.usuId')
-                ->select("aloId as reservaID", "cpf as autorID", "nome as autorNOME", "email as autorEMAIL", "equId as recursoID", "aloData as data", "aloAula as aula", "nivel as autorNivel")
-                ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), ">=", $initialDay)
-                ->where(DB::raw("STR_TO_DATE(aloData, '%d/%m/%y')"), "<=", $finalDay)
-                ->where("equId", $assetID)
-                ->get();
+            // Recupera as reservas para uma determinada faixa de tempo de um determinado recurso
+            $reservas = Reserva::with('usuario')->where('data', '>=', $diaInicial)->where('data', '<=', $diaFinal)->where('recurso_id', $recurso->id)->get();
 
-            return View::make("allocation.show")->with(["alocacoes" => $allocations, "recursoNome" => $assetName, "recursoID" => $assetID, "dias" => $weekDays, "regras" => $rule, 'totalDays' => $totalDays]);
+            return view("reserva.show")->with(["reservas" => $reservas, "recurso" => $recurso, "datas" => $datas, "regras" => $regras, 'quantidadeDias' => $quantidadeDias]);
         }
     }
 
@@ -90,12 +81,12 @@ class AllocationController extends Controller
             session()->flash('tipo', 'Erro');
             session()->flash('mensagem', 'Você não selecionou nenhum horário.');
             session()->flash("allocationRedirection", Input::get('id'));
-            Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
+            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
             return back();
         }
         else
         {
-            $userID = Auth::user()->cpf;
+            $userID = auth()->user()->cpf;
             $assetID = (int) Input::get('id');
 
             $tipo = "Erro";
@@ -110,7 +101,7 @@ class AllocationController extends Controller
                 $newAllocation = json_decode($allocation, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
 
                 // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
-                $userAllocationsAt = Allocation::select('equId', 'aloAula')->where('usuId', $userID)->where('aloData', $newAllocation['dia'])->get();
+                $userAllocationsAt = Alocacao::select('equId', 'aloAula')->where('usuId', $userID)->where('aloData', $newAllocation['dia'])->get();
 
                 // Define a aula (conjunto do horario concatenado com o turno)
                 $schedule = $newAllocation['horario'] . $newAllocation['turno'];
@@ -118,12 +109,12 @@ class AllocationController extends Controller
                 // Verifica se o usuário não reservou outro recurso no mesmo horário
                 foreach ($userAllocationsAt as $previousAllocation)
                 {
-                    if($previousAllocation->aloAula == $schedule && Auth::user()->nivel != 1)
+                    if($previousAllocation->aloAula == $schedule && auth()->user()->nivel != 1)
                     {
-                        Log::warning("O Usuário " . Auth::user()->cpf . " de nome " . Auth::user()->nome ." tentou reservar mais de um recurso no mesmo horário");
-                        Session::flash('tipo', "Erro");
-                        Session::flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
-                        Session::flash("allocationRedirection", $assetID);
+                        Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar mais de um recurso no mesmo horário");
+                        session()->flash('tipo', "Erro");
+                        session()->flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
+                        session()->flash("allocationRedirection", $assetID);
                         return back();
                     }
                 }
@@ -132,7 +123,7 @@ class AllocationController extends Controller
                 ++$i;
             } // end for each
 
-            $total = Allocation::insert($toInsert);
+            $total = Alocacao::insert($toInsert);
 
             // Verifica se todas as reseervas foram inseridas
             if($total == count($allocations))
@@ -142,9 +133,9 @@ class AllocationController extends Controller
             }
             else $mensagem = "Falha de SQL ao inserir reservas";
 
-            Session::flash("mensagem", $mensagem);
-            Session::flash("tipo", $tipo);
-            Session::flash("allocationRedirection", $assetID);
+            session()->flash("mensagem", $mensagem);
+            session()->flash("tipo", $tipo);
+            session()->flash("allocationRedirection", $assetID);
             return back();
         }
     }
@@ -155,13 +146,13 @@ class AllocationController extends Controller
      */
     public function delete($id)
     {
-        $reservista = Allocation::select("usuId as id", "equId as equipamento")->where("aloId", $id)->first();
+        $reservista = Alocacao::select("usuId as id", "equId as equipamento")->where("aloId", $id)->first();
 
         // USAR UM GUARD PARA VERIFICAR SE O USUÁRIO É DONO DA RESERVA
 
-        if(Auth::user()->isAdmin() || $reservista->id == Auth::user()->cpf)
+        if(auth()->user()->isAdmin() || $reservista->id == auth()->user()->cpf)
         {
-            $deleted = Allocation::destroy($id);
+            $deleted = Alocacao::destroy($id);
             if ($deleted)
             {
                 $tipo = "Sucesso";
@@ -175,10 +166,10 @@ class AllocationController extends Controller
         }
         else abort(403);
 
-        Session::flash("tipo", $tipo);
-        Session::flash("mensagem", $mensagem);
-        Session::flash('allocationRedirection', $reservista->equipamento);
-        return Redirect::back();
+        session()->flash("tipo", $tipo);
+        session()->flash("mensagem", $mensagem);
+        session()->flash('allocationRedirection', $reservista->equipamento);
+        return back();
     }
 
     /**
@@ -213,11 +204,11 @@ class AllocationController extends Controller
     {
         $form = Input::all();
         $asset = Asset::select('equNome as nome')->where('equId', $form['recurso'])->first();
-        $rule = Rule::select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
+        $rule = Regra::select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
 
         // Recupera todas as reservas feitas em uma data para um determinado recurso
         $allocations = $this->searchAllocationsAt($form['data'], $form['recurso']);
 
-        return View::make('allocation.details')->with(['recurso' => $asset, 'alocacoes' => $allocations, 'data' => $form['data'], 'regras' => $rule]);
+        return view('reserva.details')->with(['recurso' => $asset, 'alocacoes' => $allocations, 'data' => $form['data'], 'regras' => $rule]);
     }
 }

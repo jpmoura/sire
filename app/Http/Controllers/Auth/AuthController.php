@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LoginErrorEvent;
 use App\Events\LoginFailed;
 use App\Events\NewUserCreated;
 use App\MeuIceaUser;
 use Illuminate\Http\Request;
-use App\User;
+use App\Usuario;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Encryption\Encrypter;
-use Illuminate\Support\Facades\Config;
 use Input;
-use Session;
-use View;
-use Auth;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Event;
 use Crypt;
 
 class AuthController extends Controller
@@ -59,7 +55,7 @@ class AuthController extends Controller
      * Renderiza a view de login
      */
     public function getLogin() {
-        return View::make('login');
+        return view('login');
     }
 
     /**
@@ -106,29 +102,30 @@ class AuthController extends Controller
         $httpClient = new Client(['verify' => false]);
         try
         {
-            $response = $httpClient->request(Config::get('ldapi.requestMethod'), Config::get('ldapi.authUrl'), [
-                "auth" => [Config::get('ldapi.user'), Config::get('ldapi.password'), "Basic"],
+            $response = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.authUrl'), [
+                "auth" => [config('ldapi.user'), config('ldapi.password'), "Basic"],
                 "body" => json_encode($requestBody),
                 "headers" => [
                     "Content-type" => "application/json",
                 ],
             ]);
-        } catch (ClientException $ex) {
+        }
+        catch (ClientException $ex)
+        {
             $credentials['username'] = $input["username"];
             $credentials['password'] = $input['password'];
-            Event::fire(new LoginFailed($credentials));
+            event(new LoginFailed($credentials));
 
-            session()->flash('erro', 1);
-            session()->flash('mensagem', $ex->getResponse()->getBody()->getContents());
-            return redirect()->back();
+            return back()->withErrors(['credentials' => $ex->getResponse()->getBody()->getContents()]);
         }
-        catch (RequestException $ex) {
-            session()->flash('mensagem', $ex->getResponse()->getBody()->getContents());
-            return redirect()->back();
+        catch (RequestException $ex)
+        {
+            event(new LoginErrorEvent($ex->getMessage()));
+            return back()->withErrors(['server' => $ex->getMessage()]);
         }
 
         // Se nenhuma excessão foi jogada, então o usuário está autenticado
-        $user = User::where('cpf', $input['username'])->first();
+        $user = Usuario::where('cpf', $input['username'])->first();
 
         // Se o usuário é NULL então ou ele não é cadastrado no sistema ainda ou não tem permissão
         if(is_null($user))
@@ -139,7 +136,7 @@ class AuthController extends Controller
             //Verificar se ele pertence a algum grupo que é permitido de usar o sistema
             if($this->isPermitted($userData->id_grupo))
             { // Se for permitido, então cria-se um novo usuário
-                $user = User::create([
+                $user = Usuario::create([
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => $userData->nomecompleto,
@@ -147,7 +144,7 @@ class AuthController extends Controller
                     'status' => 1
                 ]);
 
-                Event::fire(new NewUserCreated($user));
+                event(new NewUserCreated($user));
             }
             else return redirect()->route('selectAllocatedAsset'); // Senão redireciona para a rota de seleção de recurso
         }
@@ -155,18 +152,15 @@ class AuthController extends Controller
         // Se o usuário tem status ativo, então realiza-se o login
         if($user->status == 1)
         {
-            if(isset($input['remember-me']))  Auth::login($user, true);
-            else Auth::login($user);
+            if(isset($input['remember-me']))  auth()->login($user, true);
+            else auth()->login($user);
 
-            if(session('url.intended')) session()->put('url.intended', secure_url(session('url.intended')));
-
-            return redirect()->intended(secure_url(route('home')), 302, [], true);
+            return redirect()->intended('/');
         }
         else // Senão retorna para a página de login com mensagem de erro.
         {
-            Session::flash('erro', 1);
-            Session::flash('mensagem', 'Você não está mais autorizado a usar o sistema.');
-            return redirect()->back();
+
+            return back()->withErrors(['unauthorized' => 'Você não está mais autorizado a usar o sistema.']);
         }
     }
 
@@ -176,12 +170,12 @@ class AuthController extends Controller
     public function generateMeuIceaToken(Request $request)
     {
         // Cria o decriptador com a chave do Meu ICEA
-        $decrypter = new Encrypter(Config::get('meuicea.chave'), Config::get('meuicea.algoritmo'));
+        $decrypter = new Encrypter(config('meuicea.chave'), config('meuicea.algoritmo'));
         $id = $decrypter->decrypt($request->header('Meu-ICEA')); // decripta a informação
 
         $meuIceaUser = MeuIceaUser::find($id);
 
-        $user = User::where('cpf', $meuIceaUser->cpf)->first();
+        $user = Usuario::where('cpf', $meuIceaUser->cpf)->first();
 
         // Se o usuário não existir no sistema
         if(is_null($user))
@@ -190,7 +184,7 @@ class AuthController extends Controller
             if($this->isPermitted($meuIceaUser->id_grupo))
             {
                 // Cria o novo usuário se sim
-                $user = User::create([
+                $user = Usuario::create([
                     'cpf' => $meuIceaUser->cpf,
                     'email' => $meuIceaUser->email,
                     'nome' => $meuIceaUser->nomecompleto,
@@ -198,7 +192,7 @@ class AuthController extends Controller
                     'status' => 1
                 ]);
 
-                Event::fire(new NewUserCreated($user)); // Dispara o evento de novo usuário
+                event(new NewUserCreated($user)); // Dispara o evento de novo usuário
             }
             else return response('quadro', 200); // Se não for permitido, redireciona para a seleção de recursos para visualizar o quadro de reserva
         }
@@ -217,7 +211,7 @@ class AuthController extends Controller
 
     public function tokenLogin($token)
     {
-        $user = User::where('meuicea_token', $token)->first();
+        $user = Usuario::where('meuicea_token', $token)->first();
 
         // Se o token não foi encontrado, ou ele nunca existiu ou já foi consumido o que siginifca um erro de autorização
         if(is_null($user)) abort(430);
@@ -227,7 +221,7 @@ class AuthController extends Controller
             $user->meuicea_token = NULL;
             $user->save();
 
-            Auth::login($user);
+            auth()->login($user);
             return redirect()->route('home');
         }
     }
