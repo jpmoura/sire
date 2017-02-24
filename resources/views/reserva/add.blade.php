@@ -16,11 +16,11 @@
     <div class='row'>
         <div class='col-md-10 col-md-offset-1 text-center'>
 
-            @if(Session::has("tipo"))
+            @if(session()->has("tipo"))
                 <div class="row">
-                    <div class="text-center alert alert-dismissible @if(Session::get('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
+                    <div class="text-center alert alert-dismissible @if(session('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>{{Session::get("tipo")}}!</strong> {{Session::get("mensagem")}}
+                        <strong>{!! session("tipo") !!}!</strong> {!! session("mensagem") !!}
                     </div>
                 </div>
             @endif

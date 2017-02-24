@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Recurso;
-use App\Reserva;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Input;
-use Illuminate\Support\Facades\Redirect;
-use Log;
-use Carbon\Carbon;
 use App\Regra;
+use App\Reserva;
+use Carbon\Carbon;
+use Input;
+use Log;
 
 class ReservaController extends Controller
 {
@@ -74,8 +70,8 @@ class ReservaController extends Controller
      */
     public function store()
     {
-        $allocations = Input::get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
-        if(!isset($allocations))
+        $reservas = Input::get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
+        if(!isset($reservas))
         {
             // Se nenhum horário foi selecionado, então volta para a página de seleção
             session()->flash('tipo', 'Erro');
@@ -86,47 +82,70 @@ class ReservaController extends Controller
         }
         else
         {
-            $userID = auth()->user()->cpf;
-            $assetID = (int) Input::get('id');
+            $usuario_id = auth()->user()->cpf;
+            $recurso_id = Input::get('id');
 
             $tipo = "Erro";
 
-            $toInsert = []; // array de reservas a serem inseridas no banco
+            $reservasParaInserir = []; // array de reservas a serem inseridas no banco
             $i = 0; // índice do array de reservas
 
-            foreach ($allocations as $allocation) // Para todas as aulas selecionadas
+            foreach ($reservas as $reserva) // Para todas as aulas selecionadas
             {
                 // Recupera o conjunto de informações sobre a reserva
                 // Os índices são 'dia', 'horario' e 'turno'
-                $newAllocation = json_decode($allocation, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
+                $novaReserva = json_decode($reserva, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
 
                 // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
-                $userAllocationsAt = Alocacao::select('equId', 'aloAula')->where('usuId', $userID)->where('aloData', $newAllocation['dia'])->get();
-
-                // Define a aula (conjunto do horario concatenado com o turno)
-                $schedule = $newAllocation['horario'] . $newAllocation['turno'];
+                $reservasDoUsuario =  Reserva::with('recurso')->where('usuario_id', $usuario_id)->where('data', $novaReserva['dia'])->get();
 
                 // Verifica se o usuário não reservou outro recurso no mesmo horário
-                foreach ($userAllocationsAt as $previousAllocation)
+                foreach ($reservasDoUsuario as $reservaExistente)
                 {
-                    if($previousAllocation->aloAula == $schedule && auth()->user()->nivel != 1)
+                    if($reservaExistente->horario == $novaReserva['horario'] && $reservaExistente->turno == $novaReserva['turno'] && !auth()->user()->isAdmin())
                     {
+                        switch ($reservaExistente->turno)
+                        {
+                            case 'm':
+                                $turno = "matutino";
+                                break;
+                            case 'v':
+                                $turno = "vespertino";
+                                break;
+                            case 'n':
+                                $turno = "noturno";
+                                break;
+                            default:
+                                $turno = "Não definido";
+                                break;
+                        }
+
                         Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar mais de um recurso no mesmo horário");
+
                         session()->flash('tipo', "Erro");
-                        session()->flash('mensagem', "Você já reservou outro recurso para o mesmo horário. Contate o NTI caso REALMENTE necessite de vários recursos.");
-                        session()->flash("allocationRedirection", $assetID);
+                        session()->flash('mensagem',
+                            "Você já reservou " . $reservaExistente->recurso->nome . " para o ". $reservaExistente->horario ."º horário do turno " . $turno .
+                            ". Contate o NTI caso REALMENTE necessite de vários recursos no mesmo horário.");
+                        session()->flash("allocationRedirection", $recurso_id);
                         return back();
                     }
                 }
 
-                $toInsert[$i] = array('aloData' => $newAllocation['dia'], 'aloAula' => $schedule, 'usuId' => $userID, 'equId' => $assetID);
-                ++$i;
-            } // end for each
+                $reservasParaInserir[$i] = [
+                    'data' => $novaReserva['dia'],
+                    'horario' => $novaReserva['horario'],
+                    'turno' => $novaReserva['turno'],
+                    'usuario_id' => $usuario_id,
+                    'recurso_id' => $recurso_id
+                ];
 
-            $total = Alocacao::insert($toInsert);
+                ++$i;
+            } // end foreach
+
+            $total = Reserva::insert($reservasParaInserir);
 
             // Verifica se todas as reseervas foram inseridas
-            if($total == count($allocations))
+            if($total == count($reservas))
             {
                 $tipo = "Sucesso";
                 $mensagem = "Recurso reservado com sucesso.";
@@ -135,7 +154,7 @@ class ReservaController extends Controller
 
             session()->flash("mensagem", $mensagem);
             session()->flash("tipo", $tipo);
-            session()->flash("allocationRedirection", $assetID);
+            session()->flash("allocationRedirection", $recurso_id);
             return back();
         }
     }
