@@ -23,7 +23,8 @@
                 @else
                     Boa noite
                 @endif
-                {{ auth()->user()->nome }}, hoje é {{ date("l") }}, {{ date("d") }} de {{ date("F") }} de {{ date("Y") }}.</h3>
+                <?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese"); ?>
+                {{ auth()->user()->nome }}, hoje é {!! ucfirst(strftime("%A", \Carbon\Carbon::now()->timestamp)) !!}, {{ date("d") }} de {!! ucfirst(strftime("%B", \Carbon\Carbon::now()->timestamp)) !!} de {{ date("Y") }}.</h3>
             <br />
             @if(auth()->user()->isAdmin()) {{-- Widgets de administrador --}}
         
