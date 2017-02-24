@@ -7,7 +7,7 @@ use App\Events\LoginFailed;
 use App\Events\NewUserCreated;
 use App\MeuIceaUser;
 use Illuminate\Http\Request;
-use App\User;
+use App\Usuario;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Encryption\Encrypter;
@@ -125,7 +125,7 @@ class AuthController extends Controller
         }
 
         // Se nenhuma excessão foi jogada, então o usuário está autenticado
-        $user = User::where('cpf', $input['username'])->first();
+        $user = Usuario::where('cpf', $input['username'])->first();
 
         // Se o usuário é NULL então ou ele não é cadastrado no sistema ainda ou não tem permissão
         if(is_null($user))
@@ -136,7 +136,7 @@ class AuthController extends Controller
             //Verificar se ele pertence a algum grupo que é permitido de usar o sistema
             if($this->isPermitted($userData->id_grupo))
             { // Se for permitido, então cria-se um novo usuário
-                $user = User::create([
+                $user = Usuario::create([
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => $userData->nomecompleto,
@@ -175,7 +175,7 @@ class AuthController extends Controller
 
         $meuIceaUser = MeuIceaUser::find($id);
 
-        $user = User::where('cpf', $meuIceaUser->cpf)->first();
+        $user = Usuario::where('cpf', $meuIceaUser->cpf)->first();
 
         // Se o usuário não existir no sistema
         if(is_null($user))
@@ -184,7 +184,7 @@ class AuthController extends Controller
             if($this->isPermitted($meuIceaUser->id_grupo))
             {
                 // Cria o novo usuário se sim
-                $user = User::create([
+                $user = Usuario::create([
                     'cpf' => $meuIceaUser->cpf,
                     'email' => $meuIceaUser->email,
                     'nome' => $meuIceaUser->nomecompleto,
@@ -211,7 +211,7 @@ class AuthController extends Controller
 
     public function tokenLogin($token)
     {
-        $user = User::where('meuicea_token', $token)->first();
+        $user = Usuario::where('meuicea_token', $token)->first();
 
         // Se o token não foi encontrado, ou ele nunca existiu ou já foi consumido o que siginifca um erro de autorização
         if(is_null($user)) abort(430);

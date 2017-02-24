@@ -4,10 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rule extends Model
+class Regra extends Model
 {
-    protected $table = 'tb_horario';
-    protected $primaryKey = 'horId';
     public $timestamps = false;
 
     /**
@@ -16,6 +14,8 @@ class Rule extends Model
      * @var array
      */
     protected $fillable = [
+        'quantidade_horarios_matutino', 'quantidade_horarios_vespertino', 'quantidade_horarios_noturno', 'quantidade_dias_reservaveis',
+        'horario_inicio_matutino', 'horario_inicio_vespertino', 'horario_inicio_noturno',
     ];
 
     /**
@@ -24,7 +24,7 @@ class Rule extends Model
      * @var array
      */
     protected $hidden = [
-        'horId',
+        'id',
     ];
 
 }

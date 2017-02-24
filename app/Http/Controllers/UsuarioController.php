@@ -19,7 +19,7 @@ use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class UserController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Cria uma nova instância de usuário no banco de dados.

@@ -4,11 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AssetType extends Model
+class TipoRecurso extends Model
 {
-    //
-    protected $table = "tb_tipo";
-    protected $primaryKey = "tipoId";
+    protected $table = "tipo_recurso";
     public $timestamps = false;
 
     /**
@@ -17,14 +15,14 @@ class AssetType extends Model
      * @var array
      */
     protected $fillable = [
-        'tipoNome',
+        'nome',
     ];
 
     /**
      * Recupera todos os recursos de um tipo
      */
-    public function assets()
+    public function recursos()
     {
-        return $this->hasMany('App\Asset', 'tipoId', 'tipoId');
+        return $this->hasMany('App\Recurso', 'tipo_recurso_id');
     }
 }

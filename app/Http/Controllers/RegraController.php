@@ -10,16 +10,16 @@ use Session;
 use Input;
 use Illuminate\Support\Facades\Redirect;
 use Log;
-use App\Rule;
+use App\Regra;
 
-class RuleController extends Controller
+class RegraController extends Controller
 {
     /**
      * Exibe a visão geral das regras de horários
      */
     public function show()
     {
-        $regras = Rule::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias")->first();
+        $regras = Regra::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias")->first();
         Session::put("menu", "showRule");
         return View::make('rule.show')->with(['regras' => $regras]);
     }
@@ -29,7 +29,7 @@ class RuleController extends Controller
      */
     public function details()
     {
-        $regras = Rule::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias", "horId as id", "inicioManha", "inicioTarde", "inicioNoite")
+        $regras = Regra::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias", "horId as id", "inicioManha", "inicioTarde", "inicioNoite")
                     ->first();
         return View::make('rule.edit')->with(['regras' => $regras]);
     }
@@ -47,7 +47,7 @@ class RuleController extends Controller
             if($form['tarde'] > 5) $mensagem .= "O número de horários pode ser no máximo 5 para o turno da tarde.\n";
             if($form['noite'] > 4) $mensagem .= "O número de horários pode ser no máximo 4 para o turno da noite.\n";
 
-            $regras = Rule::first();
+            $regras = Regra::first();
             $regras->horNumAulaManha = $form['manha'];
             $regras->horNumAulaTarde = $form['tarde'];
             $regras->horNumAulaNoite = $form['noite'];

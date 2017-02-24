@@ -4,11 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Asset extends Model
+class Recurso extends Model
 {
-    //
-    protected $table = "tb_equipamento";
-    protected $primaryKey = "equId";
     public $timestamps = false;
 
     /**
@@ -17,7 +14,7 @@ class Asset extends Model
      * @var array
      */
     protected $fillable = [
-        'tipoId', 'equNome', 'equDescricao', 'equStatus',
+        'nome', 'descricao', 'status', 'tipo_recurso_id',
     ];
 
     /**
@@ -26,23 +23,23 @@ class Asset extends Model
      * @var array
      */
     protected $hidden = [
-        'equId',
+        'id',
     ];
 
     /**
      * Recupera o tipo do recurso.
      */
-    public function type()
+    public function tipo()
     {
-        return $this->hasOne('App\AssetType', 'tipoId');
+        return $this->belongsTo('App\TipoRecurso', 'tipo_recurso_id');
     }
 
     /**
-     * Recupera todas as alocações do recurso
+     * Recupera todas as reservas do recurso
      */
-    public function allocations()
+    public function reservas()
     {
-        return $this->hasMany('App\Allocation', 'equId', 'equId');
+        return $this->hasMany('App\Reserva');
     }
 
 }

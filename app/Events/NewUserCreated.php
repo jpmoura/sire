@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Events\Event;
-use App\User;
+use App\Usuario;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -18,7 +18,7 @@ class NewUserCreated extends Event
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Usuario $user)
     {
         $this->user = $user;
     }
