@@ -26,7 +26,8 @@
                 </p>
 
                 <p>
-                    Para evitar esse erro, <span class="text-bold">sempre</span> realize o logout.
+                    Para evitar esse erro, <span class="text-bold">sempre</span> realize o logout e não restaure páginas
+                    perdidas pelo navegador.
                 </p>
             </div>
         </div>
