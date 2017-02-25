@@ -31,6 +31,16 @@
                 que davam suporte ao funcionamento do sistema. Um dos objetivos do sistema era atualizar as ferramentas sem comprometer a estrutura já existente do
                 banco de dados, que contém todo o histórico de alocação
                 <section id="modificacoes">
+                    <h3 class="text-center">Mudanças na Versão 2.3</h3>
+                    <ul>
+                        <li>Refatoração de modelos e controllers;</li>
+                        <li>Adição de validação de formulários no back-end;</li>
+                        <li>Otimização da estrutura do banco de dados;</li>
+                        <li>Atualização da biblioteca <a href="https://github.com/chartjs/Chart.js" target="_blank">Chart.js</a> para geração de gráficos;</li>
+                        <li>Adicionada obrigatoriedade do uso de HTTPS;</li>
+                        <li>Atualização da LDAPI para comunicação em HTTPS com certificados auto-assindados;</li>
+                        <li>Correção de bugs.</li>
+                    </ul>
                     <h3 class="text-center">Mudanças na Versão 2.2</h3>
                     <ul>
                         <li>Refatoração massiva de toda a estrutura do back-end;</li>
@@ -84,21 +94,20 @@
                         <li>Utilização do padrão mais recente do HTML de acordo com o <a target="_blank" href="https://www.w3.org/html/">W3C</a>.</li>
                     </ul>
                 </section>
-
-            <h3 class="text-center">A Fazer</h3>
-            <ul>
-                <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
-                <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
-                <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>
-                <li><del>Utilizar o <em>eloquent</em> para evitar uso de intensivo da classe DB;</del></li>
-                <li><del>Capturar exceções de erro de conexão com o banco de dados;</del></li>
-                <li><del>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</del></li>
-                <li>Criar testes automatizados;</li>
-                <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
-                <li>Otimizar as tabelas do banco de dados;</li>
-                <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
-                <li>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</li>
-            </ul>
+                <h3 class="text-center">A Fazer</h3>
+                <ul>
+                    <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
+                    <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
+                    <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>
+                    <li><del>Utilizar o <em>eloquent</em> para evitar uso de intensivo da classe DB;</del></li>
+                    <li><del>Capturar exceções de erro de conexão com o banco de dados;</del></li>
+                    <li><del>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</del></li>
+                    <li><del>Otimizar as tabelas do banco de dados;</del></li>
+                    <li><del>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</del></li>
+                    <li>Criar testes automatizados;</li>
+                    <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
+                    <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
+                </ul>
             </p>
         </div>
     </div>

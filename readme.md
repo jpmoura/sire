@@ -63,15 +63,23 @@ $ chown -R USUARIO:www-data PASTA
 Basta usar o comando ```sudo``` ou ```su``` dependendo da distribuição *Linux*
 juntamente com este comando.
 
-A estrutura do banco de dados usada pelo sistema pode ser criada a partir do
-script SQL encontrado [aqui](./DUMP_bdreserva.sql). Além disso é necessário
-configurar as variáveis de ambiente do Laravel a partir do arquivo na raiz do
+É necessário configurar as variáveis de ambiente do Laravel a partir do arquivo na raiz do
 projeto sem nome mas de extensão ENV. Existe um arquivo de exemplo
 [aqui](./.env.example) que pode ser editado e depois renomeado apropriadamente
-apenas para .env onde nele deve-se encontrar o endereço, senha, usuário e nome
-da base do banco de dados.
+apenas para .env onde nele deve-se encontrar todas as configurações do banco de dados e da
+[LDAPI](https://github.com/jpmoura/ldapi).
 
 ## Changelog
+
+### Versão 2.3
+
+* Refatoração de modelos e controllers; 
+* Adição de validação de formulários no back-end;
+* Otimização da estrutura do banco de dados;
+* Atualização da biblioteca [Chart.js](https://github.com/chartjs/Chart.js) para geração de gráficos;
+* Adicionada obrigatoriedade do uso de HTTPS;
+* Atualização da LDAPI para comunicação em HTTPS com certificados auto-assindados;
+* Correção de bugs.
 
 ### Versão 2.2
 
@@ -126,10 +134,8 @@ sobre o nome do turno.
 * ~~Uso do sistema em navegadores Safari para iOS em modo privativo pode
 ocasionar problemas no momento de alocação;~~
 * Tabela de usuários não é mostrada apropriadamente em navegadores Safari;
-* Em Safari para plataforma Windows, o redimensionamento da imagem do usuário
-não acontece de maneira correta;
 * Erros de disponibilidade do banco de dados não estão devidamente tratados;
-* Horários podem se sobrepor entre turnos.
+* Horários podem se sobrepor entre turnos (*overlapping*).
 
 ## TODO
 
@@ -143,9 +149,9 @@ de cada horário;~~
 reforçar o padrão MVC;~~
 * ~~Otimização do carregamento dos elementos CSS e Javascript usando Gulp
 juntamente com SASS ou LESS;~~
+* ~~Otimização da estrutura do banco de dados;~~
+* ~~Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);~~
 * Criar testes automatizados;
 * Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;
-* Otimização da estrutura do banco de dados;
 * Tratar para que caso altere o horário de início de cada turno para que o
-último horário do turno não sobreponha o início do próximo turno;
-* Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários).
+último horário do turno não sobreponha o início do próximo turno (*overlapping*).
