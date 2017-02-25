@@ -69,16 +69,16 @@
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" id="cpf" class="form-control" placeholder="CPF do usuário" value="{{Input::old('nome')}}" @if(Session::get("tipo") != "Erro") autofocus @endif name="cpf" required mixlength="11" maxlength="11" data-toggle="tooltip" data-placement="right" title="CPF">
+                            <input type="text" id="cpf" class="form-control" placeholder="CPF do usuário" value="{{ old('nome') }}" @if( session("tipo") != "Erro") autofocus @endif name="cpf" required mixlength="11" maxlength="11" data-toggle="tooltip" data-placement="right" title="CPF">
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                             <select class="form-control" name="nivel" required title="Nível de privilégio">
                                 <option value="">Selecione o nível de privilégio</option>
-                                <option value="1" @if(Input::old('nivel') == 1) selected @endif>Administrador</option>
-                                <option value="2" @if(Input::old('nivel') == 2) selected @endif>Professor / Administrativo</option>
-                                <option value="3" @if(Input::old('nivel') == 3) selected @endif>Usuário Especial</option>
+                                <option value="1" @if(old('nivel') == 1) selected @endif>Administrador</option>
+                                <option value="2" @if(old('nivel') == 2) selected @endif>Professor / Administrativo</option>
+                                <option value="3" @if(old('nivel') == 3) selected @endif>Usuário Especial</option>
                             </select>
                         </div>
 
