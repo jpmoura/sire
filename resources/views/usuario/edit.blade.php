@@ -77,18 +77,19 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                     </div>
-                    <div class="modal-body">
-                        <p class="text-center">Você tem certeza que quer excluir o usuário {{$usuario->nome}}?</p>
-                        <br />
-                        <form class="form text-center" action="{{ route('deleteUser') }}" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="cpf" value="{{$usuario->cpf}}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
-                        <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
-                        </form>
-                    </div>
+                    <form class="form text-center" action="{{ route('deleteUser') }}" method="post">
+                        <div class="modal-body">
+                            <p class="text-center">Você tem certeza que quer excluir o usuário {{$usuario->nome}}?</p>
+                            <br />
+
+                                {{ csrf_field() }}
+                                <input type="hidden" name="cpf" value="{{$usuario->cpf}}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
+                            <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
