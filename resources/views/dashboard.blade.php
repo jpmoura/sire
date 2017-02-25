@@ -243,6 +243,7 @@
                                             <tr>
                                                 <th>Recurso</th>
                                                 <th>Frequência</th>
+                                                <th>Ação</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -250,6 +251,7 @@
                                                 <tr>
                                                     <td>{!! $recurso !!}</td>
                                                     <td>{!! $reservasFrequentes[$recurso]->count() !!}</td>
+                                                    <td><a href="{{ route('favoriteAllocation', $reservasFrequentes[$recurso][0]->recurso->id) }}" class="btn btn-ufop" role="button"><i class="fa fa-calendar-check-o"></i> Reservar</a> </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

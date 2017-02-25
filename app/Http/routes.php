@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::post('reservar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
         Route::get('consultar', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
         Route::get('cancelar/{reserva}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete'])->middleware('can:manipularReserva,reserva');
+        Route::get('favorito/{recurso}', ['as' => 'favoriteAllocation', 'uses' => 'DashboardController@favoriteResourceRedirection']);
     });
 
     // Rotas relacionadas com manipulação dos registros de bugs

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Recurso;
 use App\Reserva;
 use Carbon\Carbon;
 
@@ -21,24 +22,24 @@ class DashboardController extends Controller
             /* Mês Atual */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '>', $mesAtual)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')->where('data', '>=', $mesAtual)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
             $topUsuariosMesAtual = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesAtual[$reserva[0]->usuario->nome] = $reserva->count();
 
             // 3 recursos com mais reservas nesse mês
-            $reservasPorRecurso = Reserva::with('recurso')->where('data', '>', $mesAtual)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
+            $reservasPorRecurso = Reserva::with('recurso')->where('data', '>=', $mesAtual)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
             $topRecursosMesAtual = array();
             foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesAtual[$recurso] = $reservasPorRecurso[$recurso]->count();
 
             /* Mês Passado */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')->where('data', '=<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
             $topUsuariosMesPassado = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
 
             // 3 recursos com mais reservas nesse mês
-            $reservasPorRecurso = Reserva::with('recurso')->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
+            $reservasPorRecurso = Reserva::with('recurso')->where('data', '=<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
             $topRecursosMesPassado = array();
             foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
 
@@ -80,19 +81,25 @@ class DashboardController extends Controller
             $reservasFrequentes = $todasReservas->groupBy('recurso.nome')->sort()->reverse()->take(5);
 
             // Recurso mais alocado no mês atual
-            $recursoMaisAlocadoMesAtual = $todasReservas->where('data', '>', $mesAtual)->sort()->reverse()->first();
+            $recursoMaisAlocadoMesAtual = $todasReservas->where('data', '>=', $mesAtual)->sort()->reverse()->first();
 
             // Recurso mais alocado no més passado
-            $recursoMaisAlocadoMesPassado = $todasReservas->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->sort()->reverse()->first();
+            $recursoMaisAlocadoMesPassado = $todasReservas->where('data', '<=', $mesAtual)->where('data', '>=', $mesPassado)->sort()->reverse()->first();
 
             //reservas ativas esse mes
-            $reservasMes = $todasReservas->where('data', '>', $mesAtual)->count();
+            $reservasMes = $todasReservas->where('data', '>=', $mesAtual)->count();
 
             // reservas ativas messado
-            $reservasMesPassado = $todasReservas->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->count();
+            $reservasMesPassado = $todasReservas->where('data', '<=', $mesAtual)->where('data', '>=', $mesPassado)->count();
 
             return view('dashboard')->with(['topRecursoMesAtual' => $recursoMaisAlocadoMesAtual, 'reservasMesAtual' => $reservasMes, 'reservasMesPassado' => $reservasMesPassado, 'topRecursoMesPassado' => $recursoMaisAlocadoMesPassado, 'proximasReservas' => $proximasReservas, 'reservasFrequentes' => $reservasFrequentes]);
         }
+    }
+
+    public function favoriteResourceRedirection(Recurso $recurso)
+    {
+        session()->put('allocationRedirection', $recurso->id);
+        return redirect()->route('addAllocation');
     }
 
     /**
