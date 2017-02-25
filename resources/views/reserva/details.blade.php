@@ -9,14 +9,14 @@
 @endsection
 
 @section('description')
-    Aqui estão as reservas feitas para {{ $recurso->nome }} em {{ $data }}
+    Aqui estão as reservas feitas para {!! $recurso->nome !!} em {{ $data }}
 @endsection
 
 @section('content')
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
-            @if(count($alocacoes) == 0)
-                <h2 class="text-center">Não há nenhuma alocação para esse dia</h2>
+            @if(count($reservas) == 0)
+                <h2 class="text-center">Não há nenhuma reserva para esse dia</h2>
             @else
                 <h2 class="text-center">{!! $recurso->nome !!}</h2>
                 @for($i=0; $i < 3; ++$i)
@@ -26,13 +26,25 @@
                                 <a href="#" style="color: black;" data-widget="collapse">
                                     @if($i == 0)
                                         <i class="fa fa-sun-o"></i> Turno Matutino
-                                        <?php $qtdAulas = $regras->manha; $turno = 'm'; $inicio = $regras->inicioManha; ?>
+                                        @php
+                                            $qtdAulas = $regras->quantidade_horarios_matutino;
+                                            $turno = 'm';
+                                            $inicio = $regras->horario_inicio_matutino;
+                                        @endphp
                                     @elseif($i == 1)
                                         <i class="fa fa-cloud"></i> Turno Vespertino
-                                        <?php $qtdAulas = $regras->tarde; $turno = 'v'; $inicio = $regras->inicioTarde; ?>
+                                        @php
+                                            $qtdAulas = $regras->quantidade_horarios_vespertino;
+                                            $turno = 'v';
+                                            $inicio = $regras->horario_inicio_vespertino;
+                                        @endphp
                                     @else
                                         <i class="fa fa-moon-o"></i> Turno Noturno
-                                        <?php $qtdAulas = $regras->noite; $turno = 'n'; $inicio = $regras->inicioNoite;?>
+                                        @php
+                                            $qtdAulas = $regras->quantidade_horarios_noturno;
+                                            $turno = 'n';
+                                            $inicio = $regras->horario_inicio_noturno;
+                                        @endphp
                                     @endif
                                 </a>
                             </h3>
@@ -51,46 +63,44 @@
                                     {{-- Para cada dia da semana --}}
 
                                     {{-- Inicialização das variáveis para definição de horário --}}
-                                    <?php
-                                    $intervalo = 0;
-                                    $addTime = 0;
-                                    $initTime = strtotime($inicio);
-                                    ?>
+                                    @php
+                                        $intervalo = 0;
+                                        $addTime = 0;
+                                        $initTime = strtotime($inicio);
+                                    @endphp
 
                                     @for($j=1; $j <= $qtdAulas; ++$j)
                                         <tr>
-                                            <?php
-                                            $endTime = strtotime("+50 minutes", $initTime); // Adicionar o addTime ao tempo de inicio
-                                            ?>
+                                            {{--Adicionar o addTime ao tempo de inicio--}}
+                                            <?php $endTime = strtotime("+50 minutes", $initTime); ?>
 
-                                            <td>{{date('H:i', $initTime)}} - {{date('H:i', $endTime)}}</td>
+                                            <td>{{ date('H:i', $initTime) }} - {{ date('H:i', $endTime) }}</td>
 
-                                            <?php
-                                            $initTime = $endTime;
-                                            ++$intervalo;
+                                            @php
+                                                $initTime = $endTime;
+                                                ++$intervalo;
 
-                                            // Adicionar 20 minutos de intervalo a cada duas aulas
-                                            // exceto para o horário entre o intervalo de 1h do turno vespertino e noturno
-                                            if(($intervalo % 2) == 0) {
-                                                $initTime = strtotime("+20 minutes", $initTime);
-                                            }
-                                            if($intervalo == 4 && $turno == 'v') {
-                                                $initTime = strtotime("-15 minutes", $initTime);
-                                            }
-                                            ?>
+                                                // Adicionar 20 minutos de intervalo a cada duas aulas
+                                                // exceto para o horário entre o intervalo de 1h do turno vespertino e noturno
+                                                if(($intervalo % 2) == 0) $initTime = strtotime("+20 minutes", $initTime);
+                                                if($intervalo == 4 && $turno == 'v') $initTime = strtotime("-15 minutes", $initTime);
 
-                                            <?php $status = false; ?>
+                                                $status = false;
+                                            @endphp
+
                                             {{-- Olhar se alguma alocacao pertence aquele horario daquele turno  --}}
                                             <td>
-                                                @foreach($alocacoes as $alocacao)
-                                                    @if($alocacao->aula == ($j . $turno)) {{-- Se for igual então está reservado --}}
-                                                    <a target="_blank" href="mailto:{{$alocacao->email}}?subject=[UFOP-ICEA] Alocação">{{$alocacao->nome}}</a>
-                                                    <?php $status = true; ?>
-                                                    @break
+                                                @foreach($reservas as $reserva)
+                                                    @if($reserva->horario == $j && $reserva->turno == $turno) {{-- Se for igual então está reservado --}}
+                                                        <a href="mailto:{!! $reserva->usuario->email !!}?subject=[UFOP-ICEA] Alocação">
+                                                            {!! $reserva->usuario->nome !!}
+                                                        </a>
+                                                        <?php $status = true; ?>
+                                                        @break
                                                     @endif
                                                 @endforeach
                                                 @if(!$status)
-                                                    <span class="text-success"><b>Livre</b></span>
+                                                    <span class="text-success text-bold">Livre</span>
                                                 @endif
                                             </td>
                                         </tr>

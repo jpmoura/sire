@@ -186,28 +186,20 @@ class ReservaController extends Controller
     }
 
     /**
-     * Recupera todas as alocações feitas para um recurso em uma determinada data. Combina a tabela de usuários antigos e novos nas busca caso o usuário busque por
-     * uma reserva feita no sistema legado.
-     * @param $date Data da reserva
-     * @param $resource Recurso da reserva
-     * @return array Alocações feitas
+     * Recupera as reservas feitas em uma determinada data.
+     * @param string $data Data no formato d/m/Y
+     * @param Recurso $recurso Instância do recurso a ser procurada.
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    private function searchAllocationsAt($date, $resource)
+    private function searchAllocationsAt($data, $recurso)
     {
-        $newAllocations = DB::table('tb_alocacao')->join('ldapusers', 'cpf', '=', 'usuId')
-            ->select('nome', 'email', 'aloAula as aula')
-            ->where('aloData', $date)
-            ->where('equId', $resource)
-            ->get();
 
-        $oldAllocations = DB::table('tb_alocacao')->join('tb_usuario', 'tb_usuario.usuId', '=', 'tb_alocacao.usuId')
-            ->select('tb_usuario.usuNome as nome', 'tb_usuario.usuEmail as email', 'aloAula as aula')
-            ->where('aloData', $date)
-            ->where('equId', $resource)
-            ->get();
+        $reservas = Reserva::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
 
-        $allocations = array_merge($oldAllocations, $newAllocations);
-        return $allocations;
+        // TODO buscar por reservas antigas. Reservas antigas e usuários antigos precisam estar em modelos e tabelas separados
+        //$allocations = array_merge($oldAllocations, $newAllocations);
+
+        return $reservas;
     }
 
     /**
@@ -216,12 +208,15 @@ class ReservaController extends Controller
     public function details()
     {
         $form = Input::all();
-        $asset = Asset::select('equNome as nome')->where('equId', $form['recurso'])->first();
-        $rule = Regra::select('horNumAulaManha as manha', 'horNumAulaTarde as tarde', 'horNumAulaNoite as noite', 'horNumDias as diasQtd', 'inicioManha', 'inicioTarde', 'inicioNoite')->first();
+        $recurso = Recurso::find($form['recurso']);
+        $regras = Regra::first();
+
+        // Formata a data do formato d/m/Y para o formato Y-m-d
+        $data = Carbon::createFromFormat('d/m/Y', $form['data'])->format('Y-m-d');
 
         // Recupera todas as reservas feitas em uma data para um determinado recurso
-        $allocations = $this->searchAllocationsAt($form['data'], $form['recurso']);
+        $reservas = $this->searchAllocationsAt($data, $recurso);
 
-        return view('reserva.details')->with(['recurso' => $asset, 'alocacoes' => $allocations, 'data' => $form['data'], 'regras' => $rule]);
+        return view('reserva.details')->with(['recurso' => $recurso, 'reservas' => $reservas, 'data' => $form['data'], 'regras' => $regras]);
     }
 }

@@ -14,14 +14,14 @@
 
 @push('extra-css')
     @if(Route::is('selectDetailsAllocation'))
-        {!! HTML::style('public/plugins/datepicker/datepicker3.css') !!}
+        {!! HTML::style('public/js/plugins/datepicker/datepicker3.css') !!}
     @endif
 @endpush
 
 @push('extra-js')
     @if(Route::is('selectDetailsAllocation'))
-        {!! HTML::script('public/plugins/datepicker/bootstrap-datepicker.js') !!}
-        {!! HTML::script('public/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js') !!}
+        {!! HTML::script('public/js/plugins/datepicker/bootstrap-datepicker.js') !!}
+        {!! HTML::script('public/js/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js') !!}
         <script>
             $(function()
             {
@@ -30,7 +30,7 @@
                     daysOfWeekDisabled: [0],
                     todayHighlight: true,
                     todayBtn: false,
-                    format: "d/mm/yy",
+                    format: "dd/mm/yyyy",
                     showAnim: "slide",
                     language: 'pt-BR',
                     weekStart: 1,
@@ -62,14 +62,14 @@
                         @if(Route::is('selectDetailsAllocation'))
                             <div class="input-group" >
                                 <span class="input-group-addon date"><i class="fa fa-calendar"></i></span>
-                                <input maxlength="8" minlength="8" type="text" id="data" name="data" class="form-control" placeholder="Data no formato dd/mm/aa" required>
+                                <input maxlength="8" minlength="8" type="text" id="data" name="data" class="form-control" placeholder="Data no formato dd/mm/aaaa" required>
                             </div>
                         @endif
 
                         <select class="form-control" required name="recurso">
                             <option value="">Selecione</option>
                             @foreach($recursos as $recurso)
-                                <option value="{{ $recurso->id }}">{{ $recurso->nome }}</option>
+                                <option value="{{ $recurso->id }}">{!! $recurso->nome !!}</option>
                             @endforeach
                         </select>
                         <br />

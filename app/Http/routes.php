@@ -50,8 +50,8 @@ Route::group(['middleware' => 'auth'], function()
             Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
 
             // Rotas para consulta de uma alocação em um dia específico
-            Route::get('alocacao/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'ReservaController@select']);
-            Route::post('alocacao/consulta', ['as' => 'detailsAllocation', 'uses' => 'ReservaController@details']);
+            Route::get('reserva/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'ReservaController@select']);
+            Route::post('reserva/consulta', ['as' => 'detailsAllocation', 'uses' => 'ReservaController@details']);
         });
 
         // Rota que mostra os logs do sistema
@@ -64,13 +64,13 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('index.html', ['uses' => 'DashboardController@getHome']); // Tratamento do link do site do ICEA
 
     // Rotas relacionadas aos recursos
-    Route::group(['prefix' => 'recursos'], function() {
-        Route::get('alocacao/selecionar', ['as' => 'selectAllocation', 'uses' => 'ReservaController@select']);
-        Route::get('alocacao/quadro', 'ReservaController@show'); // tratamento para redirecionamentos
-        Route::post('alocacao/quadro', ['as' => 'addAllocation', 'uses' => 'ReservaController@show']);
-        Route::post('alocar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
-        Route::get('consulta', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
-        Route::get('desalocar/{reserva}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete'])->middleware('can:manipularReserva,reserva');
+    Route::group(['prefix' => 'recurso'], function() {
+        Route::get('selecionar', ['as' => 'selectAllocation', 'uses' => 'ReservaController@select']);
+        Route::get('reserva/quadro', 'ReservaController@show'); // tratamento para redirecionamentos
+        Route::post('reserva/quadro', ['as' => 'addAllocation', 'uses' => 'ReservaController@show']);
+        Route::post('reservar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
+        Route::get('consultar', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
+        Route::get('cancelar/{reserva}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete'])->middleware('can:manipularReserva,reserva');
     });
 
     // Rotas relacionadas com manipulação dos registros de bugs
