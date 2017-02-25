@@ -34,12 +34,12 @@ class DashboardController extends Controller
             /* Mês Passado */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '=<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
             $topUsuariosMesPassado = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
 
             // 3 recursos com mais reservas nesse mês
-            $reservasPorRecurso = Reserva::with('recurso')->where('data', '=<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
+            $reservasPorRecurso = Reserva::with('recurso')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
             $topRecursosMesPassado = array();
             foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
 
@@ -80,6 +80,9 @@ class DashboardController extends Controller
             // 5 tipos de reservas mais frequentes de todos os tempos
             $reservasFrequentes = $todasReservas->groupBy('recurso.nome')->sort()->reverse()->take(5);
 
+
+            /* Mês atual */
+
             // Todas as reservas deste mês
             $todasReservasMesAtual = $recursoMaisAlocadoMesAtual = $todasReservas->filter(function($reserva){
                 return $reserva->data >= Carbon::now()->subMonth()->format('Y-m-d');
@@ -90,6 +93,9 @@ class DashboardController extends Controller
 
             // Reservas ativas esse mes
             $reservasMes = $todasReservasMesAtual->count();
+
+
+            /* Mês passado */
 
             // Todas as reservas do mês passado
             $todasReservasMesPassado = $todasReservas->filter(function ($reserva){
