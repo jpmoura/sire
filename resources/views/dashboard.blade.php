@@ -126,7 +126,7 @@
                                 <br />
                                 <span class="info-box-number">
                                     @if(!empty($topRecursoMesAtual))
-                                        {!! $topRecursoMesAtual !!}
+                                        {!! $topRecursoMesAtual->recurso->nome !!}
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif
@@ -143,7 +143,7 @@
                                 <br />
                                 <span class="info-box-number">
                                     @if(!empty($topRecurssoMesPassado))
-                                        {!! $topRecursoMesPassado !!}
+                                        {!! $topRecursoMesPassado->recurso->nome !!}
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif

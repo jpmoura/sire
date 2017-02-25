@@ -80,17 +80,27 @@ class DashboardController extends Controller
             // 5 tipos de reservas mais frequentes de todos os tempos
             $reservasFrequentes = $todasReservas->groupBy('recurso.nome')->sort()->reverse()->take(5);
 
+            // Todas as reservas deste mês
+            $todasReservasMesAtual = $recursoMaisAlocadoMesAtual = $todasReservas->filter(function($reserva){
+                return $reserva->data >= Carbon::now()->subMonth()->format('Y-m-d');
+            });
+
             // Recurso mais alocado no mês atual
-            $recursoMaisAlocadoMesAtual = $todasReservas->where('data', '>=', $mesAtual)->sort()->reverse()->first();
+            $recursoMaisAlocadoMesAtual = $todasReservasMesAtual->sort()->reverse()->first();
+
+            // Reservas ativas esse mes
+            $reservasMes = $todasReservasMesAtual->count();
+
+            // Todas as reservas do mês passado
+            $todasReservasMesPassado = $todasReservas->filter(function ($reserva){
+                return ($reserva->data < Carbon::now()->subMonth()->format('Y-m-d')) && ($reserva->data >= Carbon::now()->subMonths(2)->format('Y-m-d'));
+            });
 
             // Recurso mais alocado no més passado
-            $recursoMaisAlocadoMesPassado = $todasReservas->where('data', '<=', $mesAtual)->where('data', '>=', $mesPassado)->sort()->reverse()->first();
+            $recursoMaisAlocadoMesPassado = $todasReservasMesPassado->sort()->reverse()->first();
 
-            //reservas ativas esse mes
-            $reservasMes = $todasReservas->where('data', '>=', $mesAtual)->count();
-
-            // reservas ativas messado
-            $reservasMesPassado = $todasReservas->where('data', '<=', $mesAtual)->where('data', '>=', $mesPassado)->count();
+            // Reservas ativas messado
+            $reservasMesPassado = $todasReservasMesPassado->count();
 
             return view('dashboard')->with(['topRecursoMesAtual' => $recursoMaisAlocadoMesAtual, 'reservasMesAtual' => $reservasMes, 'reservasMesPassado' => $reservasMesPassado, 'topRecursoMesPassado' => $recursoMaisAlocadoMesPassado, 'proximasReservas' => $proximasReservas, 'reservasFrequentes' => $reservasFrequentes]);
         }
