@@ -24,9 +24,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="skin-ufop hold-transition sidebar-mini @if(!Auth::check()) guest @endif">
+<body class="skin-ufop hold-transition sidebar-mini @if(!auth()->check()) guest @endif">
 
-@if(Auth::check())
+@if(auth()->check())
     <div class="wrapper">
 
         <!-- Header -->
@@ -51,18 +51,27 @@
 @endif
         <!-- Main content -->
         <section class="content">
-            <!-- jQuery 2.2.4 -->
+            @if(session()->has("tipo"))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center alert alert-dismissible @if(session('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{!! session("tipo") !!}!</strong> {!! session("mensagem") !!}
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             @yield('content')
         </section><!-- /.content -->
-@if(Auth::check())
+@if(auth()->check())
     </div><!-- /.content-wrapper -->
 @endif
 
     <!-- Footer -->
     @include('layout.footer')
 
-@if(Auth::check())
+@if(auth()->check())
     </div><!-- ./wrapper -->
 @endif
 
