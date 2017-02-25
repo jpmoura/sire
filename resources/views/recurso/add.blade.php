@@ -15,16 +15,6 @@
 @section('content')
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
-
-            @if(Session::has("tipo"))
-                <div class="row">
-                    <div class="text-center alert alert-dismissible @if(Session::get('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>{{Session::get("tipo")}}!</strong> {{Session::get("mensagem")}}
-                    </div>
-                </div>
-            @endif
-
             <div class="box box-primary-ufop">
                 <div class="box-body">
                     <form class="form" action="{{ route('storeAsset') }}" accept-charset="UTF-8" method="post">
@@ -34,7 +24,7 @@
                             <select class="form-control" name="tipo" required data-toggle="tooltip" data-placement="right" title="Tipo do recurso.">
                                 <option value="">Selecione</option>
                                 @foreach($tipos as $tipo)
-                                    <option value="{{ $tipo->id }}">{{$tipo->nome}}</option>
+                                    <option value="{{ $tipo->id }}">{!! $tipo->nome !!}</option>
                                 @endforeach
                             </select>
                         </div>

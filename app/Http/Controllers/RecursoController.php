@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Recurso;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-use View;
-use DB;
-use Session;
 use Input;
-use Illuminate\Support\Facades\Redirect;
 use Log;
 use App\TipoRecurso;
-use App\Asset;
 
 class RecursoController extends Controller
 {
@@ -21,8 +16,7 @@ class RecursoController extends Controller
      */
     public function add()
     {
-        $tipos = TipoRecurso::select('tipoNome as nome', 'tipoId as id')->get();
-        return View::make('asset.add')->with(['tipos' => $tipos]);
+        return view('recurso.add')->with(['tipos' => TipoRecurso::all()]);
     }
 
     /**
@@ -30,14 +24,8 @@ class RecursoController extends Controller
      */
     public function show()
     {
-        $recursos = DB::table("tb_equipamento")->join("tb_tipo", "tb_equipamento.tipoId", "=", "tb_tipo.tipoId")
-            ->select("tb_tipo.tipoNome as tipo", "equId as id", "equNome as nome", "equDescricao as descricao", "equStatus as status")
-            ->orderBy("tb_tipo.tipoNome", "asc")
-            ->orderBy("equStatus", "desc")
-            ->orderBy("equNome", "asc")
-            ->get();
-
-        return View::make('asset.show')->with(['recursos' => $recursos]);
+        $recursos = Recurso::with('tipo')->get()->sortBy('nome');
+        return view('recurso.show')->with(['recursos' => $recursos]);
     }
 
     /**
@@ -48,7 +36,12 @@ class RecursoController extends Controller
         $tipo = "Erro";
         $form = Input::all();
 
-        $id = Asset::create(['tipoId' => $form['tipo'], 'equNome' => $form['nome'], 'equDescricao' => $form['descricao'], 'equStatus' => $form['status']]);
+        $id = Recurso::create([
+            'tipo_recurso_id' => $form['tipo'],
+            'nome' => $form['nome'],
+            'descricao' => $form['descricao'],
+            'status' => $form['status']
+        ]);
 
         if(isset($id))
         {
@@ -57,29 +50,20 @@ class RecursoController extends Controller
         }
         else $mensagem = "Falha do banco dados.";
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
 
-        return Redirect::route("showAsset");
+        return redirect()->route("showAsset");
     }
 
     /**
      * Renderiza uma view com um formulário de edição dos dados de um recurso.
-     * @param $id ID do recurso
+     * @param Recurso $recurso Instância do recurso a ser editada
      */
-    public function details($id)
+    public function details(Recurso $recurso)
     {
-        $recurso = Asset::select("tipoId as tipo", "equId as id", "equNome as nome", "equDescricao as descricao", "equStatus as status")->where('equId', $id)->first();
-        $tipos = TipoRecurso::select('tipoNome as nome', 'tipoId as id')->get();
-
-        if(empty($recurso) || empty($tipos))
-        {
-            Session::flash("tipo", "Erro");
-            Session::flash("mensagem", "Erro no banco de dados. Impossível obter os dados do recurso!");
-        }
-
-        return View::make('asset.edit')->with(['recurso' => $recurso, 'tipos' => $tipos]);
-
+        $tipos = TipoRecurso::all();
+        return view('recurso.edit')->with(['recurso' => $recurso, 'tipos' => $tipos]);
     }
 
     /**
@@ -90,7 +74,7 @@ class RecursoController extends Controller
         $form = Input::all();
         $tipo = "Erro";
 
-        $updated = Asset::where('equId', $form['id'])->update(['equNome' => $form['nome'], 'tipoID' => $form['tipo'], 'equDescricao' => $form['descricao'], 'equStatus' => $form['status']]);
+        $updated = Recurso::find($form['id'])->update(['nome' => $form['nome'], 'tipo_recurso_id' => $form['tipo'], 'descricao' => $form['descricao'], 'status' => $form['status']]);
 
         if($updated == 1)
         {
@@ -99,9 +83,9 @@ class RecursoController extends Controller
         }
         else $mensagem = "Erro no banco de dados.";
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
-        return Redirect::back();
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
+        return back();
     }
 
     /**
@@ -115,7 +99,7 @@ class RecursoController extends Controller
 
         try
         {
-            $deleted = Asset::where('equId', $id)->update(['equStatus' => 0]);
+            $deleted = Recurso::find($id)->update(['status' => 0]);
         }
         catch(\Illuminate\Database\QueryException $ex)
         {
@@ -129,8 +113,8 @@ class RecursoController extends Controller
             $mensagem = "Recurso removido com sucesso! Ele ainda existe no banco de dados mas não poderá ser reservado por ninguém.";
         }
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
-        return Redirect::route('showAsset');
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
+        return redirect()->route('showAsset');
     }
 }

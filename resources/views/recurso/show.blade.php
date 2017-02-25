@@ -12,20 +12,54 @@
     Esta é a lista com todos os recursos cadastrados no sistema.
 @endsection
 
+@push('extra-css')
+<link rel="stylesheet" href="{{url('public/js/plugins/datatables/dataTables.bootstrap.css')}}">
+@endpush
+
+@push('extra-js')
+<script src="{{url('public/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{url('public/js/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+<script>
+    $(function () {
+        $("#table").DataTable( {
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado.",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(Filtrado de _MAX_ registros)",
+                "search": "Procurar:",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth" : true,
+            "aaSorting": [[ 1, "asc" ]],
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tudo"]]
+        });
+    });
+
+
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var link = $(event.relatedTarget); // Button that triggered the modal
+        var id = link.data('id'); // Extract info from data-* attributes
+        var nome = link.data('nome'); // Extract info from data-* attributes
+
+        document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o recurso ' + nome + '?';
+        document.getElementById("formID").setAttribute("value", id)
+    });
+
+    $('#deleteModal').on('hide.bs.modal', function (event) {
+        document.getElementById("mensagem").innerHTML = "";
+        document.getElementById("formID").setAttribute("value", "")
+    });
+</script>
+@endpush
+
 @section('content')
     <div class='row'>
-        <link rel="stylesheet" href="{{url('public/plugins/datatables/dataTables.bootstrap.css')}}">
         <div class='col-md-8 col-md-offset-2'>
-            @if(Session::has("tipo"))
-                <div class="row">
-                    <div class="text-center alert alert-dismissible @if(Session::get('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>{{Session::get("tipo")}}!</strong> {{Session::get("mensagem")}}
-                    </div>
-                </div>
-                <br />
-            @endif
-
             @if(!is_null($recursos))
                 <div class="box box-primary-ufop">
                     <div class="box-header">
@@ -40,8 +74,8 @@
                                     <th>Nome</th>
                                     <th>Tipo</th>
                                     <th>Descrição</th>
-                                    <th>Status</th>
                                     @can('administrate')
+                                        <th>Status</th>
                                         <th>Ações</th>
                                     @endcan
                                 </tr>
@@ -49,20 +83,20 @@
                                 <tbody>
                                 @foreach($recursos as $recurso)
                                     <tr>
-                                        <td>{{$recurso->id}}</td>
-                                        <td>{{$recurso->nome}}</td>
-                                        <td>{{$recurso->tipo}}</td>
-                                        <td>{{$recurso->descricao}}</td>
-                                        <td>
-                                            <b>
-                                                @if($recurso->status == 1)
-                                                    <span class="text-success">Ativo</span>
-                                                @else
-                                                    <span class="text-warning">Inativo</span>
-                                                @endif
-                                            </b>
-                                        </td>
+                                        <td>{{ $recurso->id }}</td>
+                                        <td>{!! $recurso->nome !!}</td>
+                                        <td>{!! $recurso->tipo->nome !!}</td>
+                                        <td>{!! $recurso->descricao !!}</td>
                                         @can('administrate')
+                                            <td>
+                                                <b>
+                                                    @if($recurso->status == 1)
+                                                        <span class="text-success">Ativo</span>
+                                                    @else
+                                                        <span class="text-warning">Inativo</span>
+                                                    @endif
+                                                </b>
+                                            </td>
                                             <td>
                                                 <a class="btn btn-default btn-xs" href="{{ route('detailsAsset', $recurso->id) }}"><i class="fa fa-edit"></i> Editar</a>
                                                 @if($recurso->status != 0)
@@ -93,9 +127,6 @@
         </div><!-- /.col -->
     </div><!-- /.row -->
 
-    <script src="{{url('public/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('public/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
-
     <div class="row">
         <div class="modal fade modal-warning" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog">
@@ -118,45 +149,5 @@
                 </div>
             </div>
         </div>
-
-
-        <script>
-            $(function () {
-                $("#table").DataTable( {
-                    "language": {
-                        "lengthMenu": "Mostrar _MENU_ registros por página",
-                        "zeroRecords": "Nada encontrado.",
-                        "info": "Mostrando página _PAGE_ de _PAGES_",
-                        "infoEmpty": "Nenhum registro disponível",
-                        "infoFiltered": "(Filtrado de _MAX_ registros)",
-                        "search": "Procurar:",
-                        "paginate": {
-                            "next": "Próximo",
-                            "previous": "Anterior"
-                        }
-                    },
-                    "autoWidth" : true,
-                    "aaSorting": [[ 1, "asc" ]],
-                    "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tudo"]]
-                });
-            });
-
-
-            $('#deleteModal').on('show.bs.modal', function (event) {
-                var link = $(event.relatedTarget); // Button that triggered the modal
-                var id = link.data('id'); // Extract info from data-* attributes
-                var nome = link.data('nome'); // Extract info from data-* attributes
-
-                document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o recurso ' + nome + '?';
-                document.getElementById("formID").setAttribute("value", id)
-            });
-
-            $('#deleteModal').on('hide.bs.modal', function (event) {
-                document.getElementById("mensagem").innerHTML = "";
-                document.getElementById("formID").setAttribute("value", "")
-            });
-        </script>
     </div>
-
-
 @endsection
