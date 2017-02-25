@@ -17,6 +17,6 @@ class Bug extends Model
      */
     public function autor()
     {
-        return $this->belongsTo('App\Usuario');
+        return $this->belongsTo('App\Usuario', 'usuario_id');
     }
 }

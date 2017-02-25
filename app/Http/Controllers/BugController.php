@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use View;
-use DB;
-use Session;
-use Input;
-use Illuminate\Support\Facades\Redirect;
 use App\Bug;
+use Input;
 
 class BugController extends Controller
 {
@@ -19,7 +12,7 @@ class BugController extends Controller
      */
     public function add()
     {
-        return View::make('bug.add');
+        return view('bug.add');
     }
 
     /**
@@ -28,19 +21,17 @@ class BugController extends Controller
      */
     public function show()
     {
-        $bugs = DB::table('bugs')->join('ldapusers', 'cpf', '=', 'user')->select('title', 'bugs.id', 'nome')->get();
-        return View::make('bug.show')->with(['bugs' => $bugs]);
-
+        return view('bug.show')->with(['bugs' => Bug::with('autor')->get()]);
     }
 
     /**
      * Renderiza uma view com os detalhes de um determinado bug.
-     * @param $id ID do bug
+     * @param Bug $bug Instância do bug a ser visualizada
      */
-    public function details($id)
+    public function details(Bug $bug)
     {
-        $bug = DB::table('bugs')->join('ldapusers', 'cpf', '=', 'user')->select('title', 'bugs.id', 'nome', 'description', 'email')->where('bugs.id', $id)->first();
-        return View::make('bug.details')->with(['bug' => $bug]);
+        $bug->load('autor');
+        return view('bug.details')->with(['bug' => $bug]);
     }
 
     /**
@@ -50,7 +41,12 @@ class BugController extends Controller
     {
         $tipo = "Erro";
         $form = Input::all();
-        $bug = Bug::create(Input::all());
+
+        $bug = Bug::create([
+            'usuario_id' => auth()->id(),
+            'titulo' => $form['title'],
+            'descricao' => $form['description'],
+        ]);
 
         if(isset($bug))
         {
@@ -59,10 +55,10 @@ class BugController extends Controller
         }
         else $mensagem = "Falha do banco dados.";
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
 
-        return Redirect::back();
+        return back();
     }
 
     /**
@@ -81,10 +77,10 @@ class BugController extends Controller
         }
         else $mensagem = "Falha do banco dados. O bug não foi excluído.";
 
-        Session::flash("mensagem", $mensagem);
-        Session::flash("tipo", $tipo);
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
 
-        return Redirect::route('showBug');
+        return redirect()->route('showBug');
 
     }
 }

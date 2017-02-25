@@ -13,7 +13,7 @@
 @endsection
 
 @push('extra-css')
-<link rel="stylesheet" href="{{ url('public/jsplugins/datatables/dataTables.bootstrap.css') }}">
+<link rel="stylesheet" href="{{ url('public/js/plugins/datatables/dataTables.bootstrap.css') }}">
 @endpush
 
 @push('extra-js')
@@ -62,7 +62,7 @@
             @if(isset($bugs))
                 <div class="box box-primary-ufop">
                     <div class="box-header">
-                        <h3 class="box-title">Atualmente existem {{ count($bugs) }} bugs reportados</h3>
+                        <h3 class="box-title">Atualmente existem {{ $bugs->count() }} bugs reportados</h3>
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
@@ -77,11 +77,11 @@
                                 <tbody>
                                 @foreach($bugs as $bug)
                                     <tr>
-                                        <td>{!! $bug->title !!}</td>
-                                        <td>{!! $bug->nome !!}</td>
+                                        <td>{!! $bug->titulo !!}</td>
+                                        <td>{!! $bug->autor->nome !!}</td>
                                         <td>
                                             <a class="btn btn-default btn-xs" href="{{ route('detailsBug', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
-                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->title !!}" class="btn btn-default btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->titulo !!}" class="btn btn-default btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                                         </td>
                                     </tr>
                                 @endforeach

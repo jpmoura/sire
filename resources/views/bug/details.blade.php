@@ -22,15 +22,15 @@
                             <tbody>
                             <tr>
                                 <th class="text-center">Título</th>
-                                <td class="text-left">{!! $bug->title !!}</td>
+                                <td class="text-left">{!! $bug->titulo !!}</td>
                             </tr>
                             <tr>
                                 <th class="text-center">Descrição</th>
-                                <td class="text-left">{!! $bug->description !!}</td>
+                                <td class="text-left">{!! $bug->descricao !!}</td>
                             </tr>
                             <tr>
                                 <th class="text-center">Autor</th>
-                                <td class="text-left"><a target="_blank" href="mailto:{!! $bug->email !!}?subject=[UFOP-ICEA] Bug no Sistema de Reservas">{!! $bug->nome !!}</a></td>
+                                <td class="text-left"><a target="_blank" href="mailto:{!! $bug->autor->email !!}?subject=[UFOP-ICEA] Bug no Sistema de Reservas">{!! $bug->autor->nome !!}</a></td>
                             </tr>
                             </tbody>
                         </table>
