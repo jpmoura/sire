@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use View;
-use Session;
 use Input;
-use Illuminate\Support\Facades\Redirect;
 use Log;
 use App\Regra;
 
@@ -19,9 +16,7 @@ class RegraController extends Controller
      */
     public function show()
     {
-        $regras = Regra::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias")->first();
-        Session::put("menu", "showRule");
-        return View::make('rule.show')->with(['regras' => $regras]);
+        return view('regra.show')->with(['regras' => Regra::first()]);
     }
 
     /**
@@ -29,9 +24,7 @@ class RegraController extends Controller
      */
     public function details()
     {
-        $regras = Regra::select("horNumAulaManha as manha", "horNumAulaTarde as tarde", "horNumAulaNoite as noite", "horNumDias as dias", "horId as id", "inicioManha", "inicioTarde", "inicioNoite")
-                    ->first();
-        return View::make('rule.edit')->with(['regras' => $regras]);
+        return view('regra.edit')->with(['regras' => Regra::first()]);
     }
 
     /**
@@ -48,13 +41,15 @@ class RegraController extends Controller
             if($form['noite'] > 4) $mensagem .= "O número de horários pode ser no máximo 4 para o turno da noite.\n";
 
             $regras = Regra::first();
-            $regras->horNumAulaManha = $form['manha'];
-            $regras->horNumAulaTarde = $form['tarde'];
-            $regras->horNumAulaNoite = $form['noite'];
-            $regras->horNumDias = $form['dias'];
-            $regras->inicioManha = $form['inicioManha'];
-            $regras->inicioTarde = $form['inicioTarde'];
-            $regras->inicioNoite = $form['inicioNoite'];
+
+            $regras->quantidade_horarios_matutino = $form['manha'];
+            $regras->quantidade_horarios_vespertino = $form['tarde'];
+            $regras->quantidade_horarios_noturno = $form['noite'];
+            $regras->quantidade_dias_reservaveis = $form['dias'];
+            $regras->horario_inicio_matutino = $form['inicioManha'];
+            $regras->horario_inicio_vespertino = $form['inicioTarde'];
+            $regras->horario_inicio_noturno = $form['inicioNoite'];
+
             $updated = $regras->save();
 
             if($updated == 1) {
@@ -63,9 +58,9 @@ class RegraController extends Controller
             }
             else $mensagem .= "Erro no banco de dados ou nas regras. Atualização cancelada.";
 
-            Session::flash("tipo", $tipo);
-            Session::flash("mensagem", $mensagem);
+            session()->flash("tipo", $tipo);
+            session()->flash("mensagem", $mensagem);
 
-            return Redirect::back();
+            return back();
     }
 }

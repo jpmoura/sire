@@ -27,10 +27,10 @@
                                 <th class="text-center">Ações</th>
                             </tr>
                             <tr class="text-center">
-                                <td>{{ $regras->manha }}</td>
-                                <td>{{ $regras->tarde }}</td>
-                                <td>{{ $regras->noite }}</td>
-                                <td>{{ $regras->dias }}</td>
+                                <td>{{ $regras->quantidade_horarios_matutino }}</td>
+                                <td>{{ $regras->quantidade_horarios_vespertino }}</td>
+                                <td>{{ $regras->quantidade_horarios_noturno }}</td>
+                                <td>{{ $regras->quantidade_dias_reservaveis }}</td>
                                 <td><a class="btn btn-default btn-xs" href="{{ route('detailsRule') }}"><i class="fa fa-edit"></i> Editar</a></td>
                             </tr>
                         </table>
