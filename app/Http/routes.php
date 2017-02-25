@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function()
 
         // Rotas relacionadas com manipulação dos registros de bugs
         Route::group(['prefix' => 'bug'], function() {
-            Route::get('detalhe/{id}', ['as' => 'detailsBug', 'uses' => 'BugController@details']);
+            Route::get('detalhe/{bug}', ['as' => 'detailsBug', 'uses' => 'BugController@details']);
             Route::post('deletar', ['as' => 'deleteBug', 'uses' => 'BugController@delete']);
             Route::get('visualizar', ['as' => 'showBug', 'uses' => 'BugController@show']);
         });
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::group(['prefix' => 'recursos'], function() {
             Route::get('cadastrar', ['as' => 'addAsset', 'uses' => 'RecursoController@add']);
             Route::post('cadastrar', ['as' => 'storeAsset', 'uses' => 'RecursoController@store']);
-            Route::get('editar/{id}', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
+            Route::get('editar/{recurso}', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
             Route::post('editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
             Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
 
