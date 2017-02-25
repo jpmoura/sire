@@ -125,8 +125,8 @@
                                 <span class="info-box-text">Recurso favorito nesse mês</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($recursoAtual))
-                                        {{$recursoAtual}}
+                                    @if(!empty($topRecursoMesAtual))
+                                        {!! $topRecursoMesAtual !!}
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif
@@ -142,8 +142,8 @@
                                 <span class="info-box-text">Recurso favorito no mês passado</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($recursoAnterior))
-                                        {{ $recursoAnterior }}
+                                    @if(!empty($topRecurssoMesPassado))
+                                        {!! $topRecursoMesPassado !!}
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif
@@ -159,8 +159,8 @@
                                 <span class="info-box-text">Reservas neste mês</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($reservasAtual))
-                                        {{ $reservasAtual }} RESERVAS NESSE MÊS
+                                    @if(!empty($reservasMesAtual) || $reservasMesAtual == 0)
+                                        {!! $reservasMesAtual !!} RESERVAS NESSE MÊS
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif
@@ -176,8 +176,8 @@
                                 <span class="info-box-text">Reservas no mês passado</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($reservasAnterior))
-                                        {{ $reservasAnterior }} RESERVAS NO MÊS ANTERIOR
+                                    @if(!empty($reservasMesPassado) || $reservasMesPassado == 0)
+                                        {!! $reservasMesPassado !!} RESERVAS NO MÊS ANTERIOR
                                     @else
                                         NENHUMA RESERVA FEITA
                                     @endif
@@ -194,7 +194,7 @@
                                 <h3 class="box-title"><i class="fa fa-calendar-check-o"></i> Minhas próximas reservas</h3>
                             </div>
                             <div class="box-body">
-                                @if(count($proximas))
+                                @if(count($proximasReservas))
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover text-center">
                                             <thead>
@@ -205,11 +205,11 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($proximas as $reserva)
+                                            @foreach($proximasReservas as $reserva)
                                                 <tr>
-                                                    <td>{{ $reserva->data }}</td>
-                                                    <td>{{ $reserva->nome }}</td>
-                                                    <td>{{ $reserva->horario . '&ordm;'}}
+                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $reserva->data)->format('d/m/Y') }}</td>
+                                                    <td>{!! $reserva->recurso->nome !!}</td>
+                                                    <td>{!! $reserva->horario . '&ordm;' !!}
                                                         @if($reserva->turno == 'm')
                                                             Matutino
                                                         @elseif($reserva->turno == 'v')
@@ -236,30 +236,20 @@
                                 <h3 class="box-title"><i class="fa fa-arrow-up"></i> Minhas reservas frequentes</h3>
                             </div>
                             <div class="box-body">
-                                @if(count($frequentes))
+                                @if(count($reservasFrequentes))
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover text-center">
                                             <thead>
                                             <tr>
                                                 <th>Recurso</th>
-                                                <th>Horário</th>
                                                 <th>Frequência</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($frequentes as $reserva)
+                                            @foreach($reservasFrequentes->keys() as $recurso)
                                                 <tr>
-                                                    <td>{{$reserva->recurso->nome}}</td>
-                                                    <td>{{$reserva->horario . '&ordm;'}}
-                                                        @if($reserva->turno == 'm')
-                                                            Matutino
-                                                        @elseif($reserva->turno == 'v')
-                                                            Vespertino
-                                                        @else
-                                                            Noturno
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $reserva }}</td>
+                                                    <td>{!! $recurso !!}</td>
+                                                    <td>{!! $reservasFrequentes[$recurso]->count() !!}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

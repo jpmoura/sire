@@ -28,7 +28,7 @@ class DashboardController extends Controller
             // 3 recursos com mais reservas nesse mês
             $reservasPorRecurso = Reserva::with('recurso')->where('data', '>', $mesAtual)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
             $topRecursosMesAtual = array();
-            foreach($reservasPorRecurso as $reserva) $topRecursosMesAtual[$reserva[0]->recurso->nome] = $reserva->count();
+            foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesAtual[$recurso] = $reservasPorRecurso[$recurso]->count();
 
             /* Mês Passado */
 
@@ -40,7 +40,7 @@ class DashboardController extends Controller
             // 3 recursos com mais reservas nesse mês
             $reservasPorRecurso = Reserva::with('recurso')->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
             $topRecursosMesPassado = array();
-            foreach($reservasPorRecurso as $reserva) $topRecursosMesPassado[$reserva[0]->recurso->nome] = $reserva->count();
+            foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
 
             /* Reservas e uso de recursos nos últimos 6 meses */
 
@@ -91,7 +91,7 @@ class DashboardController extends Controller
             // reservas ativas messado
             $reservasMesPassado = $todasReservas->where('data', '<', $mesAtual)->where('data', '>', $mesPassado)->count();
 
-            return view('dashboard')->with(['recursoAtual' => $recursoMaisAlocadoMesAtual, 'reservasAtual' => $reservasMes, 'reservasAnterior' => $reservasMesPassado, 'recursoAnterior' => $recursoMaisAlocadoMesPassado, 'proximas' => $proximasReservas, 'frequentes' => $reservasFrequentes]);
+            return view('dashboard')->with(['topRecursoMesAtual' => $recursoMaisAlocadoMesAtual, 'reservasMesAtual' => $reservasMes, 'reservasMesPassado' => $reservasMesPassado, 'topRecursoMesPassado' => $recursoMaisAlocadoMesPassado, 'proximasReservas' => $proximasReservas, 'reservasFrequentes' => $reservasFrequentes]);
         }
     }
 
