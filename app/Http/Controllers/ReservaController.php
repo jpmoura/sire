@@ -160,34 +160,28 @@ class ReservaController extends Controller
     }
 
     /**
-     * Desaloca um recurso de uma reserva previamente feita
-     * @param $id ID da alocação
+     * Desfaz uma reserva previamente feita.
+     * @param Reserva $reserva Instância da reserva a ser excluída
      */
-    public function delete($id)
+    public function delete(Reserva $reserva)
     {
-        $reservista = Alocacao::select("usuId as id", "equId as equipamento")->where("aloId", $id)->first();
+        session()->flash('allocationRedirection', $reserva->recurso_id);
+        $deleted = $reserva->delete();
 
-        // USAR UM GUARD PARA VERIFICAR SE O USUÁRIO É DONO DA RESERVA
-
-        if(auth()->user()->isAdmin() || $reservista->id == auth()->user()->cpf)
+        if ($deleted)
         {
-            $deleted = Alocacao::destroy($id);
-            if ($deleted)
-            {
-                $tipo = "Sucesso";
-                $mensagem = "Recurso desalocado com sucesso.";
-            }
-            else
-            {
-                $tipo = "Erro";
-                $mensagem = "Erro ao tentar desalocar o recurso.";
-            }
+            $tipo = "Sucesso";
+            $mensagem = "Reserva cancelada com suceso.";
         }
-        else abort(403);
+        else
+        {
+            $tipo = "Erro";
+            $mensagem = "Erro ao tentar cancelar a reserva.";
+        }
 
         session()->flash("tipo", $tipo);
         session()->flash("mensagem", $mensagem);
-        session()->flash('allocationRedirection', $reservista->equipamento);
+
         return back();
     }
 

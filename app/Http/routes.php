@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth'], function()
     // Rotas de páginas iniciais
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@getHome']);
     Route::get('home', ['uses' => 'DashboardController@getHome']);
-    Route::get('index.html', ['uses' => 'DashboardController@getHome']); // Tratametno do link do site do ICEA
+    Route::get('index.html', ['uses' => 'DashboardController@getHome']); // Tratamento do link do site do ICEA
 
     // Rotas relacionadas aos recursos
     Route::group(['prefix' => 'recursos'], function() {
@@ -70,9 +70,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::post('alocacao/quadro', ['as' => 'addAllocation', 'uses' => 'ReservaController@show']);
         Route::post('alocar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
         Route::get('consulta', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
-
-        // TODO Uma guard para ser usada como middleware para checar se o usuário pode desalocar o recurso
-        Route::get('desalocar/{id}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete']);
+        Route::get('desalocar/{reserva}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete'])->middleware('can:manipularReserva,reserva');
     });
 
     // Rotas relacionadas com manipulação dos registros de bugs
