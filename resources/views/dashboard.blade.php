@@ -159,7 +159,7 @@
                                 <span class="info-box-text">Reservas neste mês</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($reservasMesAtual) || $reservasMesAtual == 0)
+                                    @if(!empty($reservasMesAtual))
                                         {!! $reservasMesAtual !!} RESERVAS NESSE MÊS
                                     @else
                                         NENHUMA RESERVA FEITA
@@ -176,7 +176,7 @@
                                 <span class="info-box-text">Reservas no mês passado</span>
                                 <br />
                                 <span class="info-box-number">
-                                    @if(!empty($reservasMesPassado) || $reservasMesPassado == 0)
+                                    @if(!empty($reservasMesPassado))
                                         {!! $reservasMesPassado !!} RESERVAS NO MÊS ANTERIOR
                                     @else
                                         NENHUMA RESERVA FEITA
