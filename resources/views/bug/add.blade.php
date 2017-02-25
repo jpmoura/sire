@@ -15,16 +15,6 @@
 @section('content')
     <div class='row'>
         <div class='col-md-8 col-md-offset-2'>
-
-            @if(Session::has("tipo"))
-                <div class="row">
-                    <div class="text-center alert alert-dismissible @if(Session::get('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>{{Session::get("tipo")}}!</strong> {!! Session::get("mensagem") !!}
-                    </div>
-                </div>
-            @endif
-
             <div class="box box-primary-ufop">
                 <div class="box-body">
                     <form class="form" action="{{ route('storeBug') }}" accept-charset="UTF-8" method="post">
@@ -40,7 +30,7 @@
                             <textarea name="description" maxlength="850" rows="6" style="resize: none" class="form-control" placeholder="Informe o máximo de detalhes que conseguir (Ex.: navegador, ação que estava realizando, se era navagação privada ou não, se era em um dispositivo móvel ou desktop, etc.)" required></textarea>
                         </div>
 
-                        <input type="hidden" name="user" value="{{Auth::user()->cpf}}">
+                        <input type="hidden" name="user" value="{!! auth()->user()->cpf !!}">
                         <br />
 
                         <div class="text-center">

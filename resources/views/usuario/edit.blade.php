@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Editar usuário {{ $usuario->nome }}
+    Editar usuário {!! $usuario->nome !!}
 @endsection
 
 @section('page_icon')
@@ -20,21 +20,21 @@
                     <form class="form" action="{{ route('editUser') }}" accept-charset="UTF-8" method="post">
                         {{ csrf_field() }}
 
-                        <input type="hidden" name="cpf" value="{{$usuario->cpf}}">
+                        <input type="hidden" name="cpf" value="{{ $usuario->cpf }}">
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-                            <input disabled class="form-control" type="text" placeholder="{{$usuario->cpf}}" data-toggle="tooltip" data-placement="right" title="CPF do usuário">
+                            <input disabled class="form-control" type="text" placeholder="{{ $usuario->cpf }}" data-toggle="tooltip" data-placement="right" title="CPF do usuário">
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input disabled type="text" class="form-control" value="{{$usuario->nome}}" data-toggle="tooltip" data-placement="right" title="Nome do usuário">
+                            <input disabled type="text" class="form-control" value="{!! $usuario->nome !!}" data-toggle="tooltip" data-placement="right" title="Nome do usuário">
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                            <input disabled type="email" class="form-control" value="{{$usuario->email}}" name="email" data-toggle="tooltip" data-placement="right" title="E-mail do usuário">
+                            <input disabled type="email" class="form-control" value="{!! $usuario->email !!}" name="email" data-toggle="tooltip" data-placement="right" title="E-mail do usuário">
                         </div>
 
                         <div class="input-group">
@@ -78,12 +78,11 @@
                         <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                     </div>
                     <form class="form text-center" action="{{ route('deleteUser') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="cpf" value="{{ $usuario->cpf }}">
                         <div class="modal-body">
-                            <p class="text-center">Você tem certeza que quer excluir o usuário {{$usuario->nome}}?</p>
+                            <p class="text-center">Você tem certeza que quer excluir o usuário {!! $usuario->nome !!}?</p>
                             <br />
-
-                                {{ csrf_field() }}
-                                <input type="hidden" name="cpf" value="{{$usuario->cpf}}">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>

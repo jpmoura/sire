@@ -102,9 +102,9 @@
                             </span>
                                         </td>
                                         @can('administrate')
-                                            <td><a class="btn btn-default btn-xs" href="{{ route('detailsUser', ['cpf' => $usuario->cpf]) }}"><i class="fa fa-edit"></i> Editar</a>
+                                            <td><a class="btn btn-default btn-xs" href="{{ route('detailsUser', $usuario->cpf) }}"><i class="fa fa-edit"></i> Editar</a>
                                                 @if($usuario->status != 0)
-                                                    ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{{$usuario->cpf}}" data-nome="{!!$usuario->nome!!}"><i class="fa fa-trash"></i> Excluir</a>
+                                                    ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{!! $usuario->cpf !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
                                                 @endif
                                             </td>
                                         @endcan
@@ -138,16 +138,16 @@
                     </div>
                     <div class="modal-body">
                         <p id="mensagem" class="text-center"></p>
-                        <br />
                         <form class="form text-center" action="{{ route('deleteUser') }}" method="post">
                             {{ csrf_field() }}
-                            <input type="hidden" id="formID" name="cpf" value="">
+                            <input type="hidden" id="formID" name="cpf" value="{!! $usuario->cpf !!}">
                     </div>
+                    <br />
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
                         <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
-                        </form>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

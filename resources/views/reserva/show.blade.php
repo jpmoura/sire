@@ -27,16 +27,6 @@
 @section('content')
     <div class='row'>
         <div class='col-md-10 col-md-offset-1 text-center'>
-
-            @if(!Route::is('showAllocatedAssetBoard') && session()->has('tipo'))
-                <div class="row">
-                    <div class="text-center alert alert-dismissible @if(session('tipo') == 'Sucesso') alert-success @else alert-danger @endif" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>{{session("tipo")}}!</strong> {{session("mensagem")}}
-                    </div>
-                </div>
-            @endif
-
             <h2>{!! $recurso->nome !!}</h2>
             <br />
 
