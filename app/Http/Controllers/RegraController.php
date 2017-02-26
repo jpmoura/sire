@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Input;
 use Log;
 use App\Regra;
 
@@ -30,29 +29,23 @@ class RegraController extends Controller
     /**
      * Edita os dados da regra de horário
      */
-    public function edit()
+    public function edit(Requests\EditRegraRequest $request)
     {
-            $form = Input::all();
+            $form = $request->all();
             $tipo = "Erro";
             $mensagem = '';
 
-            if($form['manha'] > 6) $mensagem .= "O número de horários pode ser no máximo 6 para o turno da manha.\n";
-            if($form['tarde'] > 5) $mensagem .= "O número de horários pode ser no máximo 5 para o turno da tarde.\n";
-            if($form['noite'] > 4) $mensagem .= "O número de horários pode ser no máximo 4 para o turno da noite.\n";
+            $regras = Regra::first()->update([
+                'quantidade_horarios_matutino' => $form['manha'],
+                'quantidade_horarios_vespertino' => $form['tarde'],
+                'quantidade_horarios_noturno' => $form['noite'],
+                'horario_inicio_matutino' => $form['inicioManha'],
+                'horario_inicio_vespertino' => $form['inicioTarde'],
+                'horario_inicio_noturno' => $form['inicioNoite'],
+                'quantidade_dias_reservaveis' => $form['dias']
+            ]);
 
-            $regras = Regra::first();
-
-            $regras->quantidade_horarios_matutino = $form['manha'];
-            $regras->quantidade_horarios_vespertino = $form['tarde'];
-            $regras->quantidade_horarios_noturno = $form['noite'];
-            $regras->quantidade_dias_reservaveis = $form['dias'];
-            $regras->horario_inicio_matutino = $form['inicioManha'];
-            $regras->horario_inicio_vespertino = $form['inicioTarde'];
-            $regras->horario_inicio_noturno = $form['inicioNoite'];
-
-            $updated = $regras->save();
-
-            if($updated == 1) {
+            if(isset($regras)) {
                 $tipo = "Sucesso";
                 $mensagem = "Atualização feita com sucesso!";
             }
