@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bug;
+use App\Http\Requests\AddBugRequest;
+use App\Http\Requests\DeleteBugRequest;
 use Input;
 
 class BugController extends Controller
@@ -37,10 +39,10 @@ class BugController extends Controller
     /**
      * Adiciona um novo registro de bug ao banco de dados.
      */
-    public function store()
+    public function store(AddBugRequest $request)
     {
         $tipo = "Erro";
-        $form = Input::all();
+        $form = $request->all();
 
         $bug = Bug::create([
             'usuario_id' => auth()->id(),
@@ -64,11 +66,11 @@ class BugController extends Controller
     /**
      * Remove o registro do bug no banco de dados.
      */
-    public function delete()
+    public function delete(DeleteBugRequest $request)
     {
         $tipo = "Erro";
 
-        $status = Bug::destroy(Input::get('id'));
+        $status = Bug::destroy($request->get('id'));
 
         if ($status)
         {
