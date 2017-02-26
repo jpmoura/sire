@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddReservaRequest;
+use App\Http\Requests\DetailsReservaRequest;
 use App\Recurso;
 use App\Regra;
 use App\Reserva;
 use Carbon\Carbon;
-use Input;
+use Illuminate\Http\Request;
 use Log;
 
 class ReservaController extends Controller
@@ -23,10 +25,10 @@ class ReservaController extends Controller
     /**
      * Renderiza tanto o quadro de reservas preenchido como a view com os horários que podem ser reservados.
      */
-    public function show() {
+    public function show(Request $request) {
 
         // Obtém o ID do recurso da sessão caso tnha vindo de um redirecionamento de alocação/desalocação senão recupera do formulário de seleção
-        $recurso_id = session()->pull('allocationRedirection', Input::get('recurso'));
+        $recurso_id = session()->pull('allocationRedirection', $request->get('recurso'));
 
         // Tratamento para usuários autenticados que fecham o navegador nesta tela e tentam reinicar o processo através de tal página
         // Comum acontecer com dispositivos móveisque realizam cache do endereço e tentam renovar a requisição
@@ -68,22 +70,22 @@ class ReservaController extends Controller
     /**
      * Realiza as reservas escolhidas pelo usuário de um determinado recurso.
      */
-    public function store()
+    public function store(AddReservaRequest $request)
     {
-        $reservas = Input::get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
+        $reservas = $request->get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
         if(!isset($reservas))
         {
             // Se nenhum horário foi selecionado, então volta para a página de seleção
             session()->flash('tipo', 'Erro');
             session()->flash('mensagem', 'Você não selecionou nenhum horário.');
-            session()->flash("allocationRedirection", Input::get('id'));
+            session()->flash("allocationRedirection", $request->get('id'));
             Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
             return back();
         }
         else
         {
             $usuario_id = auth()->user()->cpf;
-            $recurso_id = Input::get('id');
+            $recurso_id = $request->get('id');
 
             $tipo = "Erro";
 
@@ -205,9 +207,9 @@ class ReservaController extends Controller
     /**
      * Renderiza uma view contendo todas as alocações feitas para um recurso em uma determinada data.
      */
-    public function details()
+    public function details(DetailsReservaRequest $request)
     {
-        $form = Input::all();
+        $form = $request->all();
         $recurso = Recurso::find($form['recurso']);
         $regras = Regra::first();
 
