@@ -31,7 +31,7 @@
                                 <td>{{ $regras->quantidade_horarios_vespertino }}</td>
                                 <td>{{ $regras->quantidade_horarios_noturno }}</td>
                                 <td>{{ $regras->quantidade_dias_reservaveis }}</td>
-                                <td><a class="btn btn-default btn-xs" href="{{ route('detailsRule') }}"><i class="fa fa-edit"></i> Editar</a></td>
+                                <td><a class="btn btn-ufop btn-xs" href="{{ route('detailsRule') }}"><i class="fa fa-edit"></i> Editar</a></td>
                             </tr>
                         </table>
                     </div>
