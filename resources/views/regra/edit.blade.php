@@ -77,7 +77,7 @@
                             <p class="text-center"><i class="fa fa-calendar"></i> Dias disponíveis para reserva</p>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar-plus-o"></i></span>
-                                <input type="number" class="form-control" min="0" value="{{ $regras->quantidade_dias_reservaveis }}" placeholder="Quantidade de dias disponíves para reserva." name="dias" required data-toggle="tooltip" data-placement="right" title="Quantidade de dias disponíves para reserva.">
+                                <input type="number" class="form-control" min="1" value="{{ $regras->quantidade_dias_reservaveis }}" placeholder="Quantidade de dias disponíves para reserva." name="dias" required data-toggle="tooltip" data-placement="right" title="Quantidade de dias disponíves para reserva.">
                             </div>
                         </div>
 
