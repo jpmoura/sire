@@ -12,7 +12,6 @@ use App\Usuario;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Encryption\Encrypter;
-use Input;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
