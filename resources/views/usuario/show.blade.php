@@ -102,9 +102,9 @@
                             </span>
                                         </td>
                                         @can('administrate')
-                                            <td><a class="btn btn-default btn-xs" href="{{ route('detailsUser', $usuario->cpf) }}"><i class="fa fa-edit"></i> Editar</a>
+                                            <td><a class="btn btn-ufop btn-xs" href="{{ route('detailsUser', $usuario->cpf) }}"><i class="fa fa-edit"></i> Editar</a>
                                                 @if($usuario->status != 0)
-                                                    ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{!! $usuario->cpf !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
+                                                    ou <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{!! $usuario->cpf !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
                                                 @endif
                                             </td>
                                         @endcan

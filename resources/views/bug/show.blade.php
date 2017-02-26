@@ -80,8 +80,8 @@
                                         <td>{!! $bug->titulo !!}</td>
                                         <td>{!! $bug->autor->nome !!}</td>
                                         <td>
-                                            <a class="btn btn-default btn-xs" href="{{ route('detailsBug', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
-                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->titulo !!}" class="btn btn-default btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                            <a class="btn btn-ufop btn-xs" href="{{ route('detailsBug', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
+                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->titulo !!}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                                         </td>
                                     </tr>
                                 @endforeach

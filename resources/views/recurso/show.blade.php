@@ -98,9 +98,9 @@
                                                 </b>
                                             </td>
                                             <td>
-                                                <a class="btn btn-default btn-xs" href="{{ route('detailsAsset', $recurso->id) }}"><i class="fa fa-edit"></i> Editar</a>
+                                                <a class="btn btn-ufop btn-xs" href="{{ route('detailsAsset', $recurso->id) }}"><i class="fa fa-edit"></i> Editar</a>
                                                 @if($recurso->status != 0)
-                                                    ou <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-id="{{$recurso->id}}" data-nome="{{$recurso->nome}}"><i class="fa fa-trash"></i> Excluir</a>
+                                                    ou <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-id="{{$recurso->id}}" data-nome="{{$recurso->nome}}"><i class="fa fa-trash"></i> Excluir</a>
                                                 @endif
                                             </td>
                                         @endcan
