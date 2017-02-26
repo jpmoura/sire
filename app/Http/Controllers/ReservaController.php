@@ -7,6 +7,7 @@ use App\Http\Requests\DetailsReservaRequest;
 use App\Recurso;
 use App\Regra;
 use App\Reserva;
+use App\ReservaLegado;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
@@ -196,10 +197,14 @@ class ReservaController extends Controller
     private function searchAllocationsAt($data, $recurso)
     {
 
+        // Reservas cadastradas no sistema atual
         $reservas = Reserva::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
 
-        // TODO buscar por reservas antigas. Reservas antigas e usuários antigos precisam estar em modelos e tabelas separados
-        //$allocations = array_merge($oldAllocations, $newAllocations);
+        // Reservas cadastradas no sistema legado
+        $reservasAntigas = ReservaLegado::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
+
+        // Concatenação de resultados
+        foreach ($reservasAntigas as $antiga) $reservas->add($antiga);
 
         return $reservas;
     }
