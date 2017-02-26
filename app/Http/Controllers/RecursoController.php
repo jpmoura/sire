@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddRecursoRequest;
+use App\Http\Requests\DeleteRecursoRequest;
+use App\Http\Requests\EditRecursoRequest;
 use App\Recurso;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use Input;
 use Log;
 use App\TipoRecurso;
 
@@ -31,10 +31,10 @@ class RecursoController extends Controller
     /**
      * Adiciona um novo recurso ao sistema
      */
-    public function store()
+    public function store(AddRecursoRequest $request)
     {
         $tipo = "Erro";
-        $form = Input::all();
+        $form = $request->all();
 
         $id = Recurso::create([
             'tipo_recurso_id' => $form['tipo'],
@@ -69,9 +69,9 @@ class RecursoController extends Controller
     /**
      * Modifica os dados de um recurso
      */
-    public function edit()
+    public function edit(EditRecursoRequest $request)
     {
-        $form = Input::all();
+        $form = $request->all();
         $tipo = "Erro";
 
         $updated = Recurso::find($form['id'])->update(['nome' => $form['nome'], 'tipo_recurso_id' => $form['tipo'], 'descricao' => $form['descricao'], 'status' => $form['status']]);
@@ -91,9 +91,9 @@ class RecursoController extends Controller
     /**
      * Modifica o status de um recurso para inativo. Não pode ser removido do banco para não se perder as referências históricas.
      */
-    public function delete()
+    public function delete(DeleteRecursoRequest $request)
     {
-        $id = Input::get("id");
+        $id = $request->get("id");
         $tipo = "Erro";
         $mensagem = "Ação não executada! ";
 
