@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Events\LoginErrorEvent;
 use App\Events\LoginFailed;
 use App\Events\NewUserCreated;
+use App\Http\Requests\LoginRequest;
 use App\MeuIceaUser;
 use Illuminate\Http\Request;
 use App\Usuario;
@@ -86,8 +87,8 @@ class AuthController extends Controller
     /**
      * Realiza o processo de login de usuário.
      */
-    public function postLogin() {
-        $input = Input::all();
+    public function postLogin(LoginRequest $request) {
+        $input = $request->all();
 
         // Retirada dos pontos e hífen do CPF
         $input['username'] = str_replace('.', '', $input['username']);
