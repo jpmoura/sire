@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUsuarioRequest;
+use App\Http\Requests\DeleteUsuarioRequest;
+use App\Http\Requests\EditUsuarioRequest;
 use App\Usuario;
 use App\Events\NewUserCreated;
 use App\Events\UserDeleted;
-use Illuminate\Support\Facades\Config;
-use Input;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -17,11 +18,11 @@ class UsuarioController extends Controller
     /**
      * Cria uma nova instância de usuário no banco de dados.
      */
-    public function store()
+    public function store(AddUsuarioRequest $request)
     {
         $tipo = "Erro";
-        $login = Input::get("cpf");
-        $checkLogin = Usuario::where('cpf', $login)->first();
+        $form = $request->all();
+        $checkLogin = Usuario::where('cpf', $form['cpf'])->first();
 
         if(!is_null($checkLogin))
         {
@@ -31,13 +32,13 @@ class UsuarioController extends Controller
         }
         else { // o login não existe
 
-            if(Input::get('canAdd') == 1)
+            if($form['canAdd'] == 1)
             {
                 $usuario = Usuario::create([
-                    'cpf' => Input::get('cpf'),
-                    'nivel' => Input::get('nivel'),
-                    'nome' => ucwords(strtolower(Input::get('nome'))),
-                    'email' => Input::get('email'),
+                    'cpf' => $form['cpf'],
+                    'nivel' => $form['nivel'],
+                    'nome' => ucwords(strtolower($form['nome'])),
+                    'email' => $form['email'],
                     'status' => 1,
                 ]);
 
@@ -89,10 +90,10 @@ class UsuarioController extends Controller
     /**
      * Realiza a atualização dos dados do usuário.
      */
-    public function edit()
+    public function edit(EditUsuarioRequest $request)
     {
         $tipo = "Erro";
-        $form = Input::all();
+        $form = $request->all();
 
         $updated = Usuario::where('cpf', $form['cpf'])->update(['nivel' => $form['nivel'], 'status' => $form['status']]);
 
@@ -112,9 +113,9 @@ class UsuarioController extends Controller
      * Define um usuário que não será mais passível de usar o sistema. O usuário é mantido no banco para realizar as
      * referências hist''oricas de outras alocações.
      */
-    public function delete()
+    public function delete(DeleteUsuarioRequest $request)
     {
-        $cpf = Input::get("cpf");
+        $cpf = $request->get("cpf");
         $tipo = "Erro";
         $mensagem = "Ação não realizada! ";
 
@@ -141,13 +142,13 @@ class UsuarioController extends Controller
      * Método para retornar uma consulta AJAX para que o administrador possa confirmar
      * os dados do novo usuário que será inserido no banco.
      */
-    public function searchPerson() {
+    public function searchPerson(Request $request) {
 
         // Componentes do corpo da requisição
         $requestBody['baseConnector'] = "and";
         $requestBody['attributes'] = ["cpf", "nomecompleto", "email", "grupo"]; // Atributos que devem ser retornados em caso autenticação confirmada
         $requestBody['searchBase'] = "ou=People,dc=ufop,dc=br";
-        $requestBody['filters'][0] = ["cpf" => ["equals", Input::get('cpf')]];
+        $requestBody['filters'][0] = ["cpf" => ["equals", $request->get('cpf')]];
 
         // Chamada de autenticação para a LDAPI
         $httpClient = new Client(['verify' => false]);
