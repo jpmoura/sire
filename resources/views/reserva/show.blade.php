@@ -160,7 +160,7 @@
 
             @if(!Route::is('showAllocatedAssetBoard'))
                     <div class="text-center">
-                        <a href="{{ route('selectAllocatedAsset') }}" class="btn btn-ufop" role="button"><i class="fa fa-arrow-left"></i> Voltar</a>
+                        <a href="{{ route('selectAllocation') }}" class="btn btn-ufop" role="button"><i class="fa fa-arrow-left"></i> Voltar</a>
                         <button type="reset" class="btn btn-warning">Limpar <i class='fa fa-eraser'></i></button>
                         <button type="button" class="btn btn-danger" onClick="history.back()">Cancelar <i class='fa fa-times'></i></button>
                         <button type="submit" class="btn btn-success">Confirmar <i class='fa fa-check'></i></button>
