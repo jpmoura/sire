@@ -165,7 +165,9 @@ class AuthController extends Controller
     }
 
     /**
-     * Gera o token de autenticação para login através do portal Meu ICEA
+     * Gera um token para que o usuário proveniente do portal Meu ICEA consiga realizar o login sem preencher novamente o formulário
+     * @param Request $request Requisição com os dados necessários para gerar o token
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function generateMeuIceaToken(Request $request)
     {
