@@ -139,7 +139,7 @@ class AuthController extends Controller
                 $user = Usuario::create([
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
-                    'nome' => $userData->nomecompleto,
+                    'nome' => ucwords(strtolower($userData->nomecompleto)),
                     'nivel' => 2,
                     'status' => 1
                 ]);
@@ -189,7 +189,7 @@ class AuthController extends Controller
                 $user = Usuario::create([
                     'cpf' => $meuIceaUser->cpf,
                     'email' => $meuIceaUser->email,
-                    'nome' => $meuIceaUser->nomecompleto,
+                    'nome' => ucwords(strtolower($meuIceaUser->nomecompleto)),
                     'nivel' => 2,
                     'status' => 1
                 ]);
