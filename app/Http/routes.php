@@ -54,6 +54,12 @@ Route::group(['middleware' => 'auth'], function()
             Route::post('reserva/consulta', ['as' => 'detailsAllocation', 'uses' => 'ReservaController@details']);
         });
 
+        // Rotas relacionadas aos softwares instalados
+        Route::resource('software', 'SoftwareController', ['except' => ['index', 'show']]);
+
+        // Rotas relacionadas aos fabricantes de software
+        Route::resource('fabricante', 'FabricanteSoftwareController', ['except' => 'show']);
+
         // Rota que mostra os logs do sistema
         Route::get('logs', ['as' => 'showLogs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
     }); // Fim de rotas administrativas
@@ -79,6 +85,9 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('adicionar', ['as' => 'addBug', 'uses' => 'BugController@add']);
         Route::post('adicionar', ['as' => 'storeBug', 'uses' => 'BugController@store']);
     });
+
+    // Rota para listagem softwares
+    Route::resource('software', 'SoftwareController', ['only' => 'index']);
 
     // Rota para uso de AJAX durante adição de usuário pelo CPF
     Route::post('searchperson', ['as' => 'doSearch', 'uses' => 'UsuarioController@searchPerson']);

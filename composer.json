@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "barryvdh/laravel-debugbar": "^2.2",
+        "barryvdh/laravel-debugbar": "^2.3",
         "laravelcollective/html": "5.2.*",
         "rap2hpoutre/laravel-log-viewer": "^0.6.1",
         "guzzlehttp/guzzle": "^6.2",

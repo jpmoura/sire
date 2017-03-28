@@ -27,6 +27,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('reserva', 'App\Reserva');
         $router->model('bug', 'App\Bug');
         $router->model('recurso', 'App\Recurso');
+        $router->model('software', 'App\Software');
+        $router->model('fabricante', 'App\FabricanteSoftware');
 
         parent::boot($router);
     }
