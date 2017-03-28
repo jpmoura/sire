@@ -33,15 +33,25 @@ class ReservaController extends Controller
 
         // Tratamento para usuários autenticados que fecham o navegador nesta tela e tentam reinicar o processo através de tal página
         // Comum acontecer com dispositivos móveisque realizam cache do endereço e tentam renovar a requisição
-        if(is_null($recurso_id))
+        if(is_null($recurso_id) || empty($recurso_id))
         {
-            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de viualização provavelmente via POST sem o ID do recurso.");
+            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização provavelmente via POST sem o ID do recurso.");
             abort(428);
         }
         else
         {
             $regras = Regra::first();
             $recurso = Recurso::find($recurso_id);
+
+            if(is_null($recurso))
+            {
+                Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização do recurso de ID " . $recurso_id . " porém nenhum recurso foi encontrado.");
+
+                session()->flash('tipo', 'Erro');
+                session()->flash('mensagem', 'Nenhum recurso foi encontrado. Tente novamente caso não tenha selecionado o recurso pelo menu.');
+
+                return redirect()->route('home');
+            }
 
             // Obtém o recurso e define a view que será renderizada pelo tipo do usuário
             if(auth()->check())

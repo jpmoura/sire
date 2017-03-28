@@ -10,7 +10,7 @@ class MeuIceaUser extends Model
     protected $table = "usuarios";
 
     protected $fillable = [
-        'cpf', 'nome', 'email', 'id_grupo', 'grupo',
+        'cpf', 'nome', 'email', 'id_grupo', 'grupo', 'meuicea_token',
     ];
 
     protected $hidden = [
