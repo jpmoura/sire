@@ -8,9 +8,19 @@
             @can('administrate')
                 <li class="header text-center">ADMINISTRAÇÃO</li>
                 <li @if(Route::is('showRule') || Route::is('detailsRule')) class="active" @endif><a href="{{ route('showRule') }}"><i class="fa fa-cogs" aria-hidden="true"></i><span>Visualizar Regras</span></a></li>
-
-                <li @if(Route::is("addAsset")) class="active" @endif><a href="{{ route('addAsset') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Cadastrar Recurso</span></a></li>
                 <li @if(Route::is('selectDetailsAllocation') || Route::is('detailsAllocation')) class="active" @endif><a href="{{ route('detailsAllocation') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Reserva</span></a></li>
+
+                <li class="treeview {!! Route::is('tiporecurso.index') || Route::is('tiporecurso.create') || Route::is('tiporecurso.edit') || Route::is('addAsset') ? "active" : '' !!}">
+                    <a href="#">
+                        <i class="fa fa-gear"></i><span>Recursos</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li @if(Route::is("addAsset")) class="active" @endif><a href="{{ route('addAsset') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Adicionar Recurso</span></a></li>
+                        <li {!! Route::is('tiporecurso.index') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.index') }}"><i class="fa fa-th-list"></i> Listar Tipos</a></li>
+                        <li {!! Route::is('tiporecurso.create') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.create') }}"><i class="fa fa-plus-circle"></i> Adicionar Tipo</a></li>
+                    </ul>
+                </li>
 
                 <li class="treeview {!! Route::is('fabricante.index') || Route::is('fabricante.create') || Route::is('software.create') || Route::is('fabricante.edit') ? "active" : '' !!}">
                     <a href="#">

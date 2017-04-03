@@ -54,6 +54,9 @@ Route::group(['middleware' => 'auth'], function()
             Route::post('reserva/consulta', ['as' => 'detailsAllocation', 'uses' => 'ReservaController@details']);
         });
 
+        // Rotas relacionadas aos tipos de recursos
+        Route::resource('tiporecurso', 'TipoRecursoController', ['except' => 'show']);
+
         // Rotas relacionadas aos softwares instalados
         Route::resource('software', 'SoftwareController', ['except' => ['index', 'show']]);
 
