@@ -31,8 +31,9 @@ class CreateRegrasTable extends Migration
             $table->time('horario_inicio_matutino')->default('08:00:00');
             $table->time('horario_inicio_vespertino')->default('13:00:00');
             $table->time('horario_inicio_noturno')->default('18:00:00');
+            $table->time('tempo_duracao_horario')->default('00:50:00');
             $table->integer('quantidade_horarios_seguidos')->default('2');
-            $table->integer('intervalo_entre_horarios_seguidos')->default('20');
+            $table->time('intervalo_entre_horarios_seguidos')->default('00:20:00');
         });
     }
 
