@@ -189,6 +189,7 @@ class DashboardController extends Controller
             ->type('doughnut')
             //->element('recursos')
             ->labels(array_keys($recursos))
+            ->size(['width' => 400, 'height' => 200])
             ->datasets([
                 [
                     'data' => array_values($recursos),
@@ -218,6 +219,7 @@ class DashboardController extends Controller
             ->name('reservas')
             ->type('line')
             ->labels(array_keys($reservas))
+            ->size(['width' => 400, 'height' => 200])
             ->datasets([
                 [
                     'label' => 'Quantidade de reservas',
