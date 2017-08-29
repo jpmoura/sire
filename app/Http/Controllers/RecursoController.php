@@ -67,24 +67,38 @@ class RecursoController extends Controller
     }
 
     /**
-     * Modifica os dados de um recurso
+     * @param EditRecursoRequest $request Requisição com os campos do formulário validados
+     * @param Recurso $recurso Instância a ser atualizada
      */
-    public function edit(EditRecursoRequest $request)
+    public function edit(EditRecursoRequest $request, Recurso $recurso)
     {
         $form = $request->all();
         $tipo = "Erro";
 
-        $updated = Recurso::find($form['id'])->update(['nome' => $form['nome'], 'tipo_recurso_id' => $form['tipo'], 'descricao' => $form['descricao'], 'status' => $form['status']]);
-
-        if($updated == 1)
+        try
         {
-            $tipo = "Sucesso";
-            $mensagem = "Atualização feita com sucesso!";
+            $updated = $recurso->update([
+                'nome' => $form['nome'],
+                'tipo_recurso_id' => $form['tipo'],
+                'descricao' => $form['descricao'],
+                'status' => $form['status']
+            ]);
+
+            if($updated == true)
+            {
+                $tipo = "Sucesso";
+                $mensagem = "Atualização feita com sucesso!";
+            }
+            else $mensagem = "Nada precisou ser atualizado.";
         }
-        else $mensagem = "Erro no banco de dados.";
+        catch(\Exception $e)
+        {
+            $mensagem = "Erro durante a atualização do recurso: " . $e->getMessage();
+        }
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
+
         return back();
     }
 

@@ -45,8 +45,8 @@ Route::group(['middleware' => 'auth'], function()
         Route::group(['prefix' => 'recursos'], function() {
             Route::get('cadastrar', ['as' => 'addAsset', 'uses' => 'RecursoController@add']);
             Route::post('cadastrar', ['as' => 'storeAsset', 'uses' => 'RecursoController@store']);
-            Route::get('editar/{recurso}', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
-            Route::post('editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
+            Route::get('{recurso}/editar', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
+            Route::post('{recurso}/editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
             Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
 
             // Rotas para consulta de uma alocação em um dia específico
