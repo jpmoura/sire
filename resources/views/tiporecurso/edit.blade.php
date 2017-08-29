@@ -18,20 +18,9 @@
             <div class="box box-primary-ufop">
                 <div class="box-body">
                     <form class="form" action="{{ route('tiporecurso.update', $tipo->id) }}" accept-charset="UTF-8" method="post">
-                        {{ csrf_field() }}
                         {{ method_field('PATCH') }}
 
-                        <div class="form-group {{ $errors->has('nome') ? 'has-error' : '' }}">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-                                <input type="text" name="nome" maxlength="20" class="form-control" placeholder="Nome do tipo do recurso" title="Nome do tipo do recurso" value="{{ old('nome') ? old('nome') : $tipo->nome }}" required>
-                            </div>
-                            @if ($errors->has('nome'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('nome') }}</strong>
-                                </span>
-                            @endif
-                        </div>
+                        @include('tiporecurso.form')
 
                         <br />
 
