@@ -20,19 +20,6 @@
                     <form class="form" action="{{ route('fabricante.update', $fabricante->id) }}" accept-charset="UTF-8" method="post">
                         {{ method_field('PATCH') }}
 
-                        {{--<div class="form-group {{ $errors->has('nome') ? 'has-error' : '' }}">--}}
-                            {{--<div class="input-group">--}}
-                                {{--<span class="input-group-addon"><i class="fa fa-tag"></i></span>--}}
-                                {{--<input type="text" name="nome" maxlength="255" class="form-control" placeholder="Nome do fabricante" title="Nome do fabricante" value="{{ $fabricante->nome }}" required>--}}
-                            {{--</div>--}}
-
-                            {{--@if ($errors->has('nome'))--}}
-                                {{--<span class="help-block">--}}
-                                    {{--<strong>{{ $errors->first('nome') }}</strong>--}}
-                                {{--</span>--}}
-                            {{--@endif--}}
-                        {{--</div>--}}
-
                         @include('fabricanteSoftware.form')
 
                         <br />
