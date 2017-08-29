@@ -216,16 +216,16 @@
         },
         {
             "name": "fx3costa/laravelchartjs",
-            "version": "2.2.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fxcosta/laravel-chartjs.git",
-                "reference": "e90a0fb789e159d35ce0b60f4e3c49e0c503cda8"
+                "reference": "7083c0810200d8d0f6f183bc61f3752299479e74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fxcosta/laravel-chartjs/zipball/e90a0fb789e159d35ce0b60f4e3c49e0c503cda8",
-                "reference": "e90a0fb789e159d35ce0b60f4e3c49e0c503cda8",
+                "url": "https://api.github.com/repos/fxcosta/laravel-chartjs/zipball/7083c0810200d8d0f6f183bc61f3752299479e74",
+                "reference": "7083c0810200d8d0f6f183bc61f3752299479e74",
                 "shasum": ""
             },
             "require": {
@@ -257,7 +257,7 @@
                 "laravel5",
                 "reports"
             ],
-            "time": "2017-02-09T14:17:49+00:00"
+            "time": "2017-08-13T05:35:11+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
