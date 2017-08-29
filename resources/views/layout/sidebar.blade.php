@@ -17,8 +17,17 @@
                     </a>
                     <ul class="treeview-menu">
                         <li @if(Route::is("addAsset")) class="active" @endif><a href="{{ route('addAsset') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Adicionar Recurso</span></a></li>
-                        <li {!! Route::is('tiporecurso.index') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.index') }}"><i class="fa fa-th-list"></i> Listar Tipos</a></li>
-                        <li {!! Route::is('tiporecurso.create') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.create') }}"><i class="fa fa-plus-circle"></i> Adicionar Tipo</a></li>
+
+
+                        <li class="treeview {{ Route::is('tiporecurso.index') || Route::is('tiporecurso.create') ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-puzzle-piece"></i> Tipos<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li {!! Route::is('tiporecurso.index') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.index') }}"><i class="fa fa-th-list"></i> Listar</a></li>
+                                <li {!! Route::is('tiporecurso.create') ? "class='active'" : '' !!}><a href="{{ route('tiporecurso.create') }}"><i class="fa fa-plus-circle"></i> Adicionar</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
