@@ -29,8 +29,16 @@
                     </a>
                     <ul class="treeview-menu">
                         <li {!! Route::is('software.create') ? "class='active'" : '' !!}><a href="{{ route('software.create') }}"><i class="fa fa-plus-circle"></i> Adicionar Software</a></li>
-                        <li {!! Route::is('fabricante.index') ? "class='active'" : '' !!}><a href="{{ route('fabricante.index') }}"><i class="fa fa-th-list"></i> Listar Fabricantes</a></li>
-                        <li {!! Route::is('fabricante.create') ? "class='active'" : '' !!}><a href="{{ route('fabricante.create') }}"><i class="fa fa-wrench"></i> Adicionar Fabricante</a></li>
+
+                        <li class="treeview {{ Route::is('fabricante.index') || Route::is('fabricante.create') ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-wrench"></i> Fabricantes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li {!! Route::is('fabricante.index') ? "class='active'" : '' !!}><a href="{{ route('fabricante.index') }}"><i class="fa fa-th-list"></i> Listar</a></li>
+                                <li {!! Route::is('fabricante.create') ? "class='active'" : '' !!}><a href="{{ route('fabricante.create') }}"><i class="fa fa-plus-circle"></i> Adicionar</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
