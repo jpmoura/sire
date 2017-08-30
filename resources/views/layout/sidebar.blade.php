@@ -57,8 +57,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li @if(Route::is("addUser")) class="active" @endif><a href="{{ route('addUser') }}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Cadastrar Usuário</span></a></li>
-                        <li @if(Route::is("showUser")) class="active" @endif><a href="{{ route('showUser') }}"><i class="fa fa-th-list" aria-hidden="true"></i><span>Listar Usuários</span></a></li>
+                        <li @if(Route::is("addUser")) class="active" @endif><a href="{{ route('addUser') }}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Cadastrar</span></a></li>
+                        <li @if(Route::is("showUser")) class="active" @endif><a href="{{ route('showUser') }}"><i class="fa fa-th-list" aria-hidden="true"></i><span>Listar</span></a></li>
                     </ul>
                 </li>
 
