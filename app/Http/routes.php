@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth'], function()
         // Rotas de regras de negócio
         Route::group(['prefix' => 'regras'], function(){
             Route::get('/', ['as' => 'showRule', 'uses' => 'RegraController@show']);
-            Route::get('editar', ['as' => 'detailsRule', 'uses' => 'RegraController@details']);
-            Route::post('editar', ['as' => 'editRule', 'uses' => 'RegraController@edit']);
+            Route::get('editar/{regras}', ['as' => 'detailsRule', 'uses' => 'RegraController@details']);
+            Route::post('editar/{regras}', ['as' => 'editRule', 'uses' => 'RegraController@edit']);
         });
 
         // Rotas relacionadas com manipulação dos registros de bugs

@@ -24,14 +24,16 @@ class EditRegraRequest extends Request
     public function rules()
     {
         return [
-            'id'          => 'required',
-            'manha'       => 'required|min:0|max:6',
-            'inicioManha' => 'required|date_format:H:i:s',
-            'tarde'       => 'required|min:0|max:5',
-            'inicioTarde' => 'required|date_format:H:i:s',
-            'noite'       => 'required|min:0|max:4',
-            'inicioNoite' => 'required|date_format:H:i:s',
-            'dias'        => 'required|min:1'
+            'quantidade_horarios_matutino'      => 'required|min:0',
+            'horario_inicio_matutino'           => 'required|date_format:H:i:s',
+            'quantidade_horarios_vespertino'    => 'required|min:0',
+            'horario_inicio_vespertino'         => 'required|date_format:H:i:s',
+            'quantidade_horarios_noturno'       => 'required|min:0',
+            'horario_inicio_noturno'            => 'required|date_format:H:i:s',
+            'quantidade_dias_reservaveis'       => 'required|min:0',
+            'quantidade_horarios_seguidos'      => 'required|min:0',
+            'tempo_duracao_horario'             => 'required|date_format:H:i:s',
+            'intervalo_entre_horarios_seguidos' => 'required|min:0'
         ];
     }
 }

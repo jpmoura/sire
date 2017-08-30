@@ -17,23 +17,11 @@
         <div class='col-md-8 col-md-offset-2'>
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
-                            <tr>
-                                <th class="text-center">Horários Matutinos</th>
-                                <th class="text-center">Horários Vespertinos</th>
-                                <th class="text-center">Horários Noturnos</th>
-                                <th class="text-center">Dias disponíveis para reserva</th>
-                                <th class="text-center">Ações</th>
-                            </tr>
-                            <tr class="text-center">
-                                <td>{{ $regras->quantidade_horarios_matutino }}</td>
-                                <td>{{ $regras->quantidade_horarios_vespertino }}</td>
-                                <td>{{ $regras->quantidade_horarios_noturno }}</td>
-                                <td>{{ $regras->quantidade_dias_reservaveis }}</td>
-                                <td><a class="btn btn-ufop btn-xs" href="{{ route('detailsRule') }}"><i class="fa fa-edit"></i> Editar</a></td>
-                            </tr>
-                        </table>
+                    <form>
+                        @include('regra.form')
+                    </form>
+                    <div class="text-center">
+                        <a class="btn btn-ufop" href="{{ route('detailsRule', $regras) }}"><i class="fa fa-edit"></i> Editar</a>
                     </div>
                 </div>
             </div>
