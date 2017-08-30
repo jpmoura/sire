@@ -61,6 +61,9 @@
                         // Adiciona o tempo de intervalo quando se atinge a quantidade definida de horários seguidos
                         if(($horariosSeguidos % $regras->quantidade_horarios_seguidos) == 0)
                             $tempoInicial = strtotime("+" . strval($tempoDeIntervalo) ." minutes", $tempoInicial);
+
+                        // exceto para o horário entre o intervalo de 1h do turno vespertino e noturno (Específico do ICEA)
+                        if($horariosSeguidos == 4 && $turno == 'v') $tempoInicial = strtotime("-" . strval($tempoDeIntervalo) ." minutes", $tempoInicial);
                     @endphp
 
                     {{-- Impressão de cada coluna da linha atual --}}
