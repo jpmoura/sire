@@ -74,7 +74,7 @@ class ReservaController extends Controller
             // Recupera as reservas para uma determinada faixa de tempo de um determinado recurso
             $reservas = Reserva::with('usuario')->where('data', '>=', $diaInicial)->where('data', '<=', $diaFinal)->where('recurso_id', $recurso->id)->get();
 
-            return view("reserva.show")->with(["reservas" => $reservas, "recurso" => $recurso, "datas" => $datas, "regras" => $regras, 'quantidadeDias' => $quantidadeDias]);
+            return view("reserva.show")->with(["reservas" => $reservas, "recurso" => $recurso, "datas" => $datas, "regras" => $regras]);
         }
     }
 
