@@ -9,61 +9,105 @@ class SoftwareTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testInsert()
+    /**
+     * Teste de criação de um novo fabricante de software
+     *
+     * @return void
+     */
+    public function testCriarSoftware()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $rota = route('software.create');
 
-        \App\Software::create([
-            'nome' => 'Teste',
-            'versao' => '1.0',
-            'instalado' => false,
-            'fabricante_software_id' => $fabricante->id
-        ]);
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
+        $softwareNome = "Novo software";
+        $softwareVersao = "1.0";
+        $fabricante = factory(App\FabricanteSoftware::class)->create();
 
-        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
+        // Teste com nível usuário permitido
+        $this->actingAs($usuarioAdministrador)
+            ->visit($rota)
+            ->type($softwareNome, "nome")
+            ->type($softwareVersao, "versao")
+            ->select($fabricante->id, "fabricante")
+            ->select(1, "status")
+            ->press("Confirmar")
+            ->see("Sucesso")
+            ->seeInDatabase('softwares', [
+                'nome' => $softwareNome,
+                'versao' => $softwareVersao,
+                'fabricante_software_id' => $fabricante->id,
+                'status' => 1
+                ]);
     }
 
-    public function testUpdate()
+    /**
+     * Teste de edição de uma instância de Software
+     *
+     * @return void
+     */
+    public function testEditarSoftware()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $software = factory(App\Software::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
 
-        $software = \App\Software::create([
-            'nome' => 'Teste',
-            'versao' => '1.0',
-            'status' => false,
-            'fabricante_software_id' => $fabricante->id
-        ]);
+        $rota = route('software.edit', $software->id);
 
-        $software->update([
-            'nome' => 'alterado',
-            'versao' => 'alterado',
-            'status' => true,
-        ]);
+        $novoNome = "Editado";
+        $novaVersao = "Editado";
 
-        $this->seeInDatabase('softwares', ['nome' => 'alterado', 'versao' => 'alterado', 'status' => true, 'fabricante_software_id' => $fabricante->id]);
+        $this->actingAs($usuarioAdministrador)
+             ->visit($rota)
+             ->type($novoNome, "nome")
+             ->type($novaVersao, "versao")
+             ->select(0, "status")
+             ->press("Confirmar")
+             ->see("Sucesso")
+             ->seeInDatabase('softwares', [
+                 'nome' => $novoNome,
+                 'versao' => $novaVersao,
+                 'fabricante_software_id' => $software->fabricante_software_id,
+                 'status' => 0
+             ]);
     }
 
-    public function testRemove()
+    /**
+     * Teste de visualização do índice de Software
+     *
+     * @return void
+     */
+    public function testIndiceSoftware()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $software = factory(App\Software::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
 
-        $software = \App\Software::create([
-            'nome' => 'Teste',
-            'versao' => '1.0',
-            'instalado' => false,
-            'fabricante_software_id' => $fabricante->id
-        ]);
+        $rota = route('software.index');
 
-        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
+        $this->actingAs($usuarioAdministrador)
+             ->visit($rota)
+             ->see($software->nome);
+    }
 
-        $software->delete();
+    /**
+     * Teste de exclusão de instância de Software
+     *
+     * @return void
+     */
+    public function testExcluirSoftware()
+    {
+        $software = factory(App\Software::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
 
-        $this->dontSeeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
+        $rota = route('software.index');
+
+        $this->actingAs($usuarioAdministrador)
+             ->visit($rota)
+             ->press("excluir_button_" . $software->id)
+             ->see("Sucesso")
+             ->dontSeeInDatabase('softwares', [
+                 'nome' => $software->nome,
+                 'versao' => $software->versao,
+                 'fabricante_software_id' => $software->fabricante_software_id,
+                 'status' => $software->status
+             ]);
     }
 }

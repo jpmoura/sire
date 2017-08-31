@@ -82,8 +82,8 @@
                                         @can('administrate')
                                             <td>
                                                 <a class="btn btn-ufop btn-xs" href="{{ route('software.edit', $software->id) }}"><i class="fa fa-edit"></i> Editar</a> ou
-                                                <a href="#" class="btn btn-danger btn-xs" onclick="event.preventDefault();document.getElementById('delete-form-{{ $software->id }}').submit();"><i class="fa fa-trash"></i> Excluir</a>
-                                                <form id="delete-form-{{ $software->id }}" action="{{ route('software.destroy', $software->id) }}" method="POST" style="display: none;">
+                                                <form style="display: inline;" id="delete-form-{{ $software->id }}" action="{{ route('software.destroy', $software->id) }}" method="POST">
+                                                    <button id="excluir_button_{{ $software->id }}" type="submit" class="btn btn-danger btn-xs" ><i class="fa fa-trash"></i> Excluir</button>
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
                                                 </form>
