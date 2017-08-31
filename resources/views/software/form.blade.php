@@ -45,7 +45,7 @@
 
 <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
     <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-balance-scale"></i></span>
+        <span class="input-group-addon"><i class="fa fa-exchange fa-rotate-90"></i></span>
         <select name="status" class="form-control" title="Status do software" required>
             <option value="">Selecione o status do software</option>
             <option value="0" @if(old('status') == 0 || (Route::is('software.edit') && $software->status == 0)) selected @endif>Não instalado</option>
