@@ -1,11 +1,11 @@
 @extends('layout.base')
 
 @section('title')
-    Adicionar Software
+    Editar Software
 @endsection
 
 @section('page_icon')
-    <i class="fa fa-plus-circle"></i>
+    <i class="fa fa-edit"></i>
 @endsection
 
 @section('description')
