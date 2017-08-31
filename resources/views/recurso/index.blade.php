@@ -140,8 +140,9 @@
                             <p id="mensagem" class="text-center"></p>
                         </div>
                         <div class="modal-footer">
-                            <form class="form" action="{{ route('deleteAsset') }}" method="post">
+                            <form class="form" action="{{ route('recurso.destroy') }}" method="post">
                                 {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
                                 <input type="hidden" id="formID" name="id" value="">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class='fa fa-times'></i> Não, quero cancelar</button>
                                 <button type="submit" class="btn btn-success pull-right"><i class='fa fa-check'></i> Sim, quero excluir</button>
