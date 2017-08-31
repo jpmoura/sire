@@ -19,6 +19,7 @@
                 <div class="box-body">
                     <form class="form" action="{{ route('editAsset', $recurso->id) }}" accept-charset="UTF-8" method="post">
                         @include('recurso.form')
+                        {{ method_field("PATCH") }}
 
                         <br />
 

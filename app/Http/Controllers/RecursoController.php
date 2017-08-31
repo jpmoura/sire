@@ -14,18 +14,18 @@ class RecursoController extends Controller
     /**
      * Renderiza uma view com o formulário para adição de um novo recurso.
      */
-    public function add()
+    public function create()
     {
-        return view('recurso.add')->with(['tipos' => TipoRecurso::all()]);
+        return view('recurso.create')->with(['tipos' => TipoRecurso::all()]);
     }
 
     /**
      * Renderiza uma view contendo a lista de todos os recursos cadastrados.
      */
-    public function show()
+    public function index()
     {
         $recursos = Recurso::with('tipo')->get()->sortBy('nome');
-        return view('recurso.show')->with(['recursos' => $recursos]);
+        return view('recurso.index')->with(['recursos' => $recursos]);
     }
 
     /**
@@ -53,14 +53,14 @@ class RecursoController extends Controller
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
 
-        return redirect()->route("showAsset");
+        return redirect()->route("recurso.index");
     }
 
     /**
      * Renderiza uma view com um formulário de edição dos dados de um recurso.
      * @param Recurso $recurso Instância do recurso a ser editada
      */
-    public function details(Recurso $recurso)
+    public function edit(Recurso $recurso)
     {
         $tipos = TipoRecurso::all();
         return view('recurso.edit')->with(['recurso' => $recurso, 'tipos' => $tipos]);
@@ -70,7 +70,7 @@ class RecursoController extends Controller
      * @param EditRecursoRequest $request Requisição com os campos do formulário validados
      * @param Recurso $recurso Instância a ser atualizada
      */
-    public function edit(EditRecursoRequest $request, Recurso $recurso)
+    public function update(EditRecursoRequest $request, Recurso $recurso)
     {
         $form = $request->all();
         $tipo = "Erro";
@@ -105,7 +105,7 @@ class RecursoController extends Controller
     /**
      * Modifica o status de um recurso para inativo. Não pode ser removido do banco para não se perder as referências históricas.
      */
-    public function delete(DeleteRecursoRequest $request)
+    public function destroy(DeleteRecursoRequest $request)
     {
         $id = $request->get("id");
         $tipo = "Erro";
@@ -129,6 +129,6 @@ class RecursoController extends Controller
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
-        return redirect()->route('showAsset');
+        return redirect()->route('recurso.index');
     }
 }

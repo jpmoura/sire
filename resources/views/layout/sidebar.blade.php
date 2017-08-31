@@ -69,7 +69,7 @@
             @if(Auth::check())
                 <li class="header text-center">MENU</li>
                 <li @if(Route::is("addAllocation") || Route::is('selectAllocation')) class="active" @endif><a href="{{ route('selectAllocation') }}"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><span>Alocar Recurso</span></a></li>
-                <li @if(Route::is("showAsset") || Route::is('detailsAsset')) class="active" @endif><a href="{{ route('showAsset') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Recursos</span></a></li>
+                <li @if(Route::is("recurso.index") || Route::is('recurso.edit')) class="active" @endif><a href="{{ route('recurso.index') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Recursos</span></a></li>
                 <li {!! Route::is('software.index') ? "class='active'" : '' !!}><a href="{{ route('software.index') }}"><i class="fa fa-desktop"></i><span>Consultar softwares</span></a></li>
                 <li @if(Route::is("bug.create")) class="active" @endif><a href="{{ route('bug.create') }}"><i class="fa fa-bug" aria-hidden="true"></i><span>Reportar Bug</span></a></li>
                 <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>

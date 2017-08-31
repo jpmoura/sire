@@ -43,11 +43,11 @@ Route::group(['middleware' => 'auth'], function()
 
         // Rotas relacionadas aos recursos
         Route::group(['prefix' => 'recursos'], function() {
-            Route::get('cadastrar', ['as' => 'recurso.create', 'uses' => 'RecursoController@add']);
+            Route::get('cadastrar', ['as' => 'recurso.create', 'uses' => 'RecursoController@create']);
             Route::post('cadastrar', ['as' => 'recurso.store', 'uses' => 'RecursoController@store']);
-            Route::get('{recurso}/editar', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
-            Route::post('{recurso}/editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
-            Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
+            Route::get('editar/{recurso}', ['as' => 'recurso.edit', 'uses' => 'RecursoController@edit']);
+            Route::patch('editar/{recurso}', ['as' => 'editAsset', 'uses' => 'RecursoController@update']);
+            Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@destroy']);
 
             // Rotas para consulta de uma alocação em um dia específico
             Route::get('reserva/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'ReservaController@select']);
@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('reserva/quadro', 'ReservaController@show'); // tratamento para redirecionamentos
         Route::post('reserva/quadro', ['as' => 'addAllocation', 'uses' => 'ReservaController@show']);
         Route::post('reservar', ['as' => 'storeAllocation', 'uses' => 'ReservaController@store']);
-        Route::get('consultar', ['as' => 'showAsset', 'uses' => 'RecursoController@show']);
+        Route::get('consultar', ['as' => 'recurso.index', 'uses' => 'RecursoController@index']);
         Route::get('cancelar/{reserva}', ['as' => 'deleteAllocation', 'uses' => 'ReservaController@delete'])->middleware('can:manipularReserva,reserva');
         Route::get('favorito/{recurso}', ['as' => 'favoriteAllocation', 'uses' => 'DashboardController@favoriteResourceRedirection']);
     });
