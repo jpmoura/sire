@@ -22,7 +22,7 @@ class SoftwareTest extends TestCase
             'fabricante_software_id' => $fabricante->id
         ]);
 
-        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'instalado' => false, 'fabricante_software_id' => $fabricante->id]);
+        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
     }
 
     public function testUpdate()
@@ -34,17 +34,17 @@ class SoftwareTest extends TestCase
         $software = \App\Software::create([
             'nome' => 'Teste',
             'versao' => '1.0',
-            'instalado' => false,
+            'status' => false,
             'fabricante_software_id' => $fabricante->id
         ]);
 
         $software->update([
             'nome' => 'alterado',
-            'versao' => 'Alterado',
-            'instalado' => true,
+            'versao' => 'alterado',
+            'status' => true,
         ]);
 
-        $this->seeInDatabase('softwares', ['nome' => 'alterado', 'versao' => 'alterado', 'instalado' => true, 'fabricante_software_id' => $fabricante->id]);
+        $this->seeInDatabase('softwares', ['nome' => 'alterado', 'versao' => 'alterado', 'status' => true, 'fabricante_software_id' => $fabricante->id]);
     }
 
     public function testRemove()
@@ -60,10 +60,10 @@ class SoftwareTest extends TestCase
             'fabricante_software_id' => $fabricante->id
         ]);
 
-        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'instalado' => false, 'fabricante_software_id' => $fabricante->id]);
+        $this->seeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
 
         $software->delete();
 
-        $this->dontSeeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'instalado' => false, 'fabricante_software_id' => $fabricante->id]);
+        $this->dontSeeInDatabase('softwares', ['nome' => 'Teste', 'versao' => '1.0', 'status' => false, 'fabricante_software_id' => $fabricante->id]);
     }
 }
