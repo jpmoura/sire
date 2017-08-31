@@ -105,15 +105,14 @@ class RecursoController extends Controller
     /**
      * Modifica o status de um recurso para inativo. Não pode ser removido do banco para não se perder as referências históricas.
      */
-    public function destroy(DeleteRecursoRequest $request)
+    public function destroy(Recurso $recurso)
     {
-        $id = $request->get("id");
         $tipo = "Erro";
         $mensagem = "Ação não executada! ";
 
         try
         {
-            $deleted = Recurso::find($id)->update(['status' => 0]);
+            $deleted = $recurso->update(['status' => 0]);
         }
         catch(\Illuminate\Database\QueryException $ex)
         {
@@ -129,6 +128,7 @@ class RecursoController extends Controller
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
+
         return redirect()->route('recurso.index');
     }
 }

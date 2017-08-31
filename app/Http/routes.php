@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function()
             Route::post('cadastrar', ['as' => 'recurso.store', 'uses' => 'RecursoController@store']);
             Route::get('editar/{recurso}', ['as' => 'recurso.edit', 'uses' => 'RecursoController@edit']);
             Route::patch('editar/{recurso}', ['as' => 'recurso.update', 'uses' => 'RecursoController@update']);
-            Route::delete('deletar', ['as' => 'recurso.destroy', 'uses' => 'RecursoController@destroy']);
+            Route::delete('deletar/{recurso}', ['as' => 'recurso.destroy', 'uses' => 'RecursoController@destroy']);
 
             // Rotas para consulta de uma alocação em um dia específico
             Route::get('reserva/consulta', ['as' => 'selectDetailsAllocation', 'uses' => 'ReservaController@select']);
