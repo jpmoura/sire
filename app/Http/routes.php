@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function()
         // Rotas relacionadas aos recursos
         Route::group(['prefix' => 'recursos'], function() {
             Route::get('cadastrar', ['as' => 'recurso.create', 'uses' => 'RecursoController@add']);
-            Route::post('cadastrar', ['as' => 'storeAsset', 'uses' => 'RecursoController@store']);
+            Route::post('cadastrar', ['as' => 'recurso.store', 'uses' => 'RecursoController@store']);
             Route::get('{recurso}/editar', ['as' => 'detailsAsset', 'uses' => 'RecursoController@details']);
             Route::post('{recurso}/editar', ['as' => 'editAsset', 'uses' => 'RecursoController@edit']);
             Route::post('deletar', ['as' => 'deleteAsset', 'uses' => 'RecursoController@delete']);
