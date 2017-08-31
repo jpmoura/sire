@@ -17,8 +17,8 @@
         <div class='col-md-8 col-md-offset-2'>
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <form class="form" action="{{ route('editRule', $regras) }}" accept-charset="UTF-8" method="post">
-
+                    <form class="form" action="{{ route('regra.update', $regras) }}" accept-charset="UTF-8" method="post">
+                        {{ method_field("PATCH") }}
                         @include('regra.form')
 
                         <br />

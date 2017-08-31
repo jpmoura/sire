@@ -7,7 +7,7 @@
         <ul class="sidebar-menu">
             @can('administrate')
                 <li class="header text-center">ADMINISTRAÇÃO</li>
-                <li @if(Route::is('showRule') || Route::is('detailsRule')) class="active" @endif><a href="{{ route('showRule') }}"><i class="fa fa-cogs" aria-hidden="true"></i><span>Visualizar Regras</span></a></li>
+                <li @if(Route::is('regra.index') || Route::is('regra.edit')) class="active" @endif><a href="{{ route('regra.index') }}"><i class="fa fa-cogs" aria-hidden="true"></i><span>Visualizar Regras</span></a></li>
                 <li @if(Route::is('selectDetailsAllocation') || Route::is('detailsAllocation')) class="active" @endif><a href="{{ route('detailsAllocation') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Reserva</span></a></li>
 
                 <li class="treeview {!! Route::is('tiporecurso.index') || Route::is('tiporecurso.create') || Route::is('tiporecurso.edit') || Route::is('recurso.create') ? "active" : '' !!}">

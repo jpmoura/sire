@@ -11,15 +11,15 @@ class RegraController extends Controller
     /**
      * Exibe a visão geral das regras de horários
      */
-    public function show()
+    public function index()
     {
-        return view('regra.show')->with(['regras' => Regra::first()]);
+        return view('regra.index')->with(['regras' => Regra::first()]);
     }
 
     /**
      * Exibe o formulário com os detalhes da regra de horário que são passíveis de edição
      */
-    public function details(Regra $regras)
+    public function edit(Regra $regras)
     {
         return view('regra.edit')->with('regras', $regras);
     }
@@ -27,7 +27,7 @@ class RegraController extends Controller
     /**
      * Edita os dados da regra de horário
      */
-    public function edit(Requests\EditRegraRequest $request, $regras)
+    public function update(Requests\EditRegraRequest $request, $regras)
     {
             $tipo = "Erro";
             $mensagem = '';

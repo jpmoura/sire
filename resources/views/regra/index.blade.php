@@ -21,7 +21,7 @@
                         @include('regra.form')
                     </form>
                     <div class="text-center">
-                        <a class="btn btn-ufop" href="{{ route('detailsRule', $regras) }}"><i class="fa fa-edit"></i> Editar</a>
+                        <a class="btn btn-ufop" href="{{ route('regra.edit', $regras) }}"><i class="fa fa-edit"></i> Editar</a>
                     </div>
                 </div>
             </div>
