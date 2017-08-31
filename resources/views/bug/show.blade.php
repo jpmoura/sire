@@ -37,32 +37,13 @@
                     </div>
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" onClick="history.back()">Voltar <i class='fa fa-arrow-left'></i></button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Excluir <i class='fa fa-trash'></i></button>
+                        <form style="display: inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                        </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal modal-warning fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
-                </div>
-                <form class="form text-center" action="{{ route('bug.destroy') }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <input type="hidden" name="id" value="{{ $bug->id }}">
-                    <div class="modal-body">
-                        <p class="text-center">Você tem certeza que quer excluir esse bug?</p>
-                        <br />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
-                        <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

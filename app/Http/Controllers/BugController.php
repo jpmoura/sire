@@ -73,13 +73,13 @@ class BugController extends Controller
     /**
      * Remove o registro do bug no banco de dados.
      */
-    public function destroy(DeleteBugRequest $request)
+    public function destroy(Bug $bug)
     {
         $tipo = "Erro";
 
         try
         {
-            $status = Bug::destroy($request->get('id'));
+            $status =  $bug->delete();
 
             if ($status)
             {
@@ -90,9 +90,8 @@ class BugController extends Controller
         }
         catch(\Exception $e)
         {
-            $mensagem = "Falha ao apagar bug: " .$e->getMessage();
+            $mensagem = "Falha ao apagar bug: " . $e->getMessage();
         }
-
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);

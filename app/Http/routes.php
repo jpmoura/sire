@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::group(['prefix' => 'bug'], function() {
             Route::get('/', ['as' => 'bug.index', 'uses' => 'BugController@index']);
             Route::get('visualizar/{bug}', ['as' => 'bug.show', 'uses' => 'BugController@show']);
-            Route::delete('deletar', ['as' => 'bug.destroy', 'uses' => 'BugController@destroy']);
+            Route::delete('deletar/{bug}', ['as' => 'bug.destroy', 'uses' => 'BugController@destroy']);
         });
 
         // Rotas relacionadas aos recursos

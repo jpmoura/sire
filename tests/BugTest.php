@@ -84,14 +84,14 @@ class BugTest extends TestCase
         // Teste com nível usuário permitido
         $this->actingAs($usuarioAdministrador)
              ->visit($rota)
-             ->press('Confirmar')
+             ->press('excluir_button_' . $bug->id)
              ->dontSeeInDatabase('bugs', [
                  'usuario_id' => $bug->usuario_id,
                  'titulo' => $bug->titulo,
                  'descricao' => $bug->descricao,
                  'status' => $bug->status,
                  'id' => $bug->id
-                 ]);
+             ]);
 
     }
 }

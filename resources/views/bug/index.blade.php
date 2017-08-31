@@ -81,7 +81,11 @@
                                         <td>{!! $bug->autor->nome !!}</td>
                                         <td>
                                             <a class="btn btn-ufop btn-xs" href="{{ route('bug.show', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
-                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->titulo !!}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                            <form style="display: inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -100,30 +104,4 @@
             @endif
         </div><!-- /.col -->
     </div><!-- /.row -->
-
-    <div class="row">
-        <div class="modal modal-warning fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
-                    </div>
-                    <form class="form text-center" action="{{ route('bug.destroy') }}" method="post">
-                        {{ csrf_field() }}
-                        {{ method_field("DELETE") }}
-                        <input type="hidden" id="formID" name="id" value="">
-                        <div class="modal-body">
-                            <p id="mensagem" class="text-center"></p>
-                            <br />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
-                            <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
