@@ -99,6 +99,6 @@ $factory->define(App\Regra::class, function (Faker\Generator $faker) {
         'horario_inicio_noturno' => $faker->time(),
         'tempo_duracao_horario' => $faker->time(),
         'quantidade_horarios_seguidos' => $faker->randomDigitNotNull,
-        'intervao_entre_horarios_seguidos' => $faker->time(),
+        'intervalo_entre_horarios_seguidos' => $faker->time(),
     ];
 });
