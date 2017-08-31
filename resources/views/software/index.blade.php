@@ -72,7 +72,7 @@
                                         <td>{!! $software->fabricante->nome !!}</td>
                                         <td>
                                             <span class="text-bold
-                                                @if($software->instalado)
+                                                @if($software->status)
                                                     text-success">Instalado
                                                 @else
                                                     text-danger">Não Instalado
