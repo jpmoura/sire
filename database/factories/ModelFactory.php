@@ -77,11 +77,28 @@ $factory->define(App\TipoRecurso::class, function (Faker\Generator $faker) {
     ];
 });
 
+//Fábrica de Recurso
 $factory->define(App\Recurso::class, function (Faker\Generator $faker) {
     return [
         'tipo_recurso_id' => function () { return factory(App\TipoRecurso::class)->create()->id; },
         'nome' => $faker->jobTitle,
         'descricao' => $faker->sentence(5),
         'status' => 1,
+    ];
+});
+
+// Fábrica de Regra
+$factory->define(App\Regra::class, function (Faker\Generator $faker) {
+    return [
+        'quantidade_horarios_matutino' => $faker->randomDigitNotNull,
+        'quantidade_horarios_vespertino' => $faker->randomDigitNotNull,
+        'quantidade_horarios_noturno' => $faker->randomDigitNotNull,
+        'quantidade_dias_reservaveis' => $faker->randomDigitNotNull,
+        'horario_inicio_matutino' => $faker->time(),
+        'horario_inicio_vespertino' => $faker->time(),
+        'horario_inicio_noturno' => $faker->time(),
+        'tempo_duracao_horario' => $faker->time(),
+        'quantidade_horarios_seguidos' => $faker->randomDigitNotNull,
+        'intervao_entre_horarios_seguidos' => $faker->time(),
     ];
 });
