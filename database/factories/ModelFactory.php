@@ -13,10 +13,10 @@
 
 $factory->define(App\Usuario::class, function (Faker\Generator $faker) {
     return [
-        'nome' => $faker->name,
         'cpf' => $faker->cpf,
+        'nome' => $faker->name,
         'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
+        'status' => 1,
         'remember_token' => str_random(10),
     ];
 });
@@ -37,4 +37,15 @@ $factory->defineAs(App\Usuario::class, 'especial', function ($faker) use ($facto
     $user = $factory->raw(App\Usuario::class);
 
     return array_merge($user, ['nivel' => 3]);
+});
+
+$factory->define(App\Bug::class, function (Faker\Generator $faker) {
+    return [
+        'titulo' => $faker->realText(10),
+        'descricao' => $faker->realText(50),
+        'status' => 1,
+        'usuario_id' => function() {
+            return factory(App\Usuario::class, 'normal')->create()->id;
+        },
+    ];
 });
