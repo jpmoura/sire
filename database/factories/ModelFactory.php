@@ -69,3 +69,10 @@ $factory->define(App\Software::class, function (Faker\Generator $faker) {
         'fabricante_software_id' => function () { return factory(App\FabricanteSoftware::class)->create()->id; }
     ];
 });
+
+// Fábrica de TipoRecurso
+$factory->define(App\TipoRecurso::class, function (Faker\Generator $faker) {
+    return [
+        'nome' => $faker->jobTitle,
+    ];
+});
