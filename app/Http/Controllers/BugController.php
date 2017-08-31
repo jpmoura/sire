@@ -14,7 +14,7 @@ class BugController extends Controller
      */
     public function add()
     {
-        return view('bug.add');
+        return view('bug.create');
     }
 
     /**
@@ -23,7 +23,7 @@ class BugController extends Controller
      */
     public function show()
     {
-        return view('bug.show')->with(['bugs' => Bug::with('autor')->get()]);
+        return view('bug.index')->with(['bugs' => Bug::with('autor')->get()]);
     }
 
     /**
@@ -33,7 +33,7 @@ class BugController extends Controller
     public function details(Bug $bug)
     {
         $bug->load('autor');
-        return view('bug.details')->with(['bug' => $bug]);
+        return view('bug.show')->with(['bug' => $bug]);
     }
 
     /**
@@ -44,18 +44,25 @@ class BugController extends Controller
         $tipo = "Erro";
         $form = $request->all();
 
-        $bug = Bug::create([
-            'usuario_id' => auth()->id(),
-            'titulo' => $form['title'],
-            'descricao' => $form['description'],
-        ]);
-
-        if(isset($bug))
+        try
         {
-            $tipo = "Sucesso";
-            $mensagem = "Bug reportado. Obrigado por contribuir para a melhoria do sistema :)";
+            $bug = Bug::create([
+                'usuario_id' => auth()->id(),
+                'titulo' => $form['title'],
+                'descricao' => $form['description'],
+            ]);
+
+            if(isset($bug))
+            {
+                $tipo = "Sucesso";
+                $mensagem = "Bug reportado. Obrigado por contribuir para a melhoria do sistema :)";
+            }
+            else $mensagem = "Falha do banco dados.";
         }
-        else $mensagem = "Falha do banco dados.";
+        catch(\Exception $e)
+        {
+            $mensagem = 'Falha ao adicionar o bug: ' . $e->getMessage();
+        }
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
@@ -70,14 +77,22 @@ class BugController extends Controller
     {
         $tipo = "Erro";
 
-        $status = Bug::destroy($request->get('id'));
-
-        if ($status)
+        try
         {
-            $tipo = "Sucesso";
-            $mensagem = "Bug foi excluído.";
+            $status = Bug::destroy($request->get('id'));
+
+            if ($status)
+            {
+                $tipo = "Sucesso";
+                $mensagem = "Bug foi excluído.";
+            }
+            else $mensagem = "Falha do banco dados. O bug não foi excluído.";
         }
-        else $mensagem = "Falha do banco dados. O bug não foi excluído.";
+        catch(\Exception $e)
+        {
+            $mensagem = "Falha ao apagar bug: " .$e->getMessage();
+        }
+
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
