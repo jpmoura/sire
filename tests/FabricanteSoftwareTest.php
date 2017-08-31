@@ -29,6 +29,11 @@ class FabricanteSoftwareTest extends TestCase
              ->seeInDatabase('fabricante_softwares', ['nome' => $fabricanteNome]);
     }
 
+    /**
+     * Tesde de edição de uma instância FabricanteSoftware
+     *
+     * @return void
+     */
     public function testEditarFabricante()
     {
         $fabricante = factory(App\FabricanteSoftware::class)->create();
@@ -46,6 +51,11 @@ class FabricanteSoftwareTest extends TestCase
             ->seeInDatabase('fabricante_softwares', ['nome' => $novoNome]);
     }
 
+    /**
+     * Teste de visualização de índice de FabricanteSoftware
+     *
+     * @return void
+     */
     public function testIndiceFabricante()
     {
         $rota = route('fabricante.index');
@@ -58,6 +68,11 @@ class FabricanteSoftwareTest extends TestCase
              ->see($fabricante->nome);
     }
 
+    /**
+     * Teste de deleção de uma instância FabricanteSoftware
+     *
+     * @return void
+     */
     public function testDeletarFabricante()
     {
         $rota = route('fabricante.index');
