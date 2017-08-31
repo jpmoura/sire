@@ -11,6 +11,8 @@
 |
 */
 
+
+// Fábricas de Usuario
 $factory->define(App\Usuario::class, function (Faker\Generator $faker) {
     return [
         'cpf' => $faker->cpf,
@@ -39,6 +41,7 @@ $factory->defineAs(App\Usuario::class, 'especial', function ($faker) use ($facto
     return array_merge($user, ['nivel' => 3]);
 });
 
+// Fábrica de Bug
 $factory->define(App\Bug::class, function (Faker\Generator $faker) {
     return [
         'titulo' => $faker->realText(10),
@@ -47,5 +50,12 @@ $factory->define(App\Bug::class, function (Faker\Generator $faker) {
         'usuario_id' => function() {
             return factory(App\Usuario::class, 'normal')->create()->id;
         },
+    ];
+});
+
+// Fabrica de FabricanteSoftware
+$factory->define(App\FabricanteSoftware::class, function (Faker\Generator $faker) {
+    return [
+        'nome' => $faker->company,
     ];
 });
