@@ -9,46 +9,66 @@ class FabricanteSoftwareTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Teste de inserção de uma instância.
+     * Teste de criação de um novo fabricante de software
+     *
+     * @return void
      */
-    public function testInsert()
+    public function testCriarFabricante()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $rota = route('fabricante.create');
 
-        $this->seeInDatabase('fabricante_softwares', ['nome' => 'Fabricante teste']);
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
+        $fabricanteNome = "Novo fabricante";
+
+        // Teste com nível usuário permitido
+        $this->actingAs($usuarioAdministrador)
+             ->visit($rota)
+             ->type($fabricanteNome, "nome")
+             ->press("Confirmar")
+             ->see("Sucesso")
+             ->seeInDatabase('fabricante_softwares', ['nome' => $fabricanteNome]);
     }
 
-    /**
-     * Teste de atualização de uma instância
-     */
-    public function testUpdate()
+    public function testEditarFabricante()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $fabricante = factory(App\FabricanteSoftware::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
+        $novoNome = "Novo nome";
 
-        $fabricante->update([
-            'nome' => 'Alterado',
-        ]);
+        $rota = route('fabricante.edit', $fabricante->id);
 
-        $this->seeInDatabase('fabricante_softwares', ['nome' => 'alterado']);
+        // Teste com nível usuário permitido
+        $this->actingAs($usuarioAdministrador)
+            ->visit($rota)
+            ->type($novoNome, "nome")
+            ->press("Confirmar")
+            ->see("Sucesso")
+            ->seeInDatabase('fabricante_softwares', ['nome' => $novoNome]);
     }
 
-    /**
-     * Teste de remoção de uma instância
-     */
-    public function testRemove()
+    public function testIndiceFabricante()
     {
-        $fabricante = \App\FabricanteSoftware::create([
-            'nome' => 'Fabricante teste'
-        ]);
+        $rota = route('fabricante.index');
+        $fabricante = factory(App\FabricanteSoftware::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
 
-        $this->seeInDatabase('fabricante_softwares', ['nome' => 'Fabricante teste']);
-
-        $fabricante->delete();
-
-        $this->dontSeeInDatabase('fabricante_softwares', ['nome' => 'Fabricante teste']);
+        // Teste com nível usuário permitido
+        $this->actingAs($usuarioAdministrador)
+             ->visit($rota)
+             ->see($fabricante->nome);
     }
+
+    public function testDeletarFabricante()
+    {
+        $rota = route('fabricante.index');
+        $fabricante = factory(App\FabricanteSoftware::class)->create();
+        $usuarioAdministrador = factory(App\Usuario::class, 'admin')->create();
+
+        // Teste com nível usuário permitido
+        $this->actingAs($usuarioAdministrador)
+            ->visit($rota)
+            ->press('excluir_button_' . $fabricante->id)
+            ->dontSeeInDatabase('fabricante_softwares', ['nome' => $fabricante->nome]);
+    }
+
 }

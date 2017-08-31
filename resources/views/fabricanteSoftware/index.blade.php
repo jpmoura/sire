@@ -67,10 +67,10 @@
                                         <td>{!! $fabricante->nome !!}</td>
                                         <td>
                                             <a class="btn btn-ufop btn-xs" href="{{ route('fabricante.edit', $fabricante->id) }}"><i class="fa fa-edit"></i> Editar</a> ou
-                                            <a href="#" class="btn btn-danger btn-xs" onclick="event.preventDefault();document.getElementById('delete-form-{{ $fabricante->id }}').submit();"><i class="fa fa-trash"></i> Excluir</a>
-                                            <form id="delete-form-{{ $fabricante->id }}" action="{{ route('fabricante.destroy', $fabricante->id) }}" method="POST" style="display: none;">
+                                            <form style="display:inline;" action="{{ route('fabricante.destroy', $fabricante->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
+                                                <button id="excluir_button_{{ $fabricante->id }}" type="submit" class="btn btn-danger btn-xs" ><i class="fa fa-trash"></i> Excluir</button>
                                             </form>
                                         </td>
                                     </tr>
