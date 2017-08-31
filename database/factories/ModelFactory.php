@@ -59,3 +59,13 @@ $factory->define(App\FabricanteSoftware::class, function (Faker\Generator $faker
         'nome' => $faker->company,
     ];
 });
+
+// Fabrica de Software
+$factory->define(App\Software::class, function (Faker\Generator $faker) {
+    return [
+        'nome' => $faker->streetName,
+        'versao' => $faker->randomDigit,
+        'status' => 1,
+        'fabricante_software_id' => function () { return factory(App\FabricanteSoftware::class)->create()->id; }
+    ];
+});
