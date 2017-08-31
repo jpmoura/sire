@@ -17,7 +17,7 @@
         <div class='col-md-8 col-md-offset-2'>
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <form class="form" action="{{ route('editAsset', $recurso->id) }}" accept-charset="UTF-8" method="post">
+                    <form class="form" action="{{ route('recurso.update', $recurso->id) }}" accept-charset="UTF-8" method="post">
                         @include('recurso.form')
                         {{ method_field("PATCH") }}
 
