@@ -81,9 +81,9 @@ class FabricanteSoftwareTest extends TestCase
 
         // Teste com nível usuário permitido
         $this->actingAs($usuarioAdministrador)
-            ->visit($rota)
-            ->press('excluir_button_' . $fabricante->id)
-            ->dontSeeInDatabase('fabricante_softwares', ['nome' => $fabricante->nome]);
+             ->visit($rota)
+             ->press('excluir_button_' . $fabricante->id)
+             ->dontSeeInDatabase('fabricante_softwares', ['nome' => $fabricante->nome]);
     }
 
 }
