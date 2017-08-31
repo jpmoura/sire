@@ -65,7 +65,7 @@
                                         <td>{!! $tipo->nome !!}</td>
                                         <td>
                                             <a class="btn btn-ufop btn-xs" href="{{ route('tiporecurso.edit', $tipo->id) }}"><i class="fa fa-edit"></i> Editar</a> ou
-                                            <form id="delete-form-{{ $tipo->id }}" action="{{ route('tiporecurso.destroy', $tipo->id) }}" method="POST">
+                                            <form style="display: inline;" id="delete-form-{{ $tipo->id }}" action="{{ route('tiporecurso.destroy', $tipo->id) }}" method="POST">
                                                 <button id="excluir_button_{{ $tipo->id }}" class="btn btn-danger btn-xs" type="submit"><i class="fa fa-trash"></i> Excluir</button>
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
