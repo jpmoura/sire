@@ -10,13 +10,13 @@
                 <li @if(Route::is('showRule') || Route::is('detailsRule')) class="active" @endif><a href="{{ route('showRule') }}"><i class="fa fa-cogs" aria-hidden="true"></i><span>Visualizar Regras</span></a></li>
                 <li @if(Route::is('selectDetailsAllocation') || Route::is('detailsAllocation')) class="active" @endif><a href="{{ route('detailsAllocation') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Reserva</span></a></li>
 
-                <li class="treeview {!! Route::is('tiporecurso.index') || Route::is('tiporecurso.create') || Route::is('tiporecurso.edit') || Route::is('addAsset') ? "active" : '' !!}">
+                <li class="treeview {!! Route::is('tiporecurso.index') || Route::is('tiporecurso.create') || Route::is('tiporecurso.edit') || Route::is('recurso.create') ? "active" : '' !!}">
                     <a href="#">
                         <i class="fa fa-gear"></i><span>Recursos</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li @if(Route::is("addAsset")) class="active" @endif><a href="{{ route('addAsset') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Adicionar Recurso</span></a></li>
+                        <li @if(Route::is("recurso.create")) class="active" @endif><a href="{{ route('recurso.create') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i><span>Adicionar Recurso</span></a></li>
 
 
                         <li class="treeview {{ Route::is('tiporecurso.index') || Route::is('tiporecurso.create') ? 'active' : '' }}">
