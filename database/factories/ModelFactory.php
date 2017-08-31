@@ -76,3 +76,12 @@ $factory->define(App\TipoRecurso::class, function (Faker\Generator $faker) {
         'nome' => $faker->jobTitle,
     ];
 });
+
+$factory->define(App\Recurso::class, function (Faker\Generator $faker) {
+    return [
+        'tipo_recurso_id' => function () { return factory(App\TipoRecurso::class)->create()->id; },
+        'nome' => $faker->jobTitle,
+        'descricao' => $faker->sentence(5),
+        'status' => 1,
+    ];
+});
