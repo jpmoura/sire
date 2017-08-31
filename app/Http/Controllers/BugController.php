@@ -67,7 +67,7 @@ class BugController extends Controller
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
 
-        return redirect()->route('bug.index');
+        return redirect()->route('home');
     }
 
     /**
