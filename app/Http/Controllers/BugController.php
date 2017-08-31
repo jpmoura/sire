@@ -12,7 +12,7 @@ class BugController extends Controller
     /**
      * Renderiza a view com o formmulário de adição de um novo bug.
      */
-    public function add()
+    public function create()
     {
         return view('bug.create');
     }
@@ -21,7 +21,7 @@ class BugController extends Controller
      * Renderiza uma view com uma lista de todos os bugs.
      * @return mixed
      */
-    public function show()
+    public function index()
     {
         return view('bug.index')->with(['bugs' => Bug::with('autor')->get()]);
     }
@@ -30,7 +30,7 @@ class BugController extends Controller
      * Renderiza uma view com os detalhes de um determinado bug.
      * @param Bug $bug Instância do bug a ser visualizada
      */
-    public function details(Bug $bug)
+    public function show(Bug $bug)
     {
         $bug->load('autor');
         return view('bug.show')->with(['bug' => $bug]);
@@ -67,13 +67,13 @@ class BugController extends Controller
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
 
-        return back();
+        return redirect()->route('bug.index');
     }
 
     /**
      * Remove o registro do bug no banco de dados.
      */
-    public function delete(DeleteBugRequest $request)
+    public function destroy(DeleteBugRequest $request)
     {
         $tipo = "Erro";
 
@@ -97,7 +97,7 @@ class BugController extends Controller
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
 
-        return redirect()->route('showBug');
+        return redirect()->route('bug.index');
 
     }
 }

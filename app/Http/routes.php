@@ -36,9 +36,9 @@ Route::group(['middleware' => 'auth'], function()
 
         // Rotas relacionadas com manipulação dos registros de bugs
         Route::group(['prefix' => 'bug'], function() {
-            Route::get('detalhe/{bug}', ['as' => 'detailsBug', 'uses' => 'BugController@details']);
-            Route::post('deletar', ['as' => 'deleteBug', 'uses' => 'BugController@delete']);
-            Route::get('visualizar', ['as' => 'showBug', 'uses' => 'BugController@show']);
+            Route::get('/', ['as' => 'bug.index', 'uses' => 'BugController@index']);
+            Route::get('visualizar/{bug}', ['as' => 'bug.show', 'uses' => 'BugController@show']);
+            Route::delete('deletar', ['as' => 'bug.destroy', 'uses' => 'BugController@destroy']);
         });
 
         // Rotas relacionadas aos recursos
@@ -85,8 +85,8 @@ Route::group(['middleware' => 'auth'], function()
 
     // Rotas relacionadas com manipulação dos registros de bugs
     Route::group(['prefix' => 'bug'], function() {
-        Route::get('adicionar', ['as' => 'addBug', 'uses' => 'BugController@add']);
-        Route::post('adicionar', ['as' => 'storeBug', 'uses' => 'BugController@store']);
+        Route::get('adicionar', ['as' => 'bug.create', 'uses' => 'BugController@create']);
+        Route::post('adicionar', ['as' => 'bug.store', 'uses' => 'BugController@store']);
     });
 
     // Rota para listagem softwares

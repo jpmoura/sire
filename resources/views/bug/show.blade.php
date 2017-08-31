@@ -50,8 +50,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                 </div>
-                <form class="form text-center" action="{{ route('deleteBug') }}" method="post">
+                <form class="form text-center" action="{{ route('bug.destroy') }}" method="post">
                     {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
                     <input type="hidden" name="id" value="{{ $bug->id }}">
                     <div class="modal-body">
                         <p class="text-center">Você tem certeza que quer excluir esse bug?</p>

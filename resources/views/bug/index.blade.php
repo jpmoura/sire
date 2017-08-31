@@ -80,7 +80,7 @@
                                         <td>{!! $bug->titulo !!}</td>
                                         <td>{!! $bug->autor->nome !!}</td>
                                         <td>
-                                            <a class="btn btn-ufop btn-xs" href="{{ route('detailsBug', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
+                                            <a class="btn btn-ufop btn-xs" href="{{ route('bug.show', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
                                             <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $bug->id }}" data-title="{!! $bug->titulo !!}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                                         </td>
                                     </tr>
@@ -109,8 +109,9 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                     </div>
-                    <form class="form text-center" action="{{ route('deleteBug') }}" method="post">
+                    <form class="form text-center" action="{{ route('bug.destroy') }}" method="post">
                         {{ csrf_field() }}
+                        {{ method_field("DELETE") }}
                         <input type="hidden" id="formID" name="id" value="">
                         <div class="modal-body">
                             <p id="mensagem" class="text-center"></p>
