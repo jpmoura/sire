@@ -6,7 +6,6 @@
 /public/js
 /public/fonts
 /public/img
-Homestead.yaml
-Homestead.json
 .env
 .idea/
+/package-lock.json
