@@ -1,7 +1,7 @@
 # SiRe - Sistema de Reserva de Salas e Equipamentos
 
 <p align="center">
-  <img src="overview.gif" alt="Imagens do sistemas" />
+  <img src="overview.gif" alt="Imagens do sistema" />
 </p>
 
 O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public)
@@ -70,6 +70,16 @@ apenas para .env onde nele deve-se encontrar todas as configurações do banco d
 [LDAPI](https://github.com/jpmoura/ldapi).
 
 ## Changelog
+
+### Versão 2.3.1
+
+* Adição de testes de unidade;
+* Adição de funcionalidade de softwares instalados em recursos de informática;
+* Adição de funcionalidade de adição, remoção e edição de tipos de recursos;
+* Adição de migrations;
+* Refatoração de views, modularizando várias delas;
+* Refatoração no nomes de rotas;
+* Correção de bugs;
 
 ### Versão 2.3
 
