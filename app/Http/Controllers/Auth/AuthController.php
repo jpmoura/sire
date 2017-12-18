@@ -121,7 +121,7 @@ class AuthController extends Controller
         catch (RequestException $ex)
         {
             event(new LoginErrorEvent($ex->getMessage()));
-            return back()->withErrors(['server' => $ex->getMessage()]);
+            return back()->withErrors(['server' => $ex->getResponse()->getBody()->getContents()]);
         }
 
         // Se nenhuma excessão foi jogada, então o usuário está autenticado
