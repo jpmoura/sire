@@ -26,18 +26,56 @@ desenvolvimento. Uma restrição do desenvolvimento foi a necessidade de usar o
 banco de dados original da primeira versão, o que limitou alguns pontos no
 desenvolvimento da interface com o usuário.
 
+## Índice
+
+1. [Versão de Uso Geral](#versão-de-uso-geral)
+2. [Funcionamento](#funcionamento)
+3. [Instalação](#instalação)
+4. [Changelog](#changelog)
+5. [TODO](#todo)
+
+## Versão de Uso Geral
+
+Existe uma versão de uso geral, que não está limitada pelos requisitos da [UFOP](http://ufop.br/), que é adaptável para
+qualquer instituição que assim deseje utilizar o sistema.
+
+Para utilizar a versão de uso geral, certifique-se de utilizar
+a versão do _branch_ [generico](https://github.com/jpmoura/sire/tree/generico), que é o _branch_ que contém o sistema de
+autenticação tradicional, baseado em dados existentes no banco de dados da aplicação.
+
 ## Funcionamento
 O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção,
 leitura, atualização e remoção de informações de salas, equipamentos e
 alocações feitas.
 
-Para autenticação foi usado a mesma base de dados LDAP utilizada pelo sistema
-[Minha UFOP](http://www.minha.ufop.br), facilitando o uso para o usuário fazendo
-com que ele não precise de um *login* e senha específicos para utilizar o sistema.
-
 Para o layout, foi usado como base o design [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
 desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
 alterando-se basicamente só a palheta de cores do tema.
+
+O sistema é focado para uso de instituições do ramo educacional, logo, limita-se a ter somente três tipos de usuários,
+sendo eles:
+
+* Administrador;
+* Professor / Técnico administratico;
+* Usuário especial.
+
+Atualmente não está implantado uma forma de se alterar estes tipos de usuários dentro do sistema. O administrador é
+responsável por fazer todo e qualquer tipo de cadastro no sistema, desde outros usuários até os recursos passíveis de
+serem reservados bem como seus tipos. Essa abordagem foi escolhida devido aos requisitos da [UFOP](http://ufop.br/) para
+centralização do gerenciamento e foi mantida para o sistema de uso geral.
+
+A versão de uso geral conta com alguns dados já preenchidos no banco para o pontapé inicial do sistema. As regras de
+negócio de exemplo já estão presentes assim como um usuário administrador padrão, com e-mail o ```admin@admin.com``` e
+senha ```admin```.
+
+Antes de se criar um recurso, é necessário criar tipos de recursos. Com o tipo criado, na tela de criação de recurso é
+possível selecionar um tipo para o mesmo e completar sua criação.
+
+Exite também a funcionalidade de lista de softwares, que pode ser útil para que professores e técnicos verifiquem quais
+são os softwares instalados em laboratórios, facilitando a escolha de qual laboratório reservar, por exemplo.
+
+Outra funcionalidade é o reporte de bugs, onde os usuários de todos os tipos podem detalhar algum problema que
+encontrarem no sistema para que os administradores possam corrigí-los.
 
 ## Instalação
 Para a instalação é necessário ter previamente instalados o gerenciador de dependências [Composer](https://getcomposer.org/)
@@ -49,7 +87,17 @@ executam-se os seguintes comandos:
 $ composer install
 $ npm install
 $ gulp --prod
+$ php artisan migrate
+$ php artisan db:seed
 ```
+
+Enquanto o comando ```php artisan migrate``` cria as tabelas no banco de dados, o comando ```php artisan db:seed``` é o
+comando que preenche as tabelas de usuário e de regras com alguns dados padrões que possibilitam o uso do sistema sem a
+necessidade de inserir dados no banco por aplicações de terceiros, assim o administrador já pode utilizar o sistema
+usando as credenciais padrão de e-mail e senha no login. Tais credenciais são:
+
+* E-mail: admin@admin.com
+* Senha: admin
 
 Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
 gravação e execução da pasta em que se encontra o sistema para o grupo
@@ -70,6 +118,20 @@ apenas para .env onde nele deve-se encontrar todas as configurações do banco d
 [LDAPI](https://github.com/jpmoura/ldapi).
 
 ## Changelog
+
+Esse changelog está organizado na ordem de mais recente para o mais antigo, ou seja, a versão mais nova aparece como
+primeira subseção e a versão mais antiga como a última subseção.
+
+Versões terminadas com o caracter ```g``` refere-se ao _branch_ ```generico```, para uso geral. O chancelog das versões
+específicas para a [UFOP](http://ufop.br/) estão mantidas com o objetivo de se manter dados históricos sobre a evolução
+do sistema.
+
+### Versão 1.0g
+
+* Remoção do Login por LDAPI usando dados da UFOP por login tradicional baseado em tabela de usuários para aplicação
+geral;
+* Adição de testes par CRUD de usuário;
+* Remoção de modelos de usuários e reservas legados;
 
 ### Versão 2.3.1
 
@@ -149,6 +211,12 @@ ocasionar problemas no momento de alocação;~~
 
 ## TODO
 
+* Refatoração no nomes de rotas fora do padrão do Laravel;
+* Criar testes automatizados mais detalhados;
+* Criar testes para o modelo de Reserva;
+* Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;
+* Tratar para que caso altere o horário de início de cada turno para que o
+último horário do turno não sobreponha o início do próximo turno (*overlapping*).
 * ~~Autenticação LDAP via [Minha UFOP](http://www.minha.ufop.br/);~~
 * ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados
 para evitar expor os dados no código-fonte;~~
@@ -161,7 +229,4 @@ reforçar o padrão MVC;~~
 juntamente com SASS ou LESS;~~
 * ~~Otimização da estrutura do banco de dados;~~
 * ~~Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);~~
-* Criar testes automatizados;
-* Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;
-* Tratar para que caso altere o horário de início de cada turno para que o
-último horário do turno não sobreponha o início do próximo turno (*overlapping*).
+

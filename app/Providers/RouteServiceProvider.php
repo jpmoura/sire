@@ -30,7 +30,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('software', 'App\Software');
         $router->model('fabricante', 'App\FabricanteSoftware');
         $router->model('tiporecurso', 'App\TipoRecurso');
-        $router->model('regras', 'App\Regra');
+        $router->model('regra', 'App\Regra');
+        $router->model('usuario', 'App\Usuario');
 
         parent::boot($router);
     }

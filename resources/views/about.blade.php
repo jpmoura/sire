@@ -30,7 +30,20 @@
                 O novo sistema foi refeito pelo bolsista <a target="_black" href="https://github.com/jpmoura">João Pedro Santos de Moura</a>  devido a necessidade de se atualizar tanto a interface com o usuário quanto as ferramentas
                 que davam suporte ao funcionamento do sistema. Um dos objetivos do sistema era atualizar as ferramentas sem comprometer a estrutura já existente do
                 banco de dados, que contém todo o histórico de alocação
+                <br>
+                Essa é uma versão de uso geral, onde a versão original foi adaptada para que pudesse ser utilizada por qualquer instituição do ramo educacional que deseja possuir um sistem simples para reserva
+                de seus recursos, sejam eles de qualquer tipo.
+                <br>
+                As versões terminadas com o caracter <span class="text-bold">G</span> se refere a versões de uso geral. As modificações das versão específicas para a <a target="_blank" href="http://ufop.br">UFOP</a>
+                são mantidas com o objetivo de registrar historicamente a evolução do sistema.
                 <section id="modificacoes">
+                    <h3 class="text-center">Mudanças na Versão 1.0g</h3>
+                    <ul>
+                        <li>Remoção do Login por LDAPI usando dados da UFOP por login tradicional baseado em tabela de usuários para aplicação geral;</li>
+                        <li>Adição de testes par CRUD de usuário;</li>
+                        <li>Remoção de modelos de usuários e reservas legados.</li>
+                    </ul>
+
                     <h3 class="text-center">Mudanças na Versão 2.3</h3>
                     <ul>
                         <li>Refatoração de modelos e controllers;</li>
@@ -96,6 +109,10 @@
                 </section>
                 <h3 class="text-center">A Fazer</h3>
                 <ul>
+                    <li>Refatoração no nomes de rotas fora do padrão do Laravel;</li>
+                    <li>Criar testes automatizados mais detalahdos;</li>
+                    <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
+                    <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
                     <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
                     <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
                     <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>
@@ -104,9 +121,6 @@
                     <li><del>Otimizar carregamento de objetos javascript e CSS usando SASS ou LESS;</del></li>
                     <li><del>Otimizar as tabelas do banco de dados;</del></li>
                     <li><del>Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);</del></li>
-                    <li>Criar testes automatizados;</li>
-                    <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
-                    <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
                 </ul>
             </p>
         </div>

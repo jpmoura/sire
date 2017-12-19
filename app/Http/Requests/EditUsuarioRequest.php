@@ -25,7 +25,10 @@ class EditUsuarioRequest extends Request
     {
         return [
             'nivel'  => 'required|in:1,2,3',
-            'status' => 'required|in:0,1',
+            'nome'   => 'required|max:45',
+            'email'  => 'required|unique:usuarios,email,' . $this->request->get('id') . '|max:255',
+            'password' => 'confirmed|max:255',
+            'status' => 'required|boolean'
         ];
     }
 }

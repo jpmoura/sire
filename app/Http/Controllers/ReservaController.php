@@ -7,7 +7,6 @@ use App\Http\Requests\DetailsReservaRequest;
 use App\Recurso;
 use App\Regra;
 use App\Reserva;
-use App\ReservaLegado;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
@@ -35,7 +34,7 @@ class ReservaController extends Controller
         // Comum acontecer com dispositivos móveisque realizam cache do endereço e tentam renovar a requisição
         if(is_null($recurso_id) || empty($recurso_id))
         {
-            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização provavelmente via POST sem o ID do recurso.");
+            Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização provavelmente via POST sem o ID do recurso.");
             abort(428);
         }
         else
@@ -45,7 +44,7 @@ class ReservaController extends Controller
 
             if(is_null($recurso))
             {
-                Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização do recurso de ID " . $recurso_id . " porém nenhum recurso foi encontrado.");
+                Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização do recurso de ID " . $recurso_id . " porém nenhum recurso foi encontrado.");
 
                 session()->flash('tipo', 'Erro');
                 session()->flash('mensagem', 'Nenhum recurso foi encontrado. Tente novamente caso não tenha selecionado o recurso pelo menu.');
@@ -84,18 +83,19 @@ class ReservaController extends Controller
     public function store(AddReservaRequest $request)
     {
         $reservas = $request->get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
+
         if(!isset($reservas))
         {
             // Se nenhum horário foi selecionado, então volta para a página de seleção
             session()->flash('tipo', 'Erro');
             session()->flash('mensagem', 'Você não selecionou nenhum horário.');
             session()->flash("allocationRedirection", $request->get('id'));
-            Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
+            Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
             return back();
         }
         else
         {
-            $usuario_id = auth()->user()->cpf;
+            $usuario_id = auth()->id();
             $recurso_id = $request->get('id');
 
             $tipo = "Erro";
@@ -133,12 +133,12 @@ class ReservaController extends Controller
                                 break;
                         }
 
-                        Log::warning("O Usuário " . auth()->user()->cpf . " de nome " . auth()->user()->nome ." tentou reservar mais de um recurso no mesmo horário");
+                        Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou reservar mais de um recurso no mesmo horário");
 
                         session()->flash('tipo', "Erro");
                         session()->flash('mensagem',
                             "Você já reservou " . $reservaExistente->recurso->nome . " para o ". $reservaExistente->horario ."º horário do turno " . $turno .
-                            ". Contate o NTI caso REALMENTE necessite de vários recursos no mesmo horário.");
+                            ". Contate o Administrador caso REALMENTE necessite de vários recursos no mesmo horário.");
                         session()->flash("allocationRedirection", $recurso_id);
                         return back();
                     }
@@ -155,19 +155,21 @@ class ReservaController extends Controller
                 ++$i;
             } // end foreach
 
-            $total = Reserva::insert($reservasParaInserir);
-
-            // Verifica se todas as reseervas foram inseridas
-            if($total == count($reservas))
+            try
             {
+                Reserva::insert($reservasParaInserir);
                 $tipo = "Sucesso";
                 $mensagem = "Recurso reservado com sucesso.";
             }
-            else $mensagem = "Falha de SQL ao inserir reservas";
+            catch(\Exception $ex)
+            {
+                $mensagem = "Falha ao inserir reservas: " . $ex->getMessage();
+            }
 
             session()->flash("mensagem", $mensagem);
             session()->flash("tipo", $tipo);
             session()->flash("allocationRedirection", $recurso_id);
+
             return back();
         }
     }
@@ -179,17 +181,17 @@ class ReservaController extends Controller
     public function delete(Reserva $reserva)
     {
         session()->flash('allocationRedirection', $reserva->recurso_id);
-        $deleted = $reserva->delete();
 
-        if ($deleted)
+        try
         {
+            $reserva->delete();
             $tipo = "Sucesso";
             $mensagem = "Reserva cancelada com suceso.";
         }
-        else
+        catch(\Exception $ex)
         {
             $tipo = "Erro";
-            $mensagem = "Erro ao tentar cancelar a reserva.";
+            $mensagem = "Erro ao tentar cancelar a reserva: " . $ex->getMessage();
         }
 
         session()->flash("tipo", $tipo);
@@ -209,12 +211,6 @@ class ReservaController extends Controller
 
         // Reservas cadastradas no sistema atual
         $reservas = Reserva::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
-
-        // Reservas cadastradas no sistema legado
-        $reservasAntigas = ReservaLegado::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
-
-        // Concatenação de resultados
-        foreach ($reservasAntigas as $antiga) $reservas->add($antiga);
 
         return $reservas;
     }

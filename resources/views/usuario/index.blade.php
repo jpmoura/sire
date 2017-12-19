@@ -44,11 +44,11 @@
 
     $('#deleteModal').on('show.bs.modal', function (event) {
         var link = $(event.relatedTarget); // Button that triggered the modal
-        var cpf = link.data('cpf'); // Extract info from data-* attributes
+        var id = link.data('id'); // Extract info from data-* attributes
         var nome = link.data('nome'); // Extract info from data-* attributes
 
         document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o usuario ' + nome + '?';
-        document.getElementById("formID").setAttribute("value", cpf)
+        document.getElementById("formID").setAttribute("value", id)
     });
 
     $('#deleteModal').on('hide.bs.modal', function (event) {
@@ -82,7 +82,7 @@
                                 @foreach($usuarios as $usuario)
                                     <tr>
                                         <td>{!!$usuario->nome !!}</td>
-                                        <td><a target="_blank" href="mailto:{{$usuario->email}}?subject=[UFOP-ICEA] Contato via Sistema de Reserva">{{$usuario->email}}</a></td>
+                                        <td><a target="_blank" href="mailto:{{$usuario->email}}?subject=Contato via Sistema de Reserva">{{$usuario->email}}</a></td>
                                         <td>
                                             @if($usuario->nivel == 1)
                                                 Administrador
@@ -93,18 +93,19 @@
                                             @endif
                                         </td>
                                         <td>
-                            <span class=
-                                  @if($usuario->status == 1)
-                                          "text-success text-bold">Ativo
-                                @else
-                                    "text-warning text-bold">Inativo
-                                @endif
-                            </span>
+                                            <span class=
+                                                @if($usuario->status == 1)
+                                                    "text-success text-bold">Ativo
+                                                @else
+                                                    "text-warning text-bold">Inativo
+                                                @endif
+                                            </span>
                                         </td>
                                         @can('administrate')
-                                            <td><a class="btn btn-ufop btn-xs" href="{{ route('detailsUser', $usuario->cpf) }}"><i class="fa fa-edit"></i> Editar</a>
-                                                @if($usuario->status != 0)
-                                                    ou <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-cpf="{!! $usuario->cpf !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
+                                            <td>
+                                                <a class="btn btn-ufop btn-xs" href="{{ route('usuario.edit', $usuario->id) }}"><i class="fa fa-edit"></i> Editar</a>
+                                                @if($usuario->status != 0 && $usuario->id != auth()->id())
+                                                    ou <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-id="{!! $usuario->id !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
                                                 @endif
                                             </td>
                                         @endcan
@@ -136,9 +137,9 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                     </div>
-                    <form class="form text-center" action="{{ route('deleteUser') }}" method="post">
+                    <form class="form text-center" action="{{ route('usuario.delete') }}" method="post">
                         {{ csrf_field() }}
-                        <input type="hidden" id="formID" name="cpf" value="{!! $usuario->cpf !!}">
+                        <input type="hidden" id="formID" name="id" value="">
                         <div class="modal-body">
                             <p id="mensagem" class="text-center"></p>
                         </div>

@@ -14,7 +14,7 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'cpf', 'nome', 'email', 'nivel', 'status',
+        'nome', 'email', 'nivel', 'status', 'password'
     ];
 
     /**
@@ -23,8 +23,19 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $hidden = [
-         'id', 'remember_token',
+         'id', 'remember_token', 'password'
     ];
+
+    /**
+     * Padroniza a definição do nome do usuário
+     *
+     * @param  string  $value Nome do usuário possivelmente fora do padrão
+     * @return string Nome padronizado
+     */
+    public function setNomeAttribute($value)
+    {
+        $this->attributes['nome'] = ucwords(strtolower(trim($value)));
+    }
 
     /**
      * Verifica se o usuário é um administrador do sistema.
@@ -48,6 +59,6 @@ class Usuario extends Authenticatable
      */
     public function reservas()
     {
-        return $this->hasMany('App\Reserva', 'usuario_id', 'cpf');
+        return $this->hasMany('App\Reserva');
     }
 }

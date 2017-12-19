@@ -24,7 +24,7 @@ class CreateRecursosTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('tipo_recurso_id');
+            $table->unsignedInteger('tipo_recurso_id');
             $table->string('nome', 50);
             $table->string('descricao', 100);
             $table->integer('status');

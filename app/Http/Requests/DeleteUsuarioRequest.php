@@ -24,7 +24,7 @@ class DeleteUsuarioRequest extends Request
     public function rules()
     {
         return [
-            'cpf' => 'required|exists:usuarios'
+            'id' => 'required|exists:usuarios'
         ];
     }
 }

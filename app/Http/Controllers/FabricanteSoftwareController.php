@@ -45,7 +45,7 @@ class FabricanteSoftwareController extends Controller
         }
         catch (\Exception $e)
         {
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao criar novo fabricante: ' . $e->getMessage();
             $tipo = 'Erro';
         }
 
@@ -84,7 +84,7 @@ class FabricanteSoftwareController extends Controller
         catch (\Exception $e)
         {
             $tipo = "Erro";
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao atualizar fabricante: ' . $e->getMessage();
         }
 
         session()->flash('tipo', $tipo);
@@ -110,7 +110,7 @@ class FabricanteSoftwareController extends Controller
         catch (\Exception $e)
         {
             $tipo = 'Erro';
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao excluir fabricante: ' . $e->getMessage();
         }
 
         session()->flash('tipo', $tipo);

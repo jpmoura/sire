@@ -32,16 +32,16 @@
         <p class="login-box-msg">Faça o login para gerenciar suas reservas ou clique <a href="{{ route('selectAllocatedAsset') }}"><strong>aqui</strong></a> apenas para visualizar o quadro de reservas.</p>
 
         <div class="form">
-            <form class="form" action="{{ route('login') }}" method="post">
+            <form class="form" action="{{ url('login') }}" method="post">
                 {{ csrf_field() }}
-                <div class="input-group @if($errors->has('credentials') || $errors->has('server')) has-error @endif">
+                <div class="input-group @if($errors->has('email')) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" data-mask="000.000.000-00" minlength="11" maxlength="14" data-mask-reverse="true" name="username" class="form-control" placeholder="CPF do Minha UFOP" required value="{{old('username')}}" data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" autofocus>
+                    <input type="email" name="email" class="form-control" placeholder="E-mail" required value="{{old('email')}}" data-toggle="tooltip" data-placement="right" title="E-mail cadastrado" autofocus>
                 </div>
 
-                <div class="input-group @if($errors->has('credentials') || $errors->has('server')) has-error @endif">
+                <div class="input-group @if($errors->has('password')) has-error @endif">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" placeholder="Senha do Minha UFOP" required data-toggle="tooltip" data-placement="right" title="Senha do Minha UFOP">
+                    <input type="password" name="password" class="form-control" placeholder="Senha" required data-toggle="tooltip" data-placement="right" title="Senha">
                 </div>
 
                 <br />
@@ -51,7 +51,7 @@
                     <label for="remember-me">Lembre-se de mim</label>
                 </div>
 
-                @if($errors->has('credentials') || $errors->has('server'))
+                @if($errors->has('email') || $errors->has('password'))
                     @foreach($errors->all() as $error)
                         <h5 class="text-center text-danger"><b><i class="fa fa-exclamation-circle"></i> Erro <br/> {!! $error !!}</b></h5>
                     @endforeach
@@ -61,8 +61,6 @@
                 <button type="submit" style="background-color: #962038" class="btn btn-primary center-block btn-block"><i class="fa fa-sign-in"></i> Entrar</button>
             </form>
         </div>
-        <hr />
-        <p class="text-center">Use o <span class="text-bold">mesmo CPF</span> e a <span class="text-bold">mesma senha</span><br /> do <a href="http://www.minha.ufop.br/" target="_blank"><i class="fa fa-home"></i>Minha UFOP</a></p>
     </div>
 </div>
 
@@ -70,7 +68,7 @@
 
 <footer class="text-center">
     <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{ route('showAbout') }}">NTI ICEA</a></strong>.
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{ route('showAbout') }}">João Pedro Santos de Moura</a></strong>.
 </footer>
 
 {!! HTML::script('public/js/app.js') !!}

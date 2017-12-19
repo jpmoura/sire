@@ -46,18 +46,14 @@ class BugController extends Controller
 
         try
         {
-            $bug = Bug::create([
+            Bug::create([
                 'usuario_id' => auth()->id(),
                 'titulo' => $form['title'],
                 'descricao' => $form['description'],
             ]);
 
-            if(isset($bug))
-            {
-                $tipo = "Sucesso";
-                $mensagem = "Bug reportado. Obrigado por contribuir para a melhoria do sistema :)";
-            }
-            else $mensagem = "Falha do banco dados.";
+            $tipo = "Sucesso";
+            $mensagem = "Bug reportado. Obrigado por contribuir para a melhoria do sistema :)";
         }
         catch(\Exception $e)
         {
@@ -79,14 +75,9 @@ class BugController extends Controller
 
         try
         {
-            $status =  $bug->delete();
-
-            if ($status)
-            {
-                $tipo = "Sucesso";
-                $mensagem = "Bug foi excluído.";
-            }
-            else $mensagem = "Falha do banco dados. O bug não foi excluído.";
+            $bug->delete();
+            $tipo = "Sucesso";
+            $mensagem = "Bug foi excluído.";
         }
         catch(\Exception $e)
         {
@@ -97,6 +88,5 @@ class BugController extends Controller
         session()->flash("tipo", $tipo);
 
         return redirect()->route('bug.index');
-
     }
 }

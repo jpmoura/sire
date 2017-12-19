@@ -77,15 +77,15 @@
                                 {{--Se for igual então está reservado--}}
                                 @if($reserva->horario == $i && $reserva->turno == $turno && $reserva->data == \Carbon\Carbon::now()->addDays($j)->format('Y-m-d'))
 
-                                    {{--Tratamento para não motrar o e-mail e nome dos administradores--}}
+                                    {{-- Tratamento para não motrar o e-mail e nome dos administradores. Comente este trecho caso queira qu sejam mostrados --}}
                                     @if($reserva->usuario->nivel == 1)
                                         @php
-                                            $reserva->usuario->email = "suporteinformatica@decea.ufop.br";
-                                            $reserva->usuario->nome = "NTI";
+                                            $reserva->usuario->email = "admin@admin.com";
+                                            $reserva->usuario->nome = "Administrador";
                                         @endphp
                                     @endif
 
-                                    <a target="_blank" href="mailto:{!! $reserva->usuario->email !!}?subject=[UFOP-ICEA] Alocação do recurso {!! $recurso->nome !!}">
+                                    <a target="_blank" href="mailto:{!! $reserva->usuario->email !!}?subject=[Sistema de Reservas] Alocação do recurso {!! $recurso->nome !!}">
                                         {!! $reserva->usuario->nome !!}
                                     </a>
 

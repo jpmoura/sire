@@ -15,6 +15,8 @@ return [
 
     'env' => env('APP_ENV', 'local'),
 
+    'version' => env('APP_VERSION', '1.0g'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

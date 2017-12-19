@@ -44,7 +44,7 @@ class TipoRecursoController extends Controller
         catch (\Exception $e)
         {
             $tipo = 'Erro';
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao criar novo tipo de recurso: ' . $e->getMessage();
         }
 
         session()->flash('tipo', $tipo);
@@ -81,7 +81,7 @@ class TipoRecursoController extends Controller
         catch (\Exception $e)
         {
             $tipo = 'Erro';
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao atualizar tipo de recurso: ' . $e->getMessage();
         }
 
         session()->flash('tipo', $tipo);
@@ -107,7 +107,7 @@ class TipoRecursoController extends Controller
         catch (\Exception $e)
         {
             $tipo = 'Erro';
-            $mensagem = $e->getMessage();
+            $mensagem = 'Falha ao remover tipo de recurso: ' . $e->getMessage();
         }
 
         session()->flash('tipo', $tipo);

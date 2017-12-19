@@ -51,14 +51,14 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ Route::is('addUser') || Route::is('showUser') || Route::is('detailsUser') ? 'active' : '' }}">
+                <li class="treeview {{ Route::is('usuario.create') || Route::is('usuario.index') || Route::is('usuario.edit') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-users"></i><span>Usuários</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li @if(Route::is("addUser")) class="active" @endif><a href="{{ route('addUser') }}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Cadastrar</span></a></li>
-                        <li @if(Route::is("showUser")) class="active" @endif><a href="{{ route('showUser') }}"><i class="fa fa-th-list" aria-hidden="true"></i><span>Listar</span></a></li>
+                        <li @if(Route::is("usuario.create")) class="active" @endif><a href="{{ route('usuario.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Cadastrar</span></a></li>
+                        <li @if(Route::is("usuario.index")) class="active" @endif><a href="{{ route('usuario.index') }}"><i class="fa fa-th-list" aria-hidden="true"></i><span>Listar</span></a></li>
                     </ul>
                 </li>
 
@@ -72,7 +72,7 @@
                 <li @if(Route::is("recurso.index") || Route::is('recurso.edit')) class="active" @endif><a href="{{ route('recurso.index') }}"><i class="fa fa-search" aria-hidden="true"></i><span>Consultar Recursos</span></a></li>
                 <li {!! Route::is('software.index') ? "class='active'" : '' !!}><a href="{{ route('software.index') }}"><i class="fa fa-desktop"></i><span>Consultar softwares</span></a></li>
                 <li @if(Route::is("bug.create")) class="active" @endif><a href="{{ route('bug.create') }}"><i class="fa fa-bug" aria-hidden="true"></i><span>Reportar Bug</span></a></li>
-                <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
+                <li><a href="{{ url('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
             @endif
         </ul><!-- /.sidebar-menu -->
     </section>

@@ -24,7 +24,7 @@ class CreateBugsTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('usuario_id');
+            $table->unsignedInteger('usuario_id');
             $table->string('titulo', 100);
             $table->string('descricao');
             $table->binary('status')->default('0');

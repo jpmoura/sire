@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddUsuarioRequest;
+use App\Http\Requests\CreateUsuarioRequest;
 use App\Http\Requests\DeleteUsuarioRequest;
 use App\Http\Requests\EditUsuarioRequest;
 use App\Usuario;
@@ -10,98 +10,88 @@ use App\Events\NewUserCreated;
 use App\Events\UserDeleted;
 use Illuminate\Http\Request;
 use Log;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 
 class UsuarioController extends Controller
 {
     /**
-     * Cria uma nova instância de usuário no banco de dados.
+     * @param CreateUsuarioRequest $request Requisição com os campos do formulário validados
+     * @return \Illuminate\Http\RedirectResponse Página de índice com mensagem de sucesso ou fracasso
      */
-    public function store(AddUsuarioRequest $request)
+    public function store(CreateUsuarioRequest $request)
     {
         $tipo = "Erro";
-        $form = $request->all();
-        $checkLogin = Usuario::where('cpf', $form['cpf'])->first();
 
-        if(!is_null($checkLogin))
+        try
         {
-            session()->flash("mensagem", "Usuário já existe!");
-            session()->flash("tipo", $tipo);
-            return back();
+            $usuario = Usuario::create([
+                'nome' => $request->get('nome'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password')),
+                'nivel' => $request->get('nivel')
+            ]);
+            event(new NewUserCreated($usuario)); // dispara evento de novo usuário criado
+            $tipo = "Sucesso";
+            $mensagem = "Usuário adicionado com sucesso.";
         }
-        else { // o login não existe
-
-            if($form['canAdd'] == 1)
-            {
-                $usuario = Usuario::create([
-                    'cpf' => $form['cpf'],
-                    'nivel' => $form['nivel'],
-                    'nome' => ucwords(strtolower($form['nome'])),
-                    'email' => $form['email'],
-                    'status' => 1,
-                ]);
-
-                event(new NewUserCreated($usuario)); // dispara evento de novo usuário criado
-
-                if(isset($usuario))
-                {
-                    $tipo = "Sucesso";
-                    $mensagem = "Usuário adicionado com sucesso.";
-                }
-                else $mensagem = "Falha de SQL ao inserir usuário";
-            }
-            else $mensagem = "Não é possível inserir um usuário que não esteja cadastrado no LDAP.";
-
-            session()->flash("mensagem", $mensagem);
-            session()->flash("tipo", $tipo);
-
-            return back();
+        catch (\Exception $e)
+        {
+            $mensagem = "Falha de SQL ao inserir usuário. Mensagem do banco: " . $e->getMessage();
         }
+
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
+
+        return redirect()->route('usuario.index');
     }
 
     /**
      * Exibe o formulário para adição de um novo usuário ao sistema.
      */
-    public function add()
+    public function create()
     {
-        return view('usuario.add');
+        return view('usuario.create');
     }
 
     /**
      * Renderiza a view que mostra todos os usuários que são ativos (status === 1)
      */
-    public function show()
+    public function index()
     {
         $usuarios = Usuario::all()->sortBy('nome');
-        return view('usuario.show')->with(['usuarios' => $usuarios]);
+        return view('usuario.index')->with(['usuarios' => $usuarios]);
     }
 
     /**
      * Renderiza a página de edição de  usuários contendos as informações atuais do mesmo
-     * @param string $cpf CPF do usuário
+     * @param Usuario Instância de usuário a ser editada
      */
-    public function details($cpf)
+    public function edit($usuario)
     {
-        $usuario = Usuario::where('cpf', $cpf)->first();
         return view('usuario.edit')->with(['usuario' => $usuario]);
     }
 
     /**
-     * Realiza a atualização dos dados do usuário.
+     * @param EditUsuarioRequest $request Requisisão com os campos do formulário validados
+     * @return \Illuminate\Http\RedirectResponse Página anterior com mensagem de sucesso ou erro
      */
-    public function edit(EditUsuarioRequest $request)
+    public function update(EditUsuarioRequest $request)
     {
         $tipo = "Erro";
-        $form = $request->all();
 
-        $updated = Usuario::where('cpf', $form['cpf'])->update(['nivel' => $form['nivel'], 'status' => $form['status']]);
+        try
+        {
+            $campos = $request->only(['nome', 'email', 'status', 'nivel']);
+            if(!is_null($request->get('password'))) array_add($campos, 'password', bcrypt($request->get('password')));
 
-        if($updated == 1) {
+            Usuario::where('id', $request->get('id'))->update($campos);
+
             $tipo = "Sucesso";
-            $mensagem = "Atualização feita com sucesso!";
+            $mensagem = "Atualização concluída!";
         }
-        else $mensagem = "Erro no banco de dados. Nada foi atualizado.";
+        catch(\Exception $e)
+        {
+            $mensagem = "Erro durante a atualização dos dados. Mensagem do banco: " . $e->getMessage();
+        }
 
         session()->flash("tipo", $tipo);
         session()->flash("mensagem", $mensagem);
@@ -111,72 +101,32 @@ class UsuarioController extends Controller
 
     /**
      * Define um usuário que não será mais passível de usar o sistema. O usuário é mantido no banco para realizar as
-     * referências hist''oricas de outras alocações.
+     * referências históricas de outras alocações.
      */
     public function delete(DeleteUsuarioRequest $request)
     {
-        $cpf = $request->get("cpf");
+        $id = $request->get("id");
         $tipo = "Erro";
-        $mensagem = "Ação não realizada! ";
+        $mensagem = "Usuário não foi removido! Mensagem do banco: ";
 
-        try {
-            $deleted = Usuario::where('cpf', $cpf)->update(['status' => 0]);
-        } catch(\Illuminate\Database\QueryException $ex){
-            $deleted = 0;
-            $mensagem .= $ex->getMessage();
-        }
+        try
+        {
+            Usuario::where('id', $id)->update(['status' => 0]);
 
-        if($deleted == 1) {
-            event(new UserDeleted(Usuario::where("cpf", $cpf)->first()));
+            event(new UserDeleted(Usuario::where("id", $id)->first()));
+
             $tipo = "Sucesso";
-            $mensagem = "Usuário removido com sucesso! OBS.: O usuário ainda existe no banco de dados para que não se perca dados históricos, ele só não terá mais acesso ao sistema.";
+            $mensagem = "Usuário removido com sucesso! OBS.: O usuário ainda existe no banco de dados para que não se
+            perca dados históricos, ele só não terá mais acesso ao sistema.";
+        }
+        catch(\Exception $ex)
+        {
+            $mensagem .= $ex->getMessage();
         }
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
 
-        return redirect()->route('showUser');
-    }
-
-    /**
-     * Método para retornar uma consulta AJAX para que o administrador possa confirmar
-     * os dados do novo usuário que será inserido no banco.
-     */
-    public function searchPerson(Request $request) {
-
-        // Componentes do corpo da requisição
-        $requestBody['baseConnector'] = "and";
-        $requestBody['attributes'] = ["cpf", "nomecompleto", "email", "grupo"]; // Atributos que devem ser retornados em caso autenticação confirmada
-        $requestBody['searchBase'] = "ou=People,dc=ufop,dc=br";
-        $requestBody['filters'][0] = ["cpf" => ["equals", $request->get('cpf')]];
-
-        // Chamada de autenticação para a LDAPI
-        $httpClient = new Client(['verify' => false]);
-        try
-        {
-            $response = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.searchUrl'), [
-                "auth" => [config('ldapi.user'), config('ldapi.password'), "Basic"],
-                "body" => json_encode($requestBody),
-                "headers" => [
-                    "Content-type" => "application/json",
-                ],
-            ]);
-        }
-        catch (RequestException $ex)
-        {
-            \Illuminate\Support\Facades\Log::error('Erro na busca de usuário.', ['erro' => $ex->getMessage()]);
-            return response()->json(['status' => 'danger', 'msg' => 'Erro de conexão com o servidor LDAP.']);
-        }
-
-        $result = json_decode($response->getBody()->getContents(), true);
-        if($result['count'] != 0)
-        {
-            $name = $result['result'][0]["nomecompleto"];
-            $email = $result['result'][0]["email"];
-            $group = $result['result'][0]["grupo"];
-
-            return response()->json(['status' => 'success', 'name' => $name, 'email' => $email, 'group' => $group]);
-        }
-        else return response()->json(['status' => 'danger', 'msg' => 'Nenhum usuário encontrado com esse CPF.']);
+        return redirect()->route('usuario.index');
     }
 }

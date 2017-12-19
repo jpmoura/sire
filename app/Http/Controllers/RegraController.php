@@ -30,17 +30,12 @@ class RegraController extends Controller
     public function update(Requests\EditRegraRequest $request, $regras)
     {
             $tipo = "Erro";
-            $mensagem = '';
 
             try
             {
-                $atualizado = $regras->update($request->all());
-
-                if(isset($atualizado)) {
-                    $tipo = "Sucesso";
-                    $mensagem = "Atualização feita com sucesso!";
-                }
-                else $mensagem .= "Erro no banco de dados ou nas regras. Atualização cancelada.";
+                $regras->update($request->all());
+                $tipo = "Sucesso";
+                $mensagem = "Atualização feita com sucesso!";
             }
             catch(\Exception $e)
             {

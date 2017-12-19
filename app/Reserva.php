@@ -21,7 +21,7 @@ class Reserva extends Model
      */
     public function usuario()
     {
-        return $this->belongsTo('App\Usuario', 'usuario_id', 'cpf');
+        return $this->belongsTo('App\Usuario');
     }
 
     /**

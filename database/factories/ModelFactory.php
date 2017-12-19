@@ -15,9 +15,9 @@
 // Fábricas de Usuario
 $factory->define(App\Usuario::class, function (Faker\Generator $faker) {
     return [
-        'cpf' => $faker->cpf,
         'nome' => $faker->name,
         'email' => $faker->safeEmail,
+        'password' => bcrypt('senha'),
         'status' => 1,
         'remember_token' => str_random(10),
     ];

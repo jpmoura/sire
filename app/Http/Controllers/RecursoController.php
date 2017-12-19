@@ -36,19 +36,22 @@ class RecursoController extends Controller
         $tipo = "Erro";
         $form = $request->all();
 
-        $id = Recurso::create([
-            'tipo_recurso_id' => $form['tipo'],
-            'nome' => $form['nome'],
-            'descricao' => $form['descricao'],
-            'status' => $form['status']
-        ]);
-
-        if(isset($id))
+        try
         {
+            Recurso::create([
+                'tipo_recurso_id' => $form['tipo'],
+                'nome' => $form['nome'],
+                'descricao' => $form['descricao'],
+                'status' => $form['status']
+            ]);
+
             $tipo = "Sucesso";
             $mensagem = "Recurso adicionado com sucesso.";
         }
-        else $mensagem = "Falha do banco dados.";
+        catch(\Exception $ex)
+        {
+            $mensagem = "Falha ao adicionar novo recurso: " . $ex->getMessage();
+        }
 
         session()->flash("mensagem", $mensagem);
         session()->flash("tipo", $tipo);
@@ -77,19 +80,15 @@ class RecursoController extends Controller
 
         try
         {
-            $updated = $recurso->update([
+            $recurso->update([
                 'nome' => $form['nome'],
                 'tipo_recurso_id' => $form['tipo'],
                 'descricao' => $form['descricao'],
                 'status' => $form['status']
             ]);
 
-            if($updated == true)
-            {
-                $tipo = "Sucesso";
-                $mensagem = "Atualização feita com sucesso!";
-            }
-            else $mensagem = "Nada precisou ser atualizado.";
+            $tipo = "Sucesso";
+            $mensagem = "Atualização feita com sucesso!";
         }
         catch(\Exception $e)
         {
@@ -112,18 +111,13 @@ class RecursoController extends Controller
 
         try
         {
-            $deleted = $recurso->update(['status' => 0]);
+            $recurso->update(['status' => 0]);
+            $tipo = "Sucesso";
+            $mensagem = "Recurso removido com sucesso! Ele ainda existe no banco de dados mas não poderá ser reservado por ninguém.";
         }
         catch(\Illuminate\Database\QueryException $ex)
         {
-            $deleted = 0;
             $mensagem .= $ex->getMessage();
-        }
-
-        if($deleted == 1)
-        {
-            $tipo = "Sucesso";
-            $mensagem = "Recurso removido com sucesso! Ele ainda existe no banco de dados mas não poderá ser reservado por ninguém.";
         }
 
         session()->flash("mensagem", $mensagem);

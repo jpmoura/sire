@@ -24,17 +24,14 @@ class CreateUsuariosTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->char('cpf', 11);
             $table->string('nome', 45);
-            $table->string('email', 45);
+            $table->string('email');
+            $table->string('password');
             $table->integer('nivel');
             $table->tinyInteger('status')->default('1');
             $table->string('remember_token')->nullable()->default(null);
-            $table->char('meuicea_token', 32)->nullable()->default(null);
 
-            $table->unique(["id"], 'id_UNIQUE');
-
-            $table->unique(["cpf"], 'cpf_UNIQUE');
+            $table->unique('email');
         });
     }
 

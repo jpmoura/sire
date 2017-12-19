@@ -24,8 +24,8 @@ class CreateReservasTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->char('usuario_id', 11);
-            $table->integer('recurso_id');
+            $table->unsignedInteger('usuario_id');
+            $table->unsignedInteger('recurso_id');
             $table->date('data')->nullable()->default(null);
             $table->integer('horario')->nullable()->default(null);
             $table->char('turno', 1)->nullable()->default(null);
@@ -34,14 +34,13 @@ class CreateReservasTable extends Migration
 
             $table->index(["usuario_id"], 'usuario_id');
 
-
             $table->foreign('recurso_id', 'recurso_id')
                 ->references('id')->on('recursos')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
             $table->foreign('usuario_id', 'usuario_id')
-                ->references('cpf')->on('usuarios')
+                ->references('id')->on('usuarios')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

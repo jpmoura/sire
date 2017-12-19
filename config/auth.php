@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'ldap',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'ldap' => [
+        'web' => [
             'driver' => 'session',
-            'provider' => 'usuarios',
+            'provider' => 'users',
         ],
 
         'api' => [
@@ -65,7 +65,7 @@ return [
     */
 
     'providers' => [
-        'usuarios' => [
+        'users' => [
             'driver' => 'eloquent',
             'model' => App\Usuario::class,
         ],
