@@ -27,7 +27,7 @@ class CreateBugsTable extends Migration
             $table->unsignedInteger('usuario_id');
             $table->string('titulo', 100);
             $table->string('descricao');
-            $table->binary('status')->default('0');
+            $table->tinyInteger('status')->default('0');
 
             $table->index(["usuario_id"], 'fk_bugs_usuario_id_idx');
 
