@@ -117,7 +117,7 @@ apropriadamente apenas para ```.env```, onde nele devem-se encontrar todas as co
 Esse changelog está organizado na ordem de mais recente para o mais antigo, ou seja, a versão mais nova aparece como
 primeira subseção e a versão mais antiga como a última subseção.
 
-Versões terminadas com o caracter ```g``` refere-se ao _branch_ ```generico```, para uso geral. O chancelog das versões
+Versões terminadas com o caracter ```g``` refere-se ao _branch_ ```generico```, para uso geral. O changelog das versões
 específicas para a [UFOP](http://ufop.br/) estão mantidas com o objetivo de se manter dados históricos sobre a evolução
 do sistema.
 
