@@ -4,12 +4,11 @@
   <img src="overview.gif" alt="Imagens do sistema" />
 </p>
 
-O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public)
-é o sistema usado pelos corpos acadêmico e administrativo presentes no
-[Instituto de Ciências Exatas e Aplicadas (campus João Monlevade)](http://www.icea.ufop.br)
-da [Universidade Federal de Ouro Preto](http://ufop.br). Essa é a segunda versão
-do sistema, que foi ao ar no dia 09/06/2016. A primeira versão foi ao ar em
-meados de fevereiro de 2012.
+O [Sistema de Reserva de Salas e Equipamentos (SiRe)](http://200.239.152.5/reserva/public) é o sistema usado pelos
+corpos acadêmico e administrativo presentes no
+[Instituto de Ciências Exatas e Aplicadas (campus João Monlevade)](http://www.icea.ufop.br) da
+[Universidade Federal de Ouro Preto](http://ufop.br). Essa é a segunda versão do sistema, que foi ao ar no dia
+09/06/2016. A primeira versão foi ao ar em meados de fevereiro de 2012.
 
 Dentre as motivações para tal atualização, estão:
 * Atualização da lógica de processamento para a última versão do PHP (7.0);
@@ -20,11 +19,10 @@ onde a mesma se adapta de acordo com o espaço de tela disponível;
 manutenção e atualização;
 * Utilização do padrão mais recente do HTML (HTML5) de acordo com o W3C;
 
-O sistema foi desenvolvido usando a versão 5.2 do *framework* [Laravel](https://laravel.com/)
-para aplicações web, um dos mais usados no mercado durante o período de
-desenvolvimento. Uma restrição do desenvolvimento foi a necessidade de usar o
-banco de dados original da primeira versão, o que limitou alguns pontos no
-desenvolvimento da interface com o usuário.
+O sistema foi desenvolvido usando a versão 5.2 do *framework* [Laravel](https://laravel.com/docs/5.2) para aplicações
+web, um dos mais usados no mercado durante o período de desenvolvimento. Uma restrição do desenvolvimento foi a
+necessidade de usar o banco de dados original da primeira versão, o que limitou alguns pontos no desenvolvimento da
+interface com o usuário.
 
 ## Índice
 
@@ -44,13 +42,12 @@ a versão do _branch_ [generico](https://github.com/jpmoura/sire/tree/generico),
 autenticação tradicional, baseado em dados existentes no banco de dados da aplicação.
 
 ## Funcionamento
-O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção,
-leitura, atualização e remoção de informações de salas, equipamentos e
-alocações feitas.
+O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção, leitura, atualização e remoção de
+informações de salas, equipamentos e alocações feitas.
 
-Para o layout, foi usado como base o design [AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html)
-desenvolvido por [Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com),
-alterando-se basicamente só a palheta de cores do tema.
+Para o layout, foi usado como base o design
+[AdminLTE](https://almsaeedstudio.com/themes/AdminLTE/documentation/index.html) desenvolvido por
+[Abdullah Almsaeed](mailto:abdullah@almsaeedstudio.com), alterando-se basicamente só a palheta de cores do tema.
 
 O sistema é focado para uso de instituições do ramo educacional, logo, limita-se a ter somente três tipos de usuários,
 sendo eles:
@@ -78,10 +75,13 @@ Outra funcionalidade é o reporte de bugs, onde os usuários de todos os tipos p
 encontrarem no sistema para que os administradores possam corrigí-los.
 
 ## Instalação
-Para a instalação é necessário ter previamente instalados o gerenciador de dependências [Composer](https://getcomposer.org/)
-e a o [Node.js](https://nodejs.org/) entre as versões 0.12 e 6.9.4 e também o
-[Gulp.js](http://gulpjs.com/) instalado globalmente através do NPM do Node.js. Com todas essas três dependências instaladas,
-executam-se os seguintes comandos:
+É valido lembrar que todos os pré-requisitos do [Laravel](https://laravel.com/docs/5.2) são também pré-requisitos
+deste sistema.
+
+Para a instalação é necessário ter previamente instalados o gerenciador de dependências
+[Composer](https://getcomposer.org/), [Node.js](https://nodejs.org/) entre as versões 0.12 e 6.9.4 e também o
+[Gulp.js](http://gulpjs.com/) instalado globalmente através do [Node.js](https://nodejs.org/). Com todas essas três
+dependências instaladas, executam-se os seguintes comandos:
 
 ```bash
 $ composer install
@@ -99,23 +99,18 @@ usando as credenciais padrão de e-mail e senha no login. Tais credenciais são:
 * E-mail: admin@admin.com
 * Senha: admin
 
-Para usuários de sistemas UNIX, será necessário conceder permissão de leitura,
-gravação e execução da pasta em que se encontra o sistema para o grupo
-*www-data* que pode ser dado pelo seguinte comando usando a permissão de
-administrador:
+Para usuários de sistemas UNIX, será necessário conceder permissão de leitura, gravação e execução da pasta em que se
+encontra o sistema para o grupo *www-data* que pode ser dado pelo seguinte comando usando a permissão de administrador:
 
 ```bash
 $ chown -R USUARIO:www-data PASTA
 ```
 
-Basta usar o comando ```sudo``` ou ```su``` dependendo da distribuição *Linux*
-juntamente com este comando.
+Basta usar o comando ```sudo``` ou ```su``` dependendo da distribuição *Linux* juntamente com este comando.
 
-É necessário configurar as variáveis de ambiente do Laravel a partir do arquivo na raiz do
-projeto sem nome mas de extensão ENV. Existe um arquivo de exemplo
-[aqui](./.env.example) que pode ser editado e depois renomeado apropriadamente
-apenas para .env onde nele deve-se encontrar todas as configurações do banco de dados e da
-[LDAPI](https://github.com/jpmoura/ldapi).
+É necessário configurar as variáveis de ambiente do Laravel a partir do arquivo sem nome na raiz do projeto mas de
+extensão ```ENV```. Existe um arquivo de exemplo [aqui](./.env.example) que pode ser editado e depois renomeado
+apropriadamente apenas para ```.env```, onde nele devem-se encontrar todas as configurações do banco de dados.
 
 ## Changelog
 
