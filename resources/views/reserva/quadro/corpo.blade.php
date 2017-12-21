@@ -80,7 +80,6 @@
                                     {{-- Tratamento para não motrar o e-mail e nome dos administradores. Comente este trecho caso queira qu sejam mostrados --}}
                                     @if($reserva->usuario->nivel == 1)
                                         @php
-                                            $reserva->usuario->email = "admin@admin.com";
                                             $reserva->usuario->nome = "Administrador";
                                         @endphp
                                     @endif
@@ -90,7 +89,7 @@
                                     </a>
 
                                     @if(!Route::is('showAllocatedAssetBoard'))
-                                        @if(auth()->user()->isAdmin() || $reserva->usuario->cpf == auth()->user()->cpf)
+                                        @if(auth()->user()->isAdmin() || $reserva->usuario->id == auth()->id())
                                             <br />
                                             <a class="btn btn-warning btn-xs" style="color: white" href="{{ route('deleteAllocation', $reserva->id) }}">
                                                 <i class="fa fa-times"></i> Desalocar
