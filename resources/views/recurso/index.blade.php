@@ -118,8 +118,8 @@
                                     <th>Nome</th>
                                     <th>Tipo</th>
                                     <th>Descrição</th>
-                                    <th>Status</th>
                                     @can('administrate')
+                                        <th>Status</th>
                                         <th>Ações</th>
                                     @endcan
                                 </tr>
