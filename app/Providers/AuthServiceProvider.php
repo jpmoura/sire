@@ -32,10 +32,8 @@ class AuthServiceProvider extends ServiceProvider
 
         $gate->define('manipularReserva', function($user, $reserva){
             if($user->nivel == 1) return true;
-            else if($reserva->usuario_id == $user->cpf) return true;
+            else if($reserva->usuario_id == $user->id) return true;
             else return false;
         });
-
-        //
     }
 }
