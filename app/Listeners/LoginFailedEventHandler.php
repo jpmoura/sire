@@ -28,6 +28,6 @@ class LoginFailedEventHandler
     public function handle(LoginFailed $event)
     {
         $credentials = $event->credentials;
-        Log::info("Falha no login.", ["Username" => $credentials['username'], "Password" => $credentials['password']]);
+        Log::info("Falha no login.", ["Username" => $credentials['username']]);
     }
 }
