@@ -27,6 +27,6 @@ class AuthLoginEventHandler
     public function handle(Login $event)
     {
         $user = $event->user;
-        Log::info("Usuário realizou o login.", ["ID" => $user->cpf, "Nome" => $user->nome, "Lembrar" => $event->remember]);
+        Log::info("Usuário realizou o login.", ["ID" => $user->id, "Nome" => $user->nome, "Lembrar" => $event->remember]);
     }
 }

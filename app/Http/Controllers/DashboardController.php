@@ -22,7 +22,7 @@ class DashboardController extends Controller
             /* Mês Atual */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '>=', $mesAtual)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')->where('data', '>=', $mesAtual)->get()->groupBy('usuario.id')->sort()->reverse()->take(3);
             $topUsuariosMesAtual = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesAtual[$reserva[0]->usuario->nome] = $reserva->count();
 
@@ -34,7 +34,7 @@ class DashboardController extends Controller
             /* Mês Passado */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.cpf')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.id')->sort()->reverse()->take(3);
             $topUsuariosMesPassado = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
 
@@ -72,10 +72,10 @@ class DashboardController extends Controller
         { // Widgets de usuário normal
 
             // proximas reservas
-            $proximasReservas = Reserva::with('recurso')->where('usuario_id', auth()->user()->cpf)->where('data', Carbon::now()->format('Y-m-d'))->get();
+            $proximasReservas = Reserva::with('recurso')->where('usuario_id', auth()->id())->where('data', Carbon::now()->format('Y-m-d'))->get();
 
             // Todas as reservas feitas pelo usuário
-            $todasReservas = Reserva::with('recurso')->where('usuario_id', auth()->user()->cpf)->get();
+            $todasReservas = Reserva::with('recurso')->where('usuario_id', auth()->id())->get();
 
             // 5 tipos de reservas mais frequentes de todos os tempos
             $reservasFrequentes = $todasReservas->groupBy('recurso.nome')->sort()->reverse()->take(5);

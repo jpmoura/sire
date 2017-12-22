@@ -28,6 +28,6 @@ class NewUserCreatedEventHandler
     public function handle(NewUserCreated $event)
     {
         $user = $event->user;
-        Log::info('Novo usuário criado.', ['ID' => $user->cpf, 'Nome' => $user->nome]);
+        Log::info('Novo usuário criado.', ['ID' => $user->id, 'Nome' => $user->nome]);
     }
 }

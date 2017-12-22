@@ -28,6 +28,6 @@ class UserDeletedEventHandler
     public function handle(UserDeleted $event)
     {
         $user = $event->user;
-        Log::info("Usuário deletado.", ["ID" => $user->cpf, "Nome" => $user->nome]);
+        Log::info("Usuário deletado.", ["ID" => $user->id, "Nome" => $user->nome]);
     }
 }
