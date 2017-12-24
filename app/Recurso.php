@@ -42,4 +42,14 @@ class Recurso extends Model
         return $this->hasMany('App\Reserva');
     }
 
+    /**
+     * Escopo local de query para recursos arivos
+     * @param $query Query a ser adicionada a cláusula
+     * @return mixed
+     */
+    public function scopeAtivo($query)
+    {
+        return $query->where('status', 1);
+    }
+
 }

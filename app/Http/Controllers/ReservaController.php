@@ -18,7 +18,7 @@ class ReservaController extends Controller
      */
     public function select()
     {
-        $recursos = Recurso::where('status', 1)->get();
+        $recursos = Recurso::ativo()->get();
         return view('reserva.select')->with(['recursos' => $recursos]);
     }
 
