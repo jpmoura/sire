@@ -80,10 +80,11 @@
                                         <td>{!! $bug->titulo !!}</td>
                                         <td>{!! $bug->autor->nome !!}</td>
                                         <td>
-                                            <a class="btn btn-ufop btn-xs" href="{{ route('bug.show', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
-                                            <form style="display: inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
+
+                                            <form class="form-inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
+                                                <a class="btn btn-ufop btn-xs" href="{{ route('bug.show', $bug->id) }}"><i class="fa fa-search-plus"></i> Detalhes</a> ou
                                                 <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</button>
                                             </form>
                                         </td>
