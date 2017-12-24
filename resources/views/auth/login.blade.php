@@ -68,7 +68,7 @@
 
 <footer class="text-center">
     <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{ route('showAbout') }}">João Pedro Santos de Moura</a></strong>.
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="{{ route('about.show') }}">João Pedro Santos de Moura</a></strong>.
 </footer>
 
 {!! HTML::script('public/js/app.js') !!}

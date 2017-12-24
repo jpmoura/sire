@@ -11,11 +11,14 @@
 |
 */
 
+// Rotas para busca e visualização de reervas de recursos
 Route::get('quadro/selecionar', ['as' => 'selectAllocatedAsset', 'uses' => 'ReservaController@select']);
 Route::post('quadro/visualizar', ['as' => 'showAllocatedAssetBoard', 'uses' => 'ReservaController@show']);
 
-Route::get('sobre', ['as' => 'showAbout', 'uses' => 'DashboardController@showAbout']);
+// Rota da página contentno informações sobre o sistema
+Route::get('about', ['as' => 'about.show', 'uses' => 'DashboardController@showAbout']);
 
+// Rotas predefinidas pelo Laravel para autenticação de usuário
 Route::get('login', 'Auth\AuthController@showLoginForm');
 Route::post('login', 'Auth\AuthController@login');
 Route::get('logout', 'Auth\AuthController@logout');
