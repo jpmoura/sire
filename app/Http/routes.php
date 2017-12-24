@@ -51,14 +51,6 @@ Route::group(['middleware' => 'auth'], function()
     Route::group(['middleware' => 'can:administrate'], function() {
 
         // Rotas de CRUD de usuário
-//        Route::group(['prefix' => 'usuarios'], function() {
-//            Route::get('/', ['as' => 'usuario.index', 'uses' => 'UsuarioController@index']);
-//            Route::get('cadastrar', ['as' => 'usuario.create', 'uses' => 'UsuarioController@create']);
-//            Route::post('cadastrar', ['as' => 'usuario.store', 'uses' => 'UsuarioController@store']);
-//            Route::get('editar/{usuario}', ['as' => 'usuario.edit', 'uses' => 'UsuarioController@edit']);
-//            Route::post('editar', ['as' => 'usuario.update', 'uses' => 'UsuarioController@update']);
-//            Route::post('deletar', ['as' => 'usuario.destroy', 'uses' => 'UsuarioController@destroy']);
-//        });
         Route::resource('usuario', 'UsuarioController');
 
         // Rotas de regras de negócio
