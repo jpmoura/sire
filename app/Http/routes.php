@@ -28,11 +28,7 @@ Route::group(['middleware' => 'auth'], function()
         });
 
         // Rotas de regras de negócio
-        Route::group(['prefix' => 'regras'], function(){
-            Route::get('/', ['as' => 'regra.index', 'uses' => 'RegraController@index']);
-            Route::get('editar/{regra}', ['as' => 'regra.edit', 'uses' => 'RegraController@edit']);
-            Route::patch('editar/{regra}', ['as' => 'regra.update', 'uses' => 'RegraController@update']);
-        });
+        Route::resource('regra', 'RegraController', ['only' =>['index', 'edit', 'update']]);
 
         // Rotas relacionadas com manipulação dos registros de bugs
         Route::group(['prefix' => 'bug'], function() {
