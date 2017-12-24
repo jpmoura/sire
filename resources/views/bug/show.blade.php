@@ -36,10 +36,10 @@
                         </table>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-warning" onClick="history.back()">Voltar <i class='fa fa-arrow-left'></i></button>
-                        <form style="display: inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
+                        <form class="form-inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
+                            <button type="button" class="btn btn-warning" onClick="history.back()">Voltar <i class='fa fa-arrow-left'></i></button>
                             <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</button>
                         </form>
                     </div>
