@@ -41,20 +41,6 @@
             "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tudo"]]
         });
     });
-
-    $('#deleteModal').on('show.bs.modal', function (event) {
-        var link = $(event.relatedTarget); // Button that triggered the modal
-        var id = link.data('id'); // Extract info from data-* attributes
-        var nome = link.data('nome'); // Extract info from data-* attributes
-
-        document.getElementById("mensagem").innerHTML = 'Você realmente quer excluir o usuario ' + nome + '?';
-        document.getElementById("formID").setAttribute("value", id)
-    });
-
-    $('#deleteModal').on('hide.bs.modal', function (event) {
-        document.getElementById("mensagem").innerHTML = "";
-        document.getElementById("formID").setAttribute("value", "")
-    });
 </script>
 @endpush
 
@@ -103,10 +89,14 @@
                                         </td>
                                         @can('administrate')
                                             <td>
-                                                <a class="btn btn-ufop btn-xs" href="{{ route('usuario.edit', $usuario->id) }}"><i class="fa fa-edit"></i> Editar</a>
-                                                @if($usuario->status != 0 && $usuario->id != auth()->id())
-                                                    ou <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" href="#" data-id="{!! $usuario->id !!}" data-nome="{!! $usuario->nome !!}"><i class="fa fa-trash"></i> Excluir</a>
-                                                @endif
+                                                <form class="form-inline" action="{{ route('usuario.destroy', $usuario) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <a class="btn btn-ufop btn-xs" href="{{ route('usuario.edit', $usuario->id) }}"> <i class="fa fa-edit"></i> Editar</a>
+                                                    @if($usuario->status != 0 && $usuario->id != auth()->id())
+                                                        ou <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-trash"></i> Excluir</button>
+                                                    @endif
+                                                </form>
                                             </td>
                                         @endcan
                                     </tr>
@@ -128,28 +118,4 @@
             @endif
         </div><!-- /.col -->
     </div><!-- /.row -->
-
-    <div class="row">
-        <div class="modal modal-warning fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
-                    </div>
-                    <form class="form text-center" action="{{ route('usuario.destroy') }}" method="post">
-                        {{ csrf_field() }}
-                        <input type="hidden" id="formID" name="id" value="">
-                        <div class="modal-body">
-                            <p id="mensagem" class="text-center"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancelar <i class='fa fa-times'></i></button>
-                            <button type="submit" class="btn btn-success pull-right">Confirmar <i class='fa fa-check'></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

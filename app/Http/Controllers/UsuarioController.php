@@ -72,9 +72,10 @@ class UsuarioController extends Controller
 
     /**
      * @param EditUsuarioRequest $request Requisisão com os campos do formulário validados
+     * @param Usuario $usuario Instância do usuário que será atualizada
      * @return \Illuminate\Http\RedirectResponse Página anterior com mensagem de sucesso ou erro
      */
-    public function update(EditUsuarioRequest $request)
+    public function update(EditUsuarioRequest $request, Usuario $usuario)
     {
         $tipo = "Erro";
 
@@ -83,7 +84,7 @@ class UsuarioController extends Controller
             $campos = $request->only(['nome', 'email', 'status', 'nivel']);
             if(!is_null($request->get('password'))) array_add($campos, 'password', bcrypt($request->get('password')));
 
-            Usuario::where('id', $request->get('id'))->update($campos);
+            $usuario->update($campos);
 
             $tipo = "Sucesso";
             $mensagem = "Atualização concluída!";
@@ -96,24 +97,24 @@ class UsuarioController extends Controller
         session()->flash("tipo", $tipo);
         session()->flash("mensagem", $mensagem);
 
-        return back();
+        return redirect()->route('usuario.edit', $usuario);
     }
 
     /**
      * Define um usuário que não será mais passível de usar o sistema. O usuário é mantido no banco para realizar as
      * referências históricas de outras alocações.
      */
-    public function destroy(DeleteUsuarioRequest $request)
+    public function destroy(Usuario $usuario)
     {
-        $id = $request->get("id");
         $tipo = "Erro";
         $mensagem = "Usuário não foi removido! Mensagem do banco: ";
 
         try
         {
-            Usuario::where('id', $id)->update(['status' => 0]);
+            $usuario->status = 0;
+            $usuario->save();
 
-            event(new UserDeleted(Usuario::where("id", $id)->first()));
+            event(new UserDeleted($usuario));
 
             $tipo = "Sucesso";
             $mensagem = "Usuário removido com sucesso! OBS.: O usuário ainda existe no banco de dados para que não se

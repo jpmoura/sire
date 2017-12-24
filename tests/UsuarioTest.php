@@ -83,23 +83,20 @@ class UsuarioTest extends TestCase
             ]);
     }
 
-//    public function testDelete()
-//    {
-//        $usuarioAdministador = factory(App\Usuario::class, 'admin')->create();
-//        $usuarioNormal = factory(App\Usuario::class, 'normal')->create();
-//
-//        $rota = route('usuario.index');
-//
-//        $this->actingAs($usuarioAdministador)
-//            ->visit($rota)
-//            ->press('Excluir')
-//            ->press('Confirmar')
-//            ->see('Sucesso')
-//            ->seeInDatabase('usuarios', [
-//                'nome' => $usuarioNormal->nome,
-//                'email' => $usuarioNormal->email,
-//                'status' => 0,
-//                'nivel' => $usuarioNormal->nivel
-//            ]);
-//    }
+    public function testDelete()
+    {
+        $usuarioAdministador = factory(App\Usuario::class, 'admin')->create();
+        $usuarioNormal = factory(App\Usuario::class, 'normal')->create();
+
+        $rota = route('usuario.index', $usuarioNormal);
+
+        $this->actingAs($usuarioAdministador)
+            ->visit($rota)
+            ->press('Excluir')
+            ->see('Sucesso')
+            ->seePageIs(route('usuario.index'))
+            ->seeInDatabase('usuarios', [
+                'status' => 0,
+            ]);
+    }
 }
