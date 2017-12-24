@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function()
             Route::post('cadastrar', ['as' => 'usuario.store', 'uses' => 'UsuarioController@store']);
             Route::get('editar/{usuario}', ['as' => 'usuario.edit', 'uses' => 'UsuarioController@edit']);
             Route::post('editar', ['as' => 'usuario.update', 'uses' => 'UsuarioController@update']);
-            Route::post('deletar', ['as' => 'usuario.delete', 'uses' => 'UsuarioController@delete']);
+            Route::post('deletar', ['as' => 'usuario.destroy', 'uses' => 'UsuarioController@destroy']);
         });
 
         // Rotas de regras de negócio

@@ -103,7 +103,7 @@ class UsuarioController extends Controller
      * Define um usuário que não será mais passível de usar o sistema. O usuário é mantido no banco para realizar as
      * referências históricas de outras alocações.
      */
-    public function delete(DeleteUsuarioRequest $request)
+    public function destroy(DeleteUsuarioRequest $request)
     {
         $id = $request->get("id");
         $tipo = "Erro";

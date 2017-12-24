@@ -137,7 +137,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title text-center"><i class="fa fa-warning"></i> Atenção</h4>
                     </div>
-                    <form class="form text-center" action="{{ route('usuario.delete') }}" method="post">
+                    <form class="form text-center" action="{{ route('usuario.destroy') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" id="formID" name="id" value="">
                         <div class="modal-body">
