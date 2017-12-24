@@ -40,7 +40,7 @@
                         <form style="display: inline" action="{{ route('bug.destroy', $bug->id) }}" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</button>
+                            <button id="excluir_button_{{ $bug->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</button>
                         </form>
                     </div>
                 </div>
