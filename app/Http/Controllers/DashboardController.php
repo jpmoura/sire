@@ -71,18 +71,19 @@ class DashboardController extends Controller
         else
         { // Widgets de usuário normal
 
-            // proximas reservas
-            $proximasReservas = Reserva::with('recurso')->where('usuario_id', auth()->id())->where('data', Carbon::now()->format('Y-m-d'))->get();
-
             // Todas as reservas feitas pelo usuário
-            $todasReservas = Reserva::with('recurso')->where('usuario_id', auth()->id())->get();
+            $todasReservas = auth()->user()->reservas()->get();
+            $todasReservas->load('recurso');
+
+            // proximas reservas
+            $proximasReservas = $todasReservas->filter(function ($reserva) {
+                return $reserva->data >= Carbon::now()->format('Y-m-d');
+            });
 
             // 5 tipos de reservas mais frequentes de todos os tempos
             $reservasFrequentes = $todasReservas->groupBy('recurso.nome')->sort()->reverse()->take(5);
 
-
             /* Mês atual */
-
             // Todas as reservas deste mês
             $todasReservasMesAtual = $recursoMaisAlocadoMesAtual = $todasReservas->filter(function($reserva){
                 return $reserva->data >= Carbon::now()->subMonth()->format('Y-m-d');
@@ -96,10 +97,10 @@ class DashboardController extends Controller
 
 
             /* Mês passado */
-
             // Todas as reservas do mês passado
             $todasReservasMesPassado = $todasReservas->filter(function ($reserva){
-                return ($reserva->data < Carbon::now()->subMonth()->format('Y-m-d')) && ($reserva->data >= Carbon::now()->subMonths(2)->format('Y-m-d'));
+                return ($reserva->data < Carbon::now()->subMonth()->format('Y-m-d'))
+                    && ($reserva->data >= Carbon::now()->subMonths(2)->format('Y-m-d'));
             });
 
             // Recurso mais alocado no més passado
@@ -108,7 +109,14 @@ class DashboardController extends Controller
             // Reservas ativas messado
             $reservasMesPassado = $todasReservasMesPassado->count();
 
-            return view('dashboard')->with(['topRecursoMesAtual' => $recursoMaisAlocadoMesAtual, 'reservasMesAtual' => $reservasMes, 'reservasMesPassado' => $reservasMesPassado, 'topRecursoMesPassado' => $recursoMaisAlocadoMesPassado, 'proximasReservas' => $proximasReservas, 'reservasFrequentes' => $reservasFrequentes]);
+            return view('dashboard')->with([
+                'topRecursoMesAtual' => $recursoMaisAlocadoMesAtual,
+                'reservasMesAtual' => $reservasMes,
+                'reservasMesPassado' => $reservasMesPassado,
+                'topRecursoMesPassado' => $recursoMaisAlocadoMesPassado,
+                'proximasReservas' => $proximasReservas,
+                'reservasFrequentes' => $reservasFrequentes
+            ]);
         }
     }
 
