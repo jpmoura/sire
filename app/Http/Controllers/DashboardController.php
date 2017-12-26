@@ -98,9 +98,9 @@ class DashboardController extends Controller
 
             /* Mês passado */
             // Todas as reservas do mês passado
-            $todasReservasMesPassado = $todasReservas->filter(function ($reserva){
-                return ($reserva->data < Carbon::now()->subMonth()->format('Y-m-d'))
-                    && ($reserva->data >= Carbon::now()->subMonths(2)->format('Y-m-d'));
+            $todasReservasMesPassado = $todasReservas->filter(function ($reserva) use ($mesAtual, $mesPassado){
+                return ($reserva->data < $mesAtual)
+                    && ($reserva->data >= $mesPassado);
             });
 
             // Recurso mais alocado no més passado
