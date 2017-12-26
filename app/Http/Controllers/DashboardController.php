@@ -112,12 +112,6 @@ class DashboardController extends Controller
         }
     }
 
-    public function favoriteResourceRedirection(Recurso $recurso)
-    {
-        session()->put('allocationRedirection', $recurso->id);
-        return redirect()->route('addAllocation');
-    }
-
     /**
      * Renderiza a view com informações sobre o sistema.
      */
