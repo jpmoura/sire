@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Consulta de reserva em data específica
+    Reservas feitas em {!! \Carbon\Carbon::createFromFormat("Y-m-d", $data)->format("d/m/Y") !!}
 @endsection
 
 @section('page_icon')
@@ -9,7 +9,7 @@
 @endsection
 
 @section('description')
-    Aqui estão as reservas feitas para {!! $recurso->nome !!} em {{ $data }}
+    Consulta de reserva em data específica
 @endsection
 
 @section('content')

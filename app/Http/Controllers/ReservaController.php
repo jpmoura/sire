@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddReservaRequest;
-use App\Http\Requests\DetailsReservaRequest;
+use App\Http\Requests\ReservaSpecificDate;
+use App\Http\Requests\ReservaSpecificDateRedirection;
 use App\Recurso;
 use App\Regra;
 use App\Reserva;
@@ -13,148 +14,149 @@ use Log;
 
 class ReservaController extends Controller
 {
+
     /**
-     * Exibe a view de seleção de recurso a ser visualizado. A view é a mesma para a consulta em dia específico.
+     * Redireciona o usuário para a página de quadro de reservas após ter escolhido o recurso
+     * @param Request $request Requisição com os campos validados
+     * @return \Illuminate\Http\RedirectResponse Redirecionamento para a página apropriada
      */
-    public function select()
+    public function selectedRedirection(Request $request)
     {
-        $recursos = Recurso::ativo()->get();
-        return view('reserva.select')->with(['recursos' => $recursos]);
+        return redirect()->route('reserva.show', $request->get('recurso'));
+    }
+
+    /**
+     * Redireciona o usuário para a página apropriada após ter escolhido uma data e um recurso para visualizar as
+     * reservas
+     * @param ReservaSpecificDateRedirection $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function selectedByDateRedirection(ReservaSpecificDateRedirection $request)
+    {
+        // Transformação da data do formato dd/mm/aaaa para o formato ISO aaaa-mm-dd
+        $data = Carbon::createFromFormat('d/m/Y', $request->get('data'))->format('Y-m-d');
+
+        return redirect()->route('reserva.show.date', [
+            'recurso' => $request->get('recurso'),
+            'data' => $data
+        ]);
     }
 
     /**
      * Renderiza tanto o quadro de reservas preenchido como a view com os horários que podem ser reservados.
+     * @param Recurso $recurso Recurso que terá suas reservas visualizadas
      */
-    public function show(Request $request) {
+    public function show(Recurso $recurso) {
 
-        // Obtém o ID do recurso da sessão caso tnha vindo de um redirecionamento de alocação/desalocação senão recupera do formulário de seleção
-        $recurso_id = session()->pull('allocationRedirection', $request->get('recurso'));
-
-        // Tratamento para usuários autenticados que fecham o navegador nesta tela e tentam reinicar o processo através de tal página
-        // Comum acontecer com dispositivos móveisque realizam cache do endereço e tentam renovar a requisição
-        if(is_null($recurso_id) || empty($recurso_id))
-        {
-            Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização provavelmente via POST sem o ID do recurso.");
-            abort(428);
-        }
-        else
-        {
             $regras = Regra::first();
-            $recurso = Recurso::find($recurso_id);
 
-            if(is_null($recurso))
-            {
-                Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou acessar o quadro de visualização do recurso de ID " . $recurso_id . " porém nenhum recurso foi encontrado.");
-
-                session()->flash('tipo', 'Erro');
-                session()->flash('mensagem', 'Nenhum recurso foi encontrado. Tente novamente caso não tenha selecionado o recurso pelo menu.');
-
-                return redirect()->route('home');
-            }
-
-            // Obtém o recurso e define a view que será renderizada pelo tipo do usuário
-            if(auth()->check())
-            { // Selecionado por um usuário autenticado
-                $quantidadeDias = $regras->quantidade_dias_reservaveis;
-            }
-            else
-            { // Selecionado por um usuário não autenticado
-                $quantidadeDias = 8;
-            }
+            // Se for um usuário autenticado, é necessário recuperar a quantidade de dias reserváveis para a montagem do
+            // quadro de reservas. Se o usuário não estiver autenticado usa-se o padrão de uma semana para a montagem.
+            if(auth()->check()) $quantidadeDias = $regras->quantidade_dias_reservaveis;
+            else $quantidadeDias = 8;
 
             // Obtém todas as datas possíveis já formatadas para exibir na view
             $datas = array();
             for ($i = 0; $i < $quantidadeDias; ++$i) $datas[$i] = Carbon::now()->addDays($i)->format('d/m/Y');
 
-            // Faixa de dias a qual a reserva será recuperada
-            $diaInicial = Carbon::now()->subDays(1)->format('Y-m-d'); // Reservas a partir deste dia
-            $diaFinal = Carbon::now()->addDays($quantidadeDias)->format('Y-m-d'); // Até este dias
+            // Faixa de dias a qual as reservas serão recuperada
+            $dataInicial = Carbon::now()->subDays(1)->format('Y-m-d'); // Reservas a partir deste dia
+            $dataFinal = Carbon::now()->addDays($quantidadeDias)->format('Y-m-d'); // Até este dias
 
             // Recupera as reservas para uma determinada faixa de tempo de um determinado recurso
-            $reservas = Reserva::with('usuario')->where('data', '>=', $diaInicial)->where('data', '<=', $diaFinal)->where('recurso_id', $recurso->id)->get();
+            $reservas = $recurso->reservas()->iniciandoEm($dataInicial)->finalizandoEm($dataFinal)->get();
+            $reservas->load('usuario'); // Carrega previamente as informações dos usuários que fizeram reservas
 
-            return view("reserva.show")->with(["reservas" => $reservas, "recurso" => $recurso, "datas" => $datas, "regras" => $regras]);
-        }
+            return view("reserva.show")->with([
+                "reservas" => $reservas,
+                "recurso" => $recurso,
+                "datas" => $datas,
+                "regras" => $regras]);
     }
 
     /**
      * Realiza as reservas escolhidas pelo usuário de um determinado recurso.
+     * @param AddReservaRequest $request Requisão com campos validados
      */
     public function store(AddReservaRequest $request)
     {
         $reservas = $request->get('reservas'); // Aulas selecionadas value="{{$j . $turno}}.{{$dias[$k]}}"
+        $tipo = "Erro"; // Tipo do retorno do resultado da ação
 
         if(!isset($reservas))
         {
-            // Se nenhum horário foi selecionado, então volta para a página de seleção
-            session()->flash('tipo', 'Erro');
-            session()->flash('mensagem', 'Você não selecionou nenhum horário.');
-            session()->flash("allocationRedirection", $request->get('id'));
-            Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou reservar um recurso sem selecionar nenhum horário.");
-            return back();
+            $mensagem = 'Você não selecionou nenhum horário.';
+            Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome .
+                " tentou reservar um recurso sem selecionar nenhum horário.");
         }
         else
         {
-            $usuario_id = auth()->id();
-            $recurso_id = $request->get('id');
-
-            $tipo = "Erro";
-
+            $recurso_id = $request->get('id'); // Id do recurso a ser reservado
             $reservasParaInserir = []; // array de reservas a serem inseridas no banco
             $i = 0; // índice do array de reservas
 
-            foreach ($reservas as $reserva) // Para todas as aulas selecionadas
+            // Todas as reservas feitas pelo o usuário até então
+            $reservasDoUsuario = auth()->user()->reservas()->get();
+            $reservasDoUsuario->load('recurso');
+
+            foreach ($reservas as $reservaBruta) // Para todas as aulas selecionadas
             {
                 // Recupera o conjunto de informações sobre a reserva
                 // Os índices são 'dia', 'horario' e 'turno'
-                $novaReserva = json_decode($reserva, true); // True é usado para que retorne um array associativo ao invés de um objeto StdClass
+                // True é usado para que retorne um array associativo ao invés de um objeto StdClass
+                $novaReserva = json_decode($reservaBruta, true);
 
                 // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
-                $reservasDoUsuario =  Reserva::with('recurso')->where('usuario_id', $usuario_id)->where('data', $novaReserva['dia'])->get();
+//                $reservasDoUsuario = Reserva::with('recurso')->em($novaReserva['dia'])->where('usuario_id', $usuario_id)->get();
+                //$reservasDoDia = auth()->user()->reservas()->em($novaReserva['dia'])->get();
+
+                $reservasDoDia = $reservasDoUsuario->filter(function ($reserva) use ($novaReserva) {
+                    return $reserva->data == $novaReserva['dia'];
+                });
 
                 // Verifica se o usuário não reservou outro recurso no mesmo horário
-                foreach ($reservasDoUsuario as $reservaExistente)
+                foreach ($reservasDoDia as $reserva)
                 {
-                    if($reservaExistente->horario == $novaReserva['horario'] && $reservaExistente->turno == $novaReserva['turno'] && !auth()->user()->isAdmin())
+                    // Se o usuário possuir uma reserva de outro recurso no mesmo turno e horário da reserva que está
+                    // requisitando e se ele não for administrador, então ele não pode fazer a reserva.
+                    if($reserva->horario == $novaReserva['horario']
+                        && $reserva->turno == $novaReserva['turno']
+                        && !auth()->user()->isAdmin())
                     {
-                        switch ($reservaExistente->turno)
-                        {
-                            case 'm':
-                                $turno = "matutino";
-                                break;
-                            case 'v':
-                                $turno = "vespertino";
-                                break;
-                            case 'n':
-                                $turno = "noturno";
-                                break;
-                            default:
-                                $turno = "Não definido";
-                                break;
-                        }
+                        // Recuperação do turno para inserir no log
+                        if($reserva->turno == 'm') $turno = 'matutino';
+                        else if($reserva->turno == 'v') $turno = 'vespertino';
+                        else $turno = 'noturno';
 
-                        Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome ." tentou reservar mais de um recurso no mesmo horário");
+                        Log::warning("O Usuário " . auth()->id() . " de nome " . auth()->user()->nome .
+                            " tentou reservar mais de um recurso no mesmo horário.");
 
-                        session()->flash('tipo', "Erro");
-                        session()->flash('mensagem',
-                            "Você já reservou " . $reservaExistente->recurso->nome . " para o ". $reservaExistente->horario ."º horário do turno " . $turno .
-                            ". Contate o Administrador caso REALMENTE necessite de vários recursos no mesmo horário.");
-                        session()->flash("allocationRedirection", $recurso_id);
-                        return back();
+                        $mensagem = "Você já reservou " . $reserva->recurso->nome . " para o ".
+                            $reserva->horario . "º horário do turno " . $turno .
+                            ". Contate o Administrador caso REALMENTE necessite de vários recursos no mesmo horário.";
+
+                        break;
                     }
+
+                    // Se não houve nenhuma reserva do usuário para o mesmo horário para outro recurso então ele pode
+                    // realizar a reserva
+                    $reservasParaInserir[$i++] = [
+                        'data' => $novaReserva['dia'],
+                        'horario' => $novaReserva['horario'],
+                        'turno' => $novaReserva['turno'],
+                        'usuario_id' => auth()->id(),
+                        'recurso_id' => $recurso_id
+                    ];
                 }
 
-                $reservasParaInserir[$i] = [
-                    'data' => $novaReserva['dia'],
-                    'horario' => $novaReserva['horario'],
-                    'turno' => $novaReserva['turno'],
-                    'usuario_id' => $usuario_id,
-                    'recurso_id' => $recurso_id
-                ];
 
-                ++$i;
             } // end foreach
+        }
 
+        // Se o array de reservas não estiver vazio e nenhuma mensagem de erro foi definida então existem reservas a
+        // serem gravadas no banco
+        if(!empty($reservasParaInserir) && !isset($mensagem))
+        {
             try
             {
                 Reserva::insert($reservasParaInserir);
@@ -165,23 +167,20 @@ class ReservaController extends Controller
             {
                 $mensagem = "Falha ao inserir reservas: " . $ex->getMessage();
             }
-
-            session()->flash("mensagem", $mensagem);
-            session()->flash("tipo", $tipo);
-            session()->flash("allocationRedirection", $recurso_id);
-
-            return back();
         }
+
+        session()->flash("mensagem", $mensagem);
+        session()->flash("tipo", $tipo);
+
+        return back();
     }
 
     /**
      * Desfaz uma reserva previamente feita.
      * @param Reserva $reserva Instância da reserva a ser excluída
      */
-    public function delete(Reserva $reserva)
+    public function destroy(Reserva $reserva)
     {
-        session()->flash('allocationRedirection', $reserva->recurso_id);
-
         try
         {
             $reserva->delete();
@@ -201,35 +200,27 @@ class ReservaController extends Controller
     }
 
     /**
-     * Recupera as reservas feitas em uma determinada data.
-     * @param string $data Data no formato d/m/Y
-     * @param Recurso $recurso Instância do recurso a ser procurada.
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    private function searchAllocationsAt($data, $recurso)
-    {
-
-        // Reservas cadastradas no sistema atual
-        $reservas = Reserva::with('usuario')->where('data', $data)->where('recurso_id', $recurso->id)->get();
-
-        return $reservas;
-    }
-
-    /**
      * Renderiza uma view contendo todas as alocações feitas para um recurso em uma determinada data.
+     * @param ReservaSpecificDate $request Requisição com os campos validados
+     * @param Recurso $recurso Recurso que terá suas reservas visualizadas em um determinado dia
      */
-    public function details(DetailsReservaRequest $request)
+    public function specificDate(ReservaSpecificDate $request, Recurso $recurso)
     {
-        $form = $request->all();
-        $recurso = Recurso::find($form['recurso']);
-        $regras = Regra::first();
-
-        // Formata a data do formato d/m/Y para o formato Y-m-d
-        $data = Carbon::createFromFormat('d/m/Y', $form['data'])->format('Y-m-d');
-
         // Recupera todas as reservas feitas em uma data para um determinado recurso
-        $reservas = $this->searchAllocationsAt($data, $recurso);
+        $reservas = $recurso->reservas()->em($request->get('data'))->get();
 
-        return view('reserva.details')->with(['recurso' => $recurso, 'reservas' => $reservas, 'data' => $form['data'], 'regras' => $regras]);
+        // Verifica se é preciso recuperar as regras ou não e informações daqueles que fizeram reservas
+        if(count($reservas) > 0)
+        {
+            $regras = Regra::first();
+            $reservas->load('usuario');
+        }
+        else $regras = null;
+
+        return view('reserva.details')->with([
+            'recurso' => $recurso,
+            'reservas' => $reservas,
+            'data' => $request->get('data'),
+            'regras' => $regras]);
     }
 }

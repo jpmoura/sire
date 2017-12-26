@@ -79,11 +79,11 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class=
+                                            <span class="text-bold 
                                                 @if($usuario->status == 1)
-                                                    "text-success text-bold">Ativo
+                                                    text-success">Ativo
                                                 @else
-                                                    "text-warning text-bold">Inativo
+                                                    text-warning">Inativo
                                                 @endif
                                             </span>
                                         </td>

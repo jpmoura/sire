@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class DetailsReservaRequest extends Request
+class ReservaSpecificDate extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class DetailsReservaRequest extends Request
     public function rules()
     {
         return [
-            'data' => 'required|date_format:d/m/Y',
-            'recurso' => 'required|exists:recursos,id',
+            'data' => 'required|date_format:Y-m-d',
         ];
     }
 }

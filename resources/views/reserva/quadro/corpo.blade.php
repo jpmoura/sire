@@ -88,12 +88,10 @@
                                         {!! $reserva->usuario->nome !!}
                                     </a>
 
-                                    @if(!Route::is('showAllocatedAssetBoard'))
+                                    @if(auth()->check())
                                         @if(auth()->user()->isAdmin() || $reserva->usuario->id == auth()->id())
                                             <br />
-                                            <a class="btn btn-warning btn-xs" style="color: white" href="{{ route('deleteAllocation', $reserva->id) }}">
-                                                <i class="fa fa-times"></i> Desalocar
-                                            </a>
+                                            <button type="button" onclick="submitForm('{{$reserva->id}}')" class="btn btn-warning btn-xs"><i class="fa fa-times"></i> Desalocar</button>
                                         @endif
                                     @endif
 
@@ -104,11 +102,11 @@
                             @endforeach
 
                             @if(!$status)
-                                @if(Route::is('showAllocatedAssetBoard'))
-                                    <span class="text-success text-bold">Livre</span>
-                                @else
+                                @if(auth()->check() && !Route::is('reserva.show.date'))
                                     <input type="checkbox" name="reservas[]"
                                            value='{"horario": {{ $i }}, "turno": "{{ $turno }}", "dia": "{{ \Carbon\Carbon::now()->addDays($j)->format('Y-m-d') }}"}' > Alocar
+                                @else
+                                    <span class="text-success text-bold">Livre</span>
                                 @endif
                             @endif
                         </td>

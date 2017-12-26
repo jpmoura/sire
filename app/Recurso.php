@@ -51,5 +51,4 @@ class Recurso extends Model
     {
         return $query->where('status', 1);
     }
-
 }

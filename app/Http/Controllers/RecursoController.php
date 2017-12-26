@@ -125,4 +125,26 @@ class RecursoController extends Controller
 
         return redirect()->route('recurso.index');
     }
+
+    /**
+     * Exibe a view de seleção de recurso para visualização das reservas
+     */
+    public function select()
+    {
+        return view('recurso.select.index')->with([
+            'recursos' => Recurso::ativo()->get(),
+            'rota' => route('recurso.selected')
+        ]);
+    }
+
+    /**
+     * Exibe a página de seleção de recurso e de data para visualizar reservas feitas em um determinado dia
+     */
+    public function selectByDate()
+    {
+        return view('recurso.select.index')->with([
+            'recursos' => Recurso::ativo()->get(),
+            'rota' => route('recurso.selected.date')
+        ]);
+    }
 }

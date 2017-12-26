@@ -29,7 +29,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
-        <p class="login-box-msg">Faça o login para gerenciar suas reservas ou clique <a href="{{ route('selectAllocatedAsset') }}"><strong>aqui</strong></a> apenas para visualizar o quadro de reservas.</p>
+        <p class="login-box-msg">Faça o login para gerenciar suas reservas ou clique <a href="{{ route('recurso.select') }}"><strong>aqui</strong></a> apenas para visualizar o quadro de reservas.</p>
 
         <div class="form">
             <form class="form" action="{{ url('login') }}" method="post">

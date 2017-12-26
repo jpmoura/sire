@@ -24,7 +24,7 @@
                     Boa noite
                 @endif
                 <?php setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf8", "portuguese"); ?>
-                {{ auth()->user()->nome }}, hoje é {!! ucfirst(strftime("%A", \Carbon\Carbon::now()->timestamp)) !!}, {{ date("d") }} de {!! ucfirst(strftime("%B", \Carbon\Carbon::now()->timestamp)) !!} de {{ date("Y") }}.</h3>
+                {{ auth()->user()->nome }}, hoje é {!! utf8_encode(ucfirst(strftime("%A", \Carbon\Carbon::now()->timestamp))) !!}, {{ date("d") }} de {!! ucfirst(strftime("%B", \Carbon\Carbon::now()->timestamp)) !!} de {{ date("Y") }}.</h3>
             <br />
             @if(auth()->user()->isAdmin()) {{-- Widgets de administrador --}}
         
@@ -251,7 +251,9 @@
                                                 <tr>
                                                     <td>{!! $recurso !!}</td>
                                                     <td>{!! $reservasFrequentes[$recurso]->count() !!}</td>
-                                                    <td><a href="{{ route('favoriteAllocation', $reservasFrequentes[$recurso][0]->recurso->id) }}" class="btn btn-ufop" role="button"><i class="fa fa-calendar-check-o"></i> Reservar</a> </td>
+                                                    <td>
+                                                        <a href="{{ route('reserva.show', $reservasFrequentes[$recurso][0]->recurso) }}" class="btn btn-ufop" role="button"><i class="fa fa-calendar-check-o"></i> Reservar</a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
