@@ -217,10 +217,12 @@ class ReservaController extends Controller
         }
         else $regras = null;
 
-        return view('reserva.details')->with([
+        $datas[] = Carbon::createFromFormat('Y-m-d', $request->get('data'))->format('d/m/Y');
+
+        return view('reserva.show')->with([
             'recurso' => $recurso,
             'reservas' => $reservas,
-            'data' => $request->get('data'),
+            'datas' => $datas,
             'regras' => $regras]);
     }
 }

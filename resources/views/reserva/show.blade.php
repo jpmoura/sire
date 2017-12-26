@@ -2,7 +2,11 @@
 
 @section('title')
     @if(auth()->check())
-        Alocar Recurso
+        @if(Route::is('reserva.show.date'))
+            Reservas feitas em {!! $datas[0] !!}
+        @else
+            Alocar Recurso
+        @endif
     @else
         Quadro de Reservas
     @endif
@@ -18,7 +22,12 @@
 
 @section('description')
     @if(auth()->check())
-        Selecione os horários em que deseja alocar ou desalocar o recurso.
+        @if(Route::is('reserva.show.date'))
+            Consulta de reserva em data específica.
+        @else
+            Selecione os horários em que deseja alocar ou desalocar o recurso.
+        @endif
+
     @else
         Esse é o quadro contendo todas as reservas.
     @endif
