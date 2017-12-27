@@ -22,34 +22,67 @@ class DashboardController extends Controller
             /* Mês Atual */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '>=', $mesAtual)->get()->groupBy('usuario.id')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')
+                ->iniciandoEm($mesAtual)
+                ->get()
+                ->groupBy('usuario.id')
+                ->sort()
+                ->reverse()
+                ->take(3);
             $topUsuariosMesAtual = array();
             foreach($reservasPorUsuario as $reserva) $topUsuariosMesAtual[$reserva[0]->usuario->nome] = $reserva->count();
 
             // 3 recursos com mais reservas nesse mês
-            $reservasPorRecurso = Reserva::with('recurso')->where('data', '>=', $mesAtual)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
+            $reservasPorRecurso = Reserva::with('recurso')
+                ->iniciandoEm($mesAtual)
+                ->get()
+                ->groupBy('recurso.nome')
+                ->sort()
+                ->reverse()
+                ->take(3);
             $topRecursosMesAtual = array();
-            foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesAtual[$recurso] = $reservasPorRecurso[$recurso]->count();
+            foreach($reservasPorRecurso->keys() as $recurso)
+                $topRecursosMesAtual[$recurso] = $reservasPorRecurso[$recurso]->count();
 
             /* Mês Passado */
 
             // 3 usuários com mais reservas nesse mês
-            $reservasPorUsuario = Reserva::with('usuario')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('usuario.id')->sort()->reverse()->take(3);
+            $reservasPorUsuario = Reserva::with('usuario')
+                ->iniciandoEm($mesPassado)
+                ->finalizandoEm($mesAtual)
+                ->get()
+                ->groupBy('usuario.id')
+                ->sort()
+                ->reverse()
+                ->take(3);
             $topUsuariosMesPassado = array();
-            foreach($reservasPorUsuario as $reserva) $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
+            foreach($reservasPorUsuario as $reserva)
+                $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
 
             // 3 recursos com mais reservas nesse mês
-            $reservasPorRecurso = Reserva::with('recurso')->where('data', '<', $mesAtual)->where('data', '>=', $mesPassado)->get()->groupBy('recurso.nome')->sort()->reverse()->take(3);
+            $reservasPorRecurso = Reserva::with('recurso')
+                ->iniciandoEm($mesPassado)
+                ->finalizandoEm($mesAtual)
+                ->get()
+                ->groupBy('recurso.nome')
+                ->sort()
+                ->reverse()
+                ->take(3);
             $topRecursosMesPassado = array();
-            foreach($reservasPorRecurso->keys() as $recurso) $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
+            foreach($reservasPorRecurso->keys() as $recurso)
+                $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
 
             /* Reservas e uso de recursos nos últimos 6 meses */
 
             $seisMesesAtras = Carbon::now()->subMonths(5)->format('Y-m-d');
-            $reservas = Reserva::with('recurso')->where('data', '>', $seisMesesAtras)->get();
+            $reservas = Reserva::with('recurso')
+                ->iniciandoEm($seisMesesAtras)
+                ->get();
 
             // Reservas
-            $reservasSemestrePassado = $reservas->groupBy(function ($item) { return Carbon::createFromFormat('Y-m-d', $item->data)->month; });
+            $reservasSemestrePassado = $reservas->groupBy(function ($item) {
+                return Carbon::createFromFormat('Y-m-d', $item->data)->month;
+            });
             $meses = $reservasSemestrePassado->keys();
             $ultimasReservas = array();
             foreach ($meses as $mes) $ultimasReservas[$this->nomeMes($mes)] = $reservasSemestrePassado[$mes]->count();
@@ -65,8 +98,12 @@ class DashboardController extends Controller
             $graficos['recursos'] = $this->gerarGraficoDeUsoDeRecursos($ultimosRecursos);
             $graficos['reservas'] = $this->gerarGraficoDeUsoSobreTempo($ultimasReservas);
 
-            return view("dashboard", compact('graficos'))->with(['topUsuariosMesAtual' => $topUsuariosMesAtual, 'topRecursosMesAtual' => $topRecursosMesAtual,
-                                            'topUsuariosMesPassado' => $topUsuariosMesPassado, 'topRecursosMesPassado' => $topRecursosMesPassado]);
+            return view("dashboard", compact('graficos'))->with([
+                'topUsuariosMesAtual' => $topUsuariosMesAtual,
+                'topRecursosMesAtual' => $topRecursosMesAtual,
+                'topUsuariosMesPassado' => $topUsuariosMesPassado,
+                'topRecursosMesPassado' => $topRecursosMesPassado
+            ]);
         } // fim widgets de administração
         else
         { // Widgets de usuário normal
@@ -99,8 +136,7 @@ class DashboardController extends Controller
             /* Mês passado */
             // Todas as reservas do mês passado
             $todasReservasMesPassado = $todasReservas->filter(function ($reserva) use ($mesAtual, $mesPassado){
-                return ($reserva->data < $mesAtual)
-                    && ($reserva->data >= $mesPassado);
+                return ($reserva->data < $mesAtual) && ($reserva->data >= $mesPassado);
             });
 
             // Recurso mais alocado no més passado
