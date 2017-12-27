@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function()
     // Rotas de páginas iniciais
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@getHome']);
     Route::get('home', ['uses' => 'DashboardController@getHome']);
-    Route::get('painel', ['uses' => 'DashboardController@getHome']);
+    Route::get('painel', ['as' => 'dashboard.show.regular', 'uses' => 'DashboardController@getRegularHome']);
 
     // Rotas relacionadas as reservas
     Route::group(['prefix' => 'reserva'], function() {
@@ -49,6 +49,8 @@ Route::group(['middleware' => 'auth'], function()
 
     // Rotas que somente administradores tem acesso
     Route::group(['middleware' => 'can:administrate'], function() {
+
+        Route::get('painel/administrador', ['as' => 'dashboard.show.administrador', 'uses' => 'DashboardController@getAdministradorHome']);
 
         // Rotas relacionadas aos recursos
         Route::group(['prefix' => 'recurso'], function() {
