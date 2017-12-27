@@ -137,20 +137,20 @@ class ReservaController extends Controller
 
                         break;
                     }
+                } // end foreach interno
 
-                    // Se não houve nenhuma reserva do usuário para o mesmo horário para outro recurso então ele pode
-                    // realizar a reserva
-                    $reservasParaInserir[$i++] = [
-                        'data' => $novaReserva['dia'],
-                        'horario' => $novaReserva['horario'],
-                        'turno' => $novaReserva['turno'],
-                        'usuario_id' => auth()->id(),
-                        'recurso_id' => $recurso_id
-                    ];
-                }
+                if(isset($mensagem)) break;
 
-
-            } // end foreach
+                // Se não houve nenhuma reserva do usuário para o mesmo horário para outro recurso então ele pode
+                // realizar a reserva
+                $reservasParaInserir[$i++] = [
+                    'data' => $novaReserva['dia'],
+                    'horario' => $novaReserva['horario'],
+                    'turno' => $novaReserva['turno'],
+                    'usuario_id' => auth()->id(),
+                    'recurso_id' => $recurso_id
+                ];
+            } // end foreach externo
         }
 
         // Se o array de reservas não estiver vazio e nenhuma mensagem de erro foi definida então existem reservas a
