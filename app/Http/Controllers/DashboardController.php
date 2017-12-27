@@ -9,6 +9,9 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    /**
+     * Redireciona o usuário para a rota conrrespondente a sua dashboard
+     */
     public function getHome()
     {
         if(auth()->user()->isAdmin()) $route = 'dashboard.show.administrador';
@@ -17,6 +20,9 @@ class DashboardController extends Controller
         return redirect()->route($route);
     }
 
+    /**
+     * Recupera informações para a view dashboard de administração
+     */
     public function getAdministradorHome()
     {
 
@@ -112,6 +118,9 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Recupera informações para a view de usuário regular
+     */
     public function getRegularHome()
     {
         Carbon::setLocale('pt_BR'); // Altera o Carbon para trabalhar com a língua portuguesa
