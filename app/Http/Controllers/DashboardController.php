@@ -6,6 +6,7 @@ use App;
 use App\Recurso;
 use App\Reserva;
 use Carbon\Carbon;
+use Illuminate\Session\CacheBasedSessionHandler;
 
 class DashboardController extends Controller
 {
@@ -28,30 +29,30 @@ class DashboardController extends Controller
 
         Carbon::setLocale('pt_BR'); // Altera o Carbon para trabalhar com a língua portuguesa
 
-        $mesAtual = Carbon::now()->subMonth()->format('Y-m-d');
-        $mesPassado = Carbon::now()->subMonths(2)->format('Y-m-d');
+        // Obtenção de datas
+        $mesAtual = Carbon::now()->format('Y-m-d');
+        $mesPassado = Carbon::now()->subMonth()->format('Y-m-d');
+        $mesRetrasado = Carbon::now()->subMonths(2)->format('Y-m-d');
+        $seisMesesAtras = Carbon::now()->subMonths(6)->format('Y-m-d');
+
+        // Obtenção das reservas para widgets e gráficos
+        $reservas = Reserva::with(['usuario', 'recurso'])->iniciandoEm($seisMesesAtras)->get();
+        $reservasMesAtual = $reservas->filter(function ($reserva) use($mesAtual, $mesPassado) {
+            return ($reserva->data <= $mesAtual) && ($reserva->data >= $mesPassado) ;
+        });
+        $reservasMesPassado = $reservas->filter(function ($reserva) use($mesPassado, $mesRetrasado) {
+            return ($reserva->data >= $mesRetrasado) && ($reserva->data <= $mesPassado);
+        });
 
         /* Mês Atual */
 
         // 3 usuários com mais reservas nesse mês
-        $reservasPorUsuario = Reserva::with('usuario')
-            ->iniciandoEm($mesAtual)
-            ->get()
-            ->groupBy('usuario.id')
-            ->sort()
-            ->reverse()
-            ->take(3);
+        $reservasPorUsuario = $reservasMesAtual->groupBy('usuario.id')->sort()->reverse()->take(3);
         $topUsuariosMesAtual = array();
         foreach($reservasPorUsuario as $reserva) $topUsuariosMesAtual[$reserva[0]->usuario->nome] = $reserva->count();
 
         // 3 recursos com mais reservas nesse mês
-        $reservasPorRecurso = Reserva::with('recurso')
-            ->iniciandoEm($mesAtual)
-            ->get()
-            ->groupBy('recurso.nome')
-            ->sort()
-            ->reverse()
-            ->take(3);
+        $reservasPorRecurso = $reservasMesAtual->groupBy('recurso.nome')->sort()->reverse()->take(3);
         $topRecursosMesAtual = array();
         foreach($reservasPorRecurso->keys() as $recurso)
             $topRecursosMesAtual[$recurso] = $reservasPorRecurso[$recurso]->count();
@@ -59,38 +60,18 @@ class DashboardController extends Controller
         /* Mês Passado */
 
         // 3 usuários com mais reservas nesse mês
-        $reservasPorUsuario = Reserva::with('usuario')
-            ->iniciandoEm($mesPassado)
-            ->finalizandoEm($mesAtual)
-            ->get()
-            ->groupBy('usuario.id')
-            ->sort()
-            ->reverse()
-            ->take(3);
+        $reservasPorUsuario = $reservasMesPassado->groupBy('usuario.id')->sort()->reverse()->take(3);
         $topUsuariosMesPassado = array();
         foreach($reservasPorUsuario as $reserva)
             $topUsuariosMesPassado[$reserva[0]->usuario->nome] = $reserva->count();
 
         // 3 recursos com mais reservas nesse mês
-        $reservasPorRecurso = Reserva::with('recurso')
-            ->iniciandoEm($mesPassado)
-            ->finalizandoEm($mesAtual)
-            ->get()
-            ->groupBy('recurso.nome')
-            ->sort()
-            ->reverse()
-            ->take(3);
+        $reservasPorRecurso = $reservasMesPassado->groupBy('recurso.nome')->sort()->reverse()->take(3);
         $topRecursosMesPassado = array();
         foreach($reservasPorRecurso->keys() as $recurso)
             $topRecursosMesPassado[$recurso] = $reservasPorRecurso[$recurso]->count();
 
         /* Reservas e uso de recursos nos últimos 6 meses */
-
-        $seisMesesAtras = Carbon::now()->subMonths(5)->format('Y-m-d');
-        $reservas = Reserva::with('recurso')
-            ->iniciandoEm($seisMesesAtras)
-            ->get();
-
         // Reservas
         $reservasSemestrePassado = $reservas->groupBy(function ($item) {
             return Carbon::createFromFormat('Y-m-d', $item->data)->month;
