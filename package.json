@@ -5,8 +5,9 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "admin-lte-sass": "^2.3.2",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^5.0.0",
-    "bootstrap-sass": "^3.3.0"
+    "laravel-elixir": "^5.0.0"
   }
 }

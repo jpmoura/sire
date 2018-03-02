@@ -1,2 +1,25 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+$fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
+@import "node_modules/font-awesome/scss/font-awesome";
+@import "node_modules/admin-lte-sass/build/scss/AdminLTE";
+@import "variables";
+@import "skin-ufop";
+@import "ufop-components";
 
+// Mudança na largura do espaço dedicado aos ícones em formulários para ajustar aos ícones do pacote Font Awesome
+.input-group-addon {
+  width: 41px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+// Mudança na cor de background da tela de login
+.guest {
+  background-color: #ecf0f5;
+}
+
+// Classe para evitar que uma input seja redimensionada
+.no-resize {
+  resize: none;
+}

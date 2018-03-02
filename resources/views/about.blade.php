@@ -109,10 +109,10 @@
                 </section>
                 <h3 class="text-center">A Fazer</h3>
                 <ul>
-                    <li>Refatoração no nomes de rotas fora do padrão do Laravel;</li>
-                    <li>Criar testes automatizados mais detalahdos;</li>
-                    <li>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</li>
+                    <li>Criar testes automatizados mais detalhados;</li>
                     <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
+                    <li><del>Refatoração no nomes de rotas fora do padrão do Laravel;</del></li>
+                    <li><del>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</del></li>
                     <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
                     <li><del>Adicionar configurações do servidor LDAP em uma tabela do banco de dados para evitar expor os dados no código-fonte;</del></li>
                     <li><del>Adicionar uma tabela de horários com a finalidade de fixar os <em>slots</em> de cada horário;</del></li>

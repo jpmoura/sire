@@ -1,13 +1,13 @@
 /*
- * Skin: Red
+ * Skin: UFOP
  * ---------
  */
 .skin-ufop .main-header .navbar {
-  background-color: #962038;
+  background-color: $ufop-primary;
 }
 
 .skin-ufop a {
-  color: #962038;
+  color: $ufop-primary;
 }
 
 .skin-ufop .main-header .navbar .nav > li > a {
@@ -34,7 +34,7 @@
   color: #fff;
 }
 .skin-ufop .main-header .navbar .sidebar-toggle:hover {
-  background-color: #962038;
+  background-color: $ufop-primary;
 }
 @media (max-width: 767px) {
   .skin-ufop .main-header .navbar .dropdown-menu li.divider {
@@ -44,11 +44,11 @@
     color: #fff;
   }
   .skin-ufop .main-header .navbar .dropdown-menu li a:hover {
-    background: #962038;
+    background: $ufop-primary;
   }
 }
 .skin-ufop .main-header .logo {
-  background-color: #962038;
+  background-color: $ufop-primary;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
@@ -56,7 +56,7 @@
   background-color: #616568;
 }
 .skin-ufop .main-header li.user-header {
-  background-color: #962038;
+  background-color: $ufop-primary;
 }
 .skin-ufop .content-header {
   background: transparent;
@@ -81,7 +81,7 @@
 .skin-ufop .sidebar-menu > li.active > a {
   color: #ffffff;
   background: #1e282c;
-  border-left-color: #962038;
+  border-left-color: $ufop-primary;
 }
 .skin-ufop .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
@@ -139,5 +139,5 @@
 }
 
 .skin-ufop .box.box-primary-ufop {
-    border-top-color: #962038;
+  border-top-color: $ufop-primary;
 }

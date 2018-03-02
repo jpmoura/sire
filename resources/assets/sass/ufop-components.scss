@@ -1,0 +1,22 @@
+a.btn {
+  color: white;
+}
+
+.ufop-border {
+  border-top: 3px solid $ufop-primary;
+}
+
+.bg-ufop {
+  background-color: $ufop-primary;
+  color: white;
+}
+
+.btn-ufop {
+  background-color: $ufop-primary;
+  color: white;
+}
+
+.btn-ufop:hover {
+  color: black;
+  background-color: lightgray;
+}

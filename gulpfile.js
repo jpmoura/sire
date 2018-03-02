@@ -12,8 +12,6 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    // Fontes
-    mix.copy('resources/assets/fonts', 'public/fonts');
 
     // Imagens
     mix.copy('resources/assets/img', 'public/img');
@@ -24,19 +22,8 @@ elixir(function(mix) {
     mix.copy('resources/assets/js/jQueryMask', 'public/js/plugins/jQueryMask'); // Máscaras de entradas
     mix.copy('resources/assets/js/chartjs', 'public/js/plugins/chartjs');
 
-    // CSS que não funcionam em conjunto
-    // TODO verificar se usando SASS e LESS o erro é resolvido
-    mix.copy('resources/assets/css/bootstrap', 'public/css/bootstrap');
-    mix.copy('resources/assets/css/font-awesome', 'public/css/font-awesome');
-
-    // Concatena todos os CSSs em um único arquivo
-    mix.styles([
-        // 'bootstrap/bootstrap.min.css',
-        //'font-awesome/font-awesome.min.css',
-        'adminLTE/AdminLTE.min.css',
-        'adminLTE/skins/skin-ufop.css',
-        'ufop.css'
-    ], 'public/css/app.css', 'resources/assets/css/'); // Destino, path dos arquivos informados
+    // Compila o arquivos SASS contendo todos os CSS
+    mix.sass('app.scss', 'public/css/');
 
     // Concatena todos os JavaScripts
     mix.scripts([

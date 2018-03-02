@@ -8,8 +8,6 @@
 
     <title>Sistema de Reserva - Login</title>
 
-    {!! HTML::style('public/css/bootstrap/bootstrap.min.css') !!}
-    {!! HTML::style('public/css/font-awesome/font-awesome.min.css') !!}
     {!! HTML::style('public/css/app.css') !!}
 
     <link rel="shortcut icon" href="{{ asset('public/favicon.ico') }}" type="image/x-icon">
@@ -58,7 +56,7 @@
                 @endif
 
                 <br />
-                <button type="submit" style="background-color: #962038" class="btn btn-primary center-block btn-block"><i class="fa fa-sign-in"></i> Entrar</button>
+                <button type="submit" class="btn btn-ufop center-block btn-block"><i class="fa fa-sign-in"></i> Entrar</button>
             </form>
         </div>
     </div>

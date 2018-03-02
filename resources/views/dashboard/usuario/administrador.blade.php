@@ -2,7 +2,7 @@
 
 @section('widgets')
     <div class="col-md-3">
-        <div class="info-box bg-blue">
+        <div class="info-box bg-light-blue">
             <span class="info-box-icon"><i class="fa fa-users"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text"><b>Usuários Frequentes nesse mês</b></span>

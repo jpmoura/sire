@@ -5,12 +5,7 @@
     <title>SiRe - @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-    {!! HTML::style('public/css/bootstrap/bootstrap.min.css') !!}
-    {!! HTML::style('public/css/font-awesome/font-awesome.min.css') !!}
     {!! HTML::style('public/css/app.css') !!}
-    {{--{!! HTML::style('resources/assets/css/adminLTE/AdminLTE.min.css') !!}--}}
-    {{--{!! HTML::style('resources/assets/css/adminLTE/skins/skin-ufop.css') !!}--}}
-    {{--{!! HTML::style('resources/assets/css/ufop.css') !!}--}}
     @stack('extra-css')
 
     <link rel="shortcut icon" href="{{ asset('public/favicon.ico') }}" type="image/x-icon">
