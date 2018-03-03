@@ -127,6 +127,7 @@ do sistema.
 geral;
 * Adição de testes par CRUD de usuário;
 * Remoção de modelos de usuários e reservas legados;
+* Uso de SASS para processamento de CSS;
 
 ### Versão 2.3.1
 
@@ -206,12 +207,11 @@ ocasionar problemas no momento de alocação;~~
 
 ## TODO
 
-* Refatoração no nomes de rotas fora do padrão do Laravel;
 * Criar testes automatizados mais detalhados;
 * Criar testes para o modelo de Reserva;
-* Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;
-* Tratar para que caso altere o horário de início de cada turno para que o
-último horário do turno não sobreponha o início do próximo turno (*overlapping*).
+* Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno (*overlapping*).
+* ~~Refatoração no nomes de rotas fora do padrão do Laravel~~;
+* ~~Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome~~;
 * ~~Autenticação LDAP via [Minha UFOP](http://www.minha.ufop.br/);~~
 * ~~Adicionar configurações do servidor LDAP em uma tabela do banco de dados
 para evitar expor os dados no código-fonte;~~

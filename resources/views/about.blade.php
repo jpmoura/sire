@@ -41,7 +41,8 @@
                     <ul>
                         <li>Remoção do Login por LDAPI usando dados da UFOP por login tradicional baseado em tabela de usuários para aplicação geral;</li>
                         <li>Adição de testes par CRUD de usuário;</li>
-                        <li>Remoção de modelos de usuários e reservas legados.</li>
+                        <li>Remoção de modelos de usuários e reservas legados;</li>
+                        <li>Uso de SASS para processamento de CSS.</li>
                     </ul>
 
                     <h3 class="text-center">Mudanças na Versão 2.3</h3>
@@ -111,6 +112,7 @@
                 <ul>
                     <li>Criar testes automatizados mais detalhados;</li>
                     <li>Tratar para que caso altere o horário de início de cada turno para que o último horário do turno não sobreponha o início do próximo turno.</li>
+                    <li>Criar testes para o modelo Reserva;</li>
                     <li><del>Refatoração no nomes de rotas fora do padrão do Laravel;</del></li>
                     <li><del>Tratar erro de mesclagem de arquivos CSS do Bootstrap e Font Awesome;</del></li>
                     <li><del>Alterar o motor de login para utilizar um login único com base no sistema <a target="_blank" href="http://www.minha.ufop.br/"><i class="fa fa-home"></i> Minha UFOP</a>;</del></li>
