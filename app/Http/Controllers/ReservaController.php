@@ -107,7 +107,7 @@ class ReservaController extends Controller
                 $novaReserva = json_decode($reservaBruta, true);
 
                 // Recupera todas as reservas feitas pelo usuário no dia da reserva atual
-//                $reservasDoUsuario = Reserva::with('recurso')->em($novaReserva['dia'])->where('usuario_id', $usuario_id)->get();
+                //$reservasDoUsuario = Reserva::with('recurso')->em($novaReserva['dia'])->where('usuario_id', $usuario_id)->get();
                 //$reservasDoDia = auth()->user()->reservas()->em($novaReserva['dia'])->get();
 
                 $reservasDoDia = $reservasDoUsuario->filter(function ($reserva) use ($novaReserva) {
@@ -207,16 +207,8 @@ class ReservaController extends Controller
     public function specificDate(ReservaSpecificDate $request, Recurso $recurso)
     {
         // Recupera todas as reservas feitas em uma data para um determinado recurso
-        $reservas = $recurso->reservas()->em($request->get('data'))->get();
-
-        // Verifica se é preciso recuperar as regras ou não e informações daqueles que fizeram reservas
-        if(count($reservas) > 0)
-        {
-            $regras = Regra::first();
-            $reservas->load('usuario');
-        }
-        else $regras = null;
-
+        $reservas = $recurso->reservas()->with('usuario')->em($request->get('data'))->get();
+        $regras = Regra::first();
         $datas[] = Carbon::createFromFormat('Y-m-d', $request->get('data'))->format('d/m/Y');
 
         return view('reserva.show')->with([
