@@ -74,10 +74,15 @@
                         <td>
                             @foreach($reservas as $reserva)
 
-                                {{--Se for igual então está reservado--}}
-                                @if($reserva->horario == $i && $reserva->turno == $turno && $reserva->data == \Carbon\Carbon::now()->addDays($j)->format('Y-m-d'))
+                                <?php
+                                    if(Route::is('reserva.show.date')) $data = Request::get('data');
+                                    else $data = \Carbon\Carbon::now()->addDays($j)->format('Y-m-d');
+                                ?>
 
-                                    {{-- Tratamento para não motrar o e-mail e nome dos administradores. Comente este trecho caso queira qu sejam mostrados --}}
+                                {{--Se for igual então está reservado--}}
+                                @if($reserva->horario == $i && $reserva->turno == $turno && $reserva->data == $data)
+
+                                    {{-- Tratamento para não mostrar o e-mail e nome dos administradores. Comente este trecho caso queira que sejam mostrados --}}
                                     @if($reserva->usuario->nivel == 1)
                                         @php
                                             $reserva->usuario->nome = "Administrador";
