@@ -41,6 +41,9 @@ Route::group(['middleware' => 'auth'], function()
             ->middleware('can:manipularReserva,reserva');
     });
 
+    // Rota para listagem de Recurso
+    Route::resource('recurso', 'RecursoController', ['only' => 'index']);
+
     // Rota para listagem softwares
     Route::resource('software', 'SoftwareController', ['only' => 'index']);
 
@@ -59,7 +62,7 @@ Route::group(['middleware' => 'auth'], function()
             Route::get('selecionado/data', ['as' => 'recurso.selected.date', 'uses' => 'ReservaController@selectedByDateRedirection']);
             Route::get('{recurso}/data', ['as' => 'reserva.show.date', 'uses' => 'ReservaController@specificDate']);
         });
-        Route::resource('recurso', 'RecursoController');
+        Route::resource('recurso', 'RecursoController', ['except' => 'index']);
 
         // Rotas de CRUD de usuário
         Route::resource('usuario', 'UsuarioController');
