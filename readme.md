@@ -28,9 +28,10 @@ interface com o usuário.
 
 1. [Versão de Uso Geral](#versão-de-uso-geral)
 2. [Funcionamento](#funcionamento)
-3. [Instalação](#instalação)
-4. [Changelog](#changelog)
-5. [TODO](#todo)
+3. [Versões de Teste](#versões-de-teste)
+4. [Instalação](#instalação)
+5. [Changelog](#changelog)
+6. [TODO](#todo)
 
 ## Versão de Uso Geral
 
@@ -73,6 +74,22 @@ são os softwares instalados em laboratórios, facilitando a escolha de qual lab
 
 Outra funcionalidade é o reporte de bugs, onde os usuários de todos os tipos podem detalhar algum problema que
 encontrarem no sistema para que os administradores possam corrigí-los.
+
+## Versões de Teste
+Para a comodidade dos interessados em testar o sistema, existem diferentes tipos de artefatos que implementam o sistema. Nas subseções seguintes são apresentados mais detalhes sobre cada um deles. 
+
+### VM com Sistema Operacional com Interface Gráfica
+Essa *Appliance* contém o sistema operacional Linux na distribuição Debian 9. Ela já está totalmente configurada e já possui todos os pré-requisitos para o funcionamento do sistema. O usuário padrão para o login no Debian é ```sire``` e a senha também ```sire```. O usuário ```root``` possui a senha ```root```. Esses usuários são de acesso do sistema operacional e não do sistema deste projeto, os usuários para acesso do SiRe estão descritos adiante.
+
+Para acessar o sistema basta abrir o navegor e acessar o endereço [localhost/sire/index.php](http://localhost/sire/index.php). O usuário já adicionado para o login é ```admin@admin.com``` com senha ```admin```.
+
+A imagem em formato OVA do sistema pode ser baixada através [desse link](https://drive.google.com/file/d/1MmTkiHrYgANk8Nyt6fynMMpjFMrRecJT/view?usp=sharing).
+
+### :construction: VM somente com o essencial, sem inteface gráfica
+Em desenvolvimento.
+
+### :construction: Container (Docker)
+Em desenvolvimento.
 
 ## Instalação
 É valido lembrar que todos os pré-requisitos do [Laravel](https://laravel.com/docs/5.2) são também pré-requisitos
