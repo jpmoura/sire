@@ -11,6 +11,7 @@ corpos acadêmico e administrativo presentes no
 09/06/2016. A primeira versão foi ao ar em meados de fevereiro de 2012.
 
 Dentre as motivações para tal atualização, estão:
+
 * Atualização da lógica de processamento para a última versão do PHP (7.0);
 * Atualização da interface com usuário, usando os conceitos de responsividade,
 onde a mesma se adapta de acordo com o espaço de tela disponível;
@@ -39,10 +40,11 @@ Existe uma versão de uso geral, que não está limitada pelos requisitos da [UF
 qualquer instituição que assim deseje utilizar o sistema.
 
 Para utilizar a versão de uso geral, certifique-se de utilizar
-a versão do _branch_ [generico](https://github.com/jpmoura/sire/tree/generico), que é o _branch_ que contém o sistema de
+a versão do *branch* [generico](https://github.com/jpmoura/sire/tree/generico), que é o *branch* que contém o sistema de
 autenticação tradicional, baseado em dados existentes no banco de dados da aplicação.
 
 ## Funcionamento
+
 O sistema é baseado na funcionalidade CRUD de banco de dados para a inserção, leitura, atualização e remoção de
 informações de salas, equipamentos e alocações feitas.
 
@@ -54,7 +56,7 @@ O sistema é focado para uso de instituições do ramo educacional, logo, limita
 sendo eles:
 
 * Administrador;
-* Professor / Técnico administratico;
+* Professor / Técnico administrativo;
 * Usuário especial.
 
 Atualmente não está implantado uma forma de se alterar estes tipos de usuários dentro do sistema. O administrador é
@@ -76,22 +78,33 @@ Outra funcionalidade é o reporte de bugs, onde os usuários de todos os tipos p
 encontrarem no sistema para que os administradores possam corrigí-los.
 
 ## Versões de Teste
-Para a comodidade dos interessados em testar o sistema, existem diferentes tipos de artefatos que implementam o sistema. Nas subseções seguintes são apresentados mais detalhes sobre cada um deles. 
+
+Para a comodidade dos interessados em testar o sistema, existem diferentes tipos de artefatos que implementam o sistema. Nas subseções seguintes são apresentados mais detalhes sobre cada um deles.
 
 ### VM com Sistema Operacional com Interface Gráfica
+
 Essa *Appliance* contém o sistema operacional Linux na distribuição Debian 9. Ela já está totalmente configurada e já possui todos os pré-requisitos para o funcionamento do sistema. O usuário padrão para o login no Debian é ```sire``` e a senha também ```sire```. O usuário ```root``` possui a senha ```root```. Esses usuários são de acesso do sistema operacional e não do sistema deste projeto, os usuários para acesso do SiRe estão descritos adiante.
 
-Para acessar o sistema basta abrir o navegor e acessar o endereço [localhost/sire/index.php](http://localhost/sire/index.php). O usuário já adicionado para o login é ```admin@admin.com``` com senha ```admin```.
+Para acessar o sistema basta abrir o navegador e acessar o endereço [localhost/sire/index.php](http://localhost/sire/index.php). O usuário já adicionado para o login é ```admin@admin.com``` com senha ```admin```.
 
-A imagem em formato OVA do sistema pode ser baixada através [desse link](https://drive.google.com/file/d/1MmTkiHrYgANk8Nyt6fynMMpjFMrRecJT/view?usp=sharing).
+~~A imagem em formato OVA do sistema pode ser baixada através [desse link](https://drive.google.com/file/d/1MmTkiHrYgANk8Nyt6fynMMpjFMrRecJT/view?usp=sharing).~~
 
-### :construction: VM somente com o essencial, sem inteface gráfica
-Em desenvolvimento.
+Link temporariamente indisponível por falta de hospedagem para o arquivo que tem aproximadamente 7GB.
+
+### VM somente com o essencial, sem interface gráfica
+
+O link para download é [este](https://drive.google.com/file/d/1OXE5AT-pJcuZGq18ADcZGtAdjQidr63q/view?usp=sharing) e, após fazer a importação da imagem no seu gerenciador, confira o IP atribuído a máquina criada e acesse o sistema usando o IP da máquina na rede com o sufixo `/sire/index.php`. Por exemplo, se o IP gerado for `192.168.2.2` você deverá acessar o endereço `http://192.168.2.2/sire/index.php`.
+
+A imagem foi gerada a partir do Ubuntu Server 22.04 e caso seja necessário realizar o login no próprio Ubuntu o usuário é `sire` e a senha é `admin`.
+
+**IMPORTANTE**: O sistema está com a flag de debug ativa, esta é uma imagem criada apenas para testes, nenhuma configuração foi adotada envolvendo segurança do host e da própria máquina virtual.
 
 ### :construction: Container (Docker)
+
 Em desenvolvimento.
 
 ## Instalação
+
 É valido lembrar que todos os pré-requisitos do [Laravel](https://laravel.com/docs/5.2) são também pré-requisitos
 deste sistema.
 
@@ -101,11 +114,11 @@ Para a instalação é necessário ter previamente instalados o gerenciador de d
 dependências instaladas, executam-se os seguintes comandos:
 
 ```bash
-$ composer install
-$ npm install
-$ gulp --prod
-$ php artisan migrate
-$ php artisan db:seed
+composer install
+npm install
+gulp --prod
+php artisan migrate
+php artisan db:seed
 ```
 
 Enquanto o comando ```php artisan migrate``` cria as tabelas no banco de dados, o comando ```php artisan db:seed``` é o
@@ -120,7 +133,7 @@ Para usuários de sistemas UNIX, será necessário conceder permissão de leitur
 encontra o sistema para o grupo *www-data* que pode ser dado pelo seguinte comando usando a permissão de administrador:
 
 ```bash
-$ chown -R USUARIO:www-data PASTA
+chown -R USUARIO:www-data PASTA
 ```
 
 Basta usar o comando ```sudo``` ou ```su``` dependendo da distribuição *Linux* juntamente com este comando.
@@ -134,7 +147,7 @@ apropriadamente apenas para ```.env```, onde nele devem-se encontrar todas as co
 Esse changelog está organizado na ordem de mais recente para o mais antigo, ou seja, a versão mais nova aparece como
 primeira subseção e a versão mais antiga como a última subseção.
 
-Versões terminadas com o caracter ```g``` refere-se ao _branch_ ```generico```, para uso geral. O changelog das versões
+Versões terminadas com o carácter ```g``` refere-se ao *branch* ```generico```, para uso geral. O changelog das versões
 específicas para a [UFOP](http://ufop.br/) estão mantidas com o objetivo de se manter dados históricos sobre a evolução
 do sistema.
 
@@ -158,12 +171,12 @@ geral;
 
 ### Versão 2.3
 
-* Refatoração de modelos e controllers; 
+* Refatoração de modelos e controllers;
 * Adição de validação de formulários no back-end;
 * Otimização da estrutura do banco de dados;
 * Atualização da biblioteca [Chart.js](https://github.com/chartjs/Chart.js) para geração de gráficos;
 * Adicionada obrigatoriedade do uso de HTTPS;
-* Atualização da LDAPI para comunicação em HTTPS com certificados auto-assindados;
+* Atualização da LDAPI para comunicação em HTTPS com certificados auto-assinados;
 * Correção de bugs.
 
 ### Versão 2.2
@@ -208,10 +221,10 @@ confirmação.
 
 ### Versão 2.0.1
 
-* Possibilidade de mundaça de senha do usuário;
+* Possibilidade de mudança de senha do usuário;
 * Horários agora estão definidos e não são mais uma referência genérica de ordem;
 * Página de visualização do quadro de alocação agora possui um botão de voltar;
-* Os quadros de turnos agora podem ser expandidos e minizados clicando também
+* Os quadros de turnos agora podem ser expandidos e minimizados clicando também
 sobre o nome do turno.
 
 ## Erros conhecidos
@@ -241,4 +254,3 @@ reforçar o padrão MVC;~~
 juntamente com SASS ou LESS;~~
 * ~~Otimização da estrutura do banco de dados;~~
 * ~~Criar atalho para reservas "favoritas" (Laboratório, dia da semana e horários);~~
-
